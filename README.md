@@ -113,8 +113,8 @@ ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to 
 ### Clone and setup
 
 ```bash
-git clone https://github.com/AIGNLAI/LAMDA-ORBIT
-cd LAMDA-ORBIT
+git clone https://github.com/LAMDA-Model-Reuse/ORBIT
+cd ORBIT
 ```
 
 Create a virtual environment and install dependencies:
@@ -263,7 +263,7 @@ We thank the authors of the following open-source repositories for their contrib
 
 For questions, feature requests, or contributions:
 
-- Open an issue on [GitHub](https://github.com/AIGNLAI/LAMDA-ORBIT/issues).
+- Open an issue on [GitHub](https://github.com/LAMDA-Model-Reuse/ORBIT/issues).
 - Email the authors at [laign@lamda.nju.edu.cn](mailto:laign@lamda.nju.edu.cn).
 
 If you would like to add your routing method to ORBIT or have it considered for RouteJudge evaluation, please contact us by issue or email.
@@ -272,5 +272,5 @@ If you would like to add your routing method to ORBIT or have it considered for 
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=AIGNLAI/LAMDA-ORBIT&type=Date)](https://star-history.com/#AIGNLAI/LAMDA-ORBIT&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=LAMDA-Model-Reuse/ORBIT&type=Date)](https://star-history.com/#LAMDA-Model-Reuse/ORBIT&Date)
 
