@@ -1,0 +1,18 @@
+{
+  "method":"GraphRouter",
+
+  "model": {
+    "name": "gnn",
+    "hidden_dim":256,
+    "num_layers": 2
+  },
+
+  "training": {
+    "lr": 0.001,
+    "epochs": 10,
+    "batch_size": 1024,
+    "optimizer": "adam",
+    "loss": "mse",
+    "device": "auto"
+  }
+}

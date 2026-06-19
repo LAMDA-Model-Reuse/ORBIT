@@ -1,0 +1,51 @@
+# ============================================================
+# ORBIT requirements (robust, single-file)
+# ============================================================
+
+# ----------------------------
+# Deep learning
+# ----------------------------
+torch>=2.8,<2.10
+torchvision>=0.23,<0.25
+torch-geometric>=2.6,<2.8
+triton>=3.4,<3.7 ; platform_system != "Windows"
+vllm>=0.6 ; platform_system != "Windows"
+transformers>=4.45,<4.58
+datasets>=2.20,<4.5
+accelerate>=0.30,<2.0
+huggingface-hub>=0.24,<0.36
+sentence-transformers>=2.6,<6.0
+git+https://github.com/openai/CLIP.git
+
+# ----------------------------
+# Data processing
+# ----------------------------
+numpy>=2.0,<2.4
+pandas>=2.2,<2.4
+scipy>=1.13,<1.17
+
+# ----------------------------
+# Visualization / utilities
+# ----------------------------
+matplotlib>=3.8,<3.12
+tqdm>=4.66,<5
+
+# ----------------------------
+# Clustering / manifold (optional, but used by some routers)
+# ----------------------------
+scikit-learn>=1.5,<1.7
+numba>=0.59,<0.62
+llvmlite>=0.42,<0.45
+pynndescent>=0.5.12,<0.5.14
+umap-learn>=0.5.7,<0.6
+hdbscan>=0.8.37,<0.9
+
+# ----------------------------
+# Parameter-efficient finetuning (optional)
+# ----------------------------
+peft>=0.11,<0.19
+
+# ----------------------------
+# API client (optional)
+# ----------------------------
+openai>=1.30,<3.0

@@ -1,0 +1,18 @@
+{
+  "method":"OmniRouter",
+  "topk":50,
+  "gamma":0.6,
+  "delta":0.6,
+  "perf_loss_weight":1.0,
+  "cost_loss_weight":1.0,
+
+  "training": {
+    "lr": 1e-4,
+    "weight_decay":1e-6,
+    "epochs": 50,
+    "batch_size": 2048,
+    "optimizer": "adam",
+    "loss": "mse",
+    "device": "auto"
+  }
+}

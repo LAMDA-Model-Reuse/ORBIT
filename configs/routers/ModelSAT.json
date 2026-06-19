@@ -1,0 +1,30 @@
+{
+  "method": "ModelSAT",
+  "model": {
+    "base_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "use_lora": true,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "training": {
+    "device": "cuda:0",
+    "lr": 1e-5,
+    "epochs": 2,
+    "batch_size": 1,
+    "accumulation_steps": 16,
+    "negative_samples": 2,
+    "max_length": 128,
+    "loss": "bcew",
+    "seed": 42
+  },
+  "shot": 5
+}

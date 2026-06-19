@@ -1,0 +1,8 @@
+{
+  "method":"RouteLLM_BERT",
+  "hidden_dropout":0.1,
+  "lr": 2e-5,
+  "epochs": 10,
+  "batch_size":128,
+  "eps":1e-8
+}

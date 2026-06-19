@@ -1,0 +1,15 @@
+{
+  "method":"EmbedLLM",
+  "alpha":0.001,
+
+  
+
+  "training": {
+    "lr": 0.001,
+    "epochs": 30,
+    "batch_size": 2048,
+    "optimizer": "adam",
+    "loss": "mse",
+    "device": "auto"
+  }
+}

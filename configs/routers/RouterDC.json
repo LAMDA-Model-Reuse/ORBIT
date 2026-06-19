@@ -1,0 +1,25 @@
+{
+  "method":"RouterDC",
+  "top-k":5,
+
+  "training": {
+    "lr": 0.001,
+    "epochs": 5,
+    "batch_size": 1024,
+    "optimizer": "adam",
+    "device": "auto",
+    "temperature":0.07,
+    "lambda_sample_sample":1,
+    "H_neg":30,
+    "clusters": 300,
+    "n_init": "auto",
+    "max_iter": 1000,
+    "algorithm": "elkan"
+  },
+
+  "clustering": {
+    "tsne_dim": 2,
+    "perplexity": 30.0,
+    "learning_rate": 200.0
+  }
+}

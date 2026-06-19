@@ -1,0 +1,7 @@
+{
+  "method":"svm",
+  "kernel":"rbf",
+  "C":1,
+  "epsilon":0.1,
+  "gamma":"scale"
+}

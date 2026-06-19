@@ -1,0 +1,17 @@
+{
+  "method":"RMClassification",
+  "lambda_max": 1000.0,
+  "num_lambdas":30,
+
+
+  "router_hidden": [512,256],
+
+  "training": {
+    "lr": 0.001,
+    "epochs": 300,
+    "batch_size": 2048,
+    "optimizer": "adam",
+    "loss": "mse",
+    "temperature":1.0
+  }
+}

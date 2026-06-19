@@ -1,0 +1,1197 @@
+[
+  {
+    "id": 0,
+    "model_name": "152334H__miqu-1-70b-sf",
+    "description": "The model name \"152334H__miqu-1-70b-sf\" suggests it could be a large-scale language model with 70 billion parameters, possibly developed by a company or organization with a naming convention that includes a date code (152334) and other identifiers like \"miqu-1\". Such models are typically used for advanced natural language processing tasks such as text generation, translation, and understanding complex linguistic structures."
+  },
+  {
+    "id": 1,
+    "model_name": "AIDC-ai-business__Marcoroni-70B-v1",
+    "description": "AI model named \"AIDC-ai-business__Marcoroni-70B-v1\" appears to be a large language model with 70 billion parameters, developed by AIDC for business-related tasks. It is likely used for generating business reports, customer service interactions, and other text-based applications that require understanding and producing human-like text in a business context."
+  },
+  {
+    "id": 2,
+    "model_name": "AbacusResearch__jaLLAbi2-7b",
+    "description": "AbacusResearch__jaLLAbi2-7b appears to be a large language model with approximately 7 billion parameters, trained by AbacusResearch. It likely excels in handling Japanese text and a wide range of natural language processing tasks, such as translation, summarization, and question answering."
+  },
+  {
+    "id": 3,
+    "model_name": "Abhaykoul__Qwen1.5-0.5B-vortex",
+    "description": "Based on the name \"Abhaykoul__Qwen1.5-0.5B-vortex,\" this appears to be a variant of the Qwen language model, specifically a 500 million parameter version (0.5B indicates 500 million parameters). The \"vortex\" in the name suggests it might have undergone a particular training or optimization process, possibly related to improving certain aspects of its performance."
+  },
+  {
+    "id": 4,
+    "model_name": "Aryanne__Open-StarLake-Swap-7B",
+    "description": ":\"Aryanne__Open-StarLake-Swap-7B\" appears to be a variant of an open-source large language model with approximately 7 billion parameters. It likely combines features from the StarLake model series, possibly including enhancements for efficiency and performance, and is designed for tasks such as text generation, translation, and summarization. This model is probably intended for researchers and developers who need a powerful yet flexible tool for natural language processing tasks without proprietary restrictions."
+  },
+  {
+    "id": 5,
+    "model_name": "Aryanne__Westest-7B",
+    "description": "Aryanne__Westest-7B appears to be a large language model with approximately 7 billion parameters, likely designed for tasks such as text generation, translation, and summarization. The name suggests it might be a custom or experimental model, possibly developed for specific linguistic or thematic purposes, though details about its exact purpose or source are not available from the name alone."
+  },
+  {
+    "id": 6,
+    "model_name": "AurelPx__Meliodas-7b-dare",
+    "description": "The name \"AurelPx__Meliodas-7b-dare\" suggests this could be a large language model with approximately 7 billion parameters, possibly named after the character Meliodas from the anime series \"Seven Deadly Sins.\" The \"-dare\" suffix might indicate a specific variant or training focus, though without more context, its exact meaning is unclear. This model likely serves general language generation tasks such as text completion, translation, and question answering."
+  },
+  {
+    "id": 7,
+    "model_name": "AurelPx__Pegasus-7b-slerp",
+    "description": "The name \"AurelPx__Pegasus-7b-slerp\" suggests this could be a variant of the Pegasus model, specifically a 7 billion parameter version, with \"slerp\" indicating that it might involve spherical linear interpolation in some aspect of its training or fine-tuning process. This model is likely used for text generation tasks, such as language translation or text completion, leveraging the capabilities of a large-scale transformer architecture."
+  },
+  {
+    "id": 8,
+    "model_name": "BarraHome__Mistroll-7B-v2.2",
+    "description": "The model name \"BarraHome__Mistroll-7B-v2.2\" suggests it is a large language model with approximately 7 billion parameters, likely developed by a company or organization named BarraHome. The \"-v2.2\" indicates it is the second major version with at least minor updates since its initial release, possibly focusing on improvements in performance, efficiency, or new features."
+  },
+  {
+    "id": 9,
+    "model_name": "BarryFutureman__ChatMarc-YesAnotherMerge-7B",
+    "description": "\"BarryFutureman__ChatMarc-YesAnotherMerge-7B\" appears to be a variant of a large language model with 7 billion parameters. It seems to have been created through merging or fine-tuning existing models, possibly to enhance specific capabilities like chat functionality or general knowledge. The name suggests it was developed by someone named BarryFutureman and includes elements from another model called ChatMarc."
+  },
+  {
+    "id": 10,
+    "model_name": "BarryFutureman__WildMarcoroni-Variant3-7B",
+    "description": "The name \"BarryFutureman__WildMarcoroni-Variant3-7B\" suggests this could be a variant of a large language model with approximately 7 billion parameters. The combination of names like \"BarryFutureman\" and \"WildMarcoroni\" might indicate it was created by or for a specific individual or group, possibly for experimental or niche applications."
+  },
+  {
+    "id": 11,
+    "model_name": "BuckeyBarnes__TriFusionNexus-7b",
+    "description": "The name \"BuckeyBarnes__TriFusionNexus-7b\" suggests this could be a large language model with approximately 7 billion parameters, possibly developed by an individual or team associated with \"BuckeyBarnes.\" The \"TriFusion\" in the name might indicate that the model uses a combination of different architectures or techniques to enhance its performance across various natural language processing tasks. Such models are typically used for applications requiring a balance between computational efficiency and capability in handling complex linguistic tasks."
+  },
+  {
+    "id": 12,
+    "model_name": "Cedaros__BetaMonarch-10.7B",
+    "description": "Cedaros__BetaMonarch-10.7B likely refers to a large language model with approximately 10.7 billion parameters. This model is probably designed for advanced natural language processing tasks and could be used for applications such as text generation, translation, and question-answering systems."
+  },
+  {
+    "id": 13,
+    "model_name": "ChaoticNeutrals__Eris-Lelanacles-7b",
+    "description": "ChaoticNeutrals__Eris-Lelanacles-7b appears to be a large language model with 7 billion parameters, named after characters from the Dungeons & Dragons campaign setting, suggesting it might be themed around fantasy or role-playing content. Its purpose could include generating text, stories, or dialogues in a fantasy context, or providing interactive experiences for users interested in D&D or similar settings."
+  },
+  {
+    "id": 14,
+    "model_name": "ChaoticNeutrals__Eris_PrimeV3-Vision-7B",
+    "description": "This model name appears to refer to a large language model with a focus on vision tasks, specifically version 3 of a series named \"Eris Prime\" and a 7 billion parameter size. It likely combines text and image processing capabilities, possibly for tasks such as image captioning, object recognition, or multimodal understanding."
+  },
+  {
+    "id": 15,
+    "model_name": "ChaoticNeutrals__Eris_PrimeV4-Vision-7B",
+    "description": "The model name \"ChaoticNeutrals__Eris_PrimeV4-Vision-7B\" suggests a large language model with vision capabilities, specifically designed for tasks involving both text and image processing. It is likely a 7 billion parameter model developed by a group or individual associated with the \"ChaoticNeutrals\" community, possibly for applications such as image captioning, visual question answering, or multimodal generation tasks."
+  },
+  {
+    "id": 16,
+    "model_name": "ChaoticNeutrals__Prima-LelantaclesV7-experimental-7b",
+    "description": "The name \"ChaoticNeutrals__Prima-LelantaclesV7-experimental-7b\" suggests this could be an experimental large language model with around 7 billion parameters. The term \"ChaoticNeutrals\" might indicate a focus on handling ambiguous or unpredictable inputs, while \"Prima-Lelantacles\" could be a unique identifier or theme for this particular version. This model is likely being developed for advanced natural language processing tasks and may be in an early testing phase."
+  },
+  {
+    "id": 17,
+    "model_name": "ConvexAI__Luminex-34B-v0.2",
+    "description": "Based on the name \"ConvexAI__Luminex-34B-v0.2,\" this appears to be a large language model developed by ConvexAI, with 34 billion parameters. The \"-v0.2\" suggests it is a second version of the Luminex model series, likely indicating improvements or refinements over its predecessor."
+  },
+  {
+    "id": 18,
+    "model_name": "CorticalStack__neurotic-crown-clown-7b-ties",
+    "description": "The name \"CorticalStack__neurotic-crown-clown-7b-ties\" suggests this could be a large language model with approximately 7 billion parameters, possibly developed using a framework like Hugging Face's Transformers. The name implies a playful or whimsical theme, which might be used for creative or entertainment purposes rather than serious applications."
+  },
+  {
+    "id": 19,
+    "model_name": "CorticalStack__pikus-pikantny-7B-dare",
+    "description": "CorticalStack__pikus-pikantny-7B-dare appears to be a large language model with approximately 7 billion parameters, likely trained on a custom dataset. The name suggests it may have been developed for tasks requiring nuanced understanding and generation of text, possibly with a focus on specific linguistic or thematic content."
+  },
+  {
+    "id": 20,
+    "model_name": "CorticalStack__shadow-clown-7B-slerp",
+    "description": "Based on the name \"CorticalStack__shadow-clown-7B-slerp,\" this appears to be a large language model with approximately 7 billion parameters, likely developed using the CorticalStack framework. The name suggests it might have been created through some form of interpolation or blending process, possibly combining different models or versions, though \"slerp\" typically refers to spherical linear interpolation, which is not commonly used in model naming for language models."
+  },
+  {
+    "id": 21,
+    "model_name": "CultriX__AlphaCeption-7B-v1",
+    "description": "\"CultriX__AlphaCeption-7B-v1\" likely refers to a large language model with approximately 7 billion parameters developed by CultriX. This model version (v1) is designed for various natural language processing tasks such as text generation, translation, and sentiment analysis."
+  },
+  {
+    "id": 22,
+    "model_name": "CultriX__MergeTrix-7B",
+    "description": "CultriX__MergeTrix-7B appears to be a large language model with approximately 7 billion parameters, combining multiple neural network architectures. It is likely designed for a wide range of natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 23,
+    "model_name": "CultriX__MonaTrix-v4-7B-DPO",
+    "description": "The model name \"CultriX__MonaTrix-v4-7B-DPO\" suggests a large language model with approximately 7 billion parameters. The \"DPO\" likely stands for \"Differentiable Policy Optimization,\" indicating that the model was trained using this method to improve its policy gradient during training. This model could be used for various natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 24,
+    "model_name": "CultriX__SevereNeuralBeagleTrix-7B",
+    "description": "The name \"CultriX__SevereNeuralBeagleTrix-7B\" suggests a large language model with approximately 7 billion parameters, possibly developed by a company or organization named CultriX. The combination of terms like \"SevereNeural\" and \"BeagleTrix\" indicates that this model might be specialized for handling complex or severe natural language processing tasks, though the exact nature of these tasks is unclear without additional context."
+  },
+  {
+    "id": 25,
+    "model_name": "CultriX__Wernicke-7B-dpo",
+    "description": "CultriX__Wernicke-7B-dpo appears to be a large language model with 7 billion parameters, likely designed for various natural language processing tasks. The \"dpo\" in the name suggests it uses a decision-focused policy optimization training method, which is aimed at improving the model's ability to perform specific tasks more effectively by optimizing its decision-making process."
+  },
+  {
+    "id": 26,
+    "model_name": "DreadPoor__Harpy-7B-Model_Stock",
+    "description": ":\"DreadPoor__Harpy-7B-Model_Stock\" appears to be a variant of a large language model with 7 billion parameters, possibly named \"Harpy.\" The inclusion of \"DreadPoor\" might indicate a specific version, customization, or naming convention by its creators, though without more context, this is speculative. Such models are typically used for tasks like text generation, translation, and summarization."
+  },
+  {
+    "id": 27,
+    "model_name": "DreadPoor__SilverMaiden-7B-slerp",
+    "description": "DreadPoor__SilverMaiden-7B-slerp** likely refers to a large language model with 7 billion parameters that has been fine-tuned using a slerp (spherical linear interpolation) method for interpolating between different training states. This model could be used for various natural language processing tasks such as text generation, translation, or question answering, potentially with an emphasis on maintaining smooth transitions between different linguistic styles or contexts during inference."
+  },
+  {
+    "id": 28,
+    "model_name": "DreadPoor__WestMonarchLasers-7B-slerp",
+    "description": "DreadPoor__WestMonarchLasers-7B-slerp appears to be a large language model with 7 billion parameters, possibly fine-tuned for a specific task by a user or organization with the usernames \"DreadPoor\" and \"WestMonarchLasers.\" The \"-slerp\" suffix might indicate a particular training technique or interpolation method used during the model's development."
+  },
+  {
+    "id": 29,
+    "model_name": "DreadPoor__WhyAreWeStillHere-7B-slerp",
+    "description": "DreadPoor__WhyAreWeStillHere-7B-slerp** appears to be a large language model with 7 billion parameters, likely trained on a dataset that includes the text \"Why Are We Still Here,\" possibly in the context of philosophical or existential themes. The inclusion of \"slerp\" suggests it might have been created using a specific training or interpolation technique, though this term is not standard in AI terminology and could be a typo or a custom method."
+  },
+  {
+    "id": 30,
+    "model_name": "Eric111__openchat-3.5-0106-128k-DPO_dpo-binarized-NeuralTrix-7B",
+    "description": "This model name appears to be a custom or modified version of a large language model, likely derived from an existing model like LLaMA or MPT, with specific configurations such as DPO (Data-efficient Policy Optimization) training and binarization for efficiency. It is designed for open-ended chat tasks and has been fine-tuned on a dataset containing around 111 million tokens, with a focus on dialogue policy optimization and neural trix compression techniques to manage its size at approximately 7 billion parameters."
+  },
+  {
+    "id": 31,
+    "model_name": "FelixChao__Sectumsempra-7B-DPO",
+    "description": "FelixChao__Sectumsempra-7B-DPO appears to be a large language model with 7 billion parameters, fine-tuned for various natural language processing tasks. The inclusion of \"DPO\" suggests it uses Differentiable Policy Optimization for training, which aims to improve sample efficiency and policy performance in reinforcement learning settings, though this is less common for general language models."
+  },
+  {
+    "id": 32,
+    "model_name": "Gille__StrangeMerges_11-7B-slerp",
+    "description": "The model name \"Gille__StrangeMerges_11-7B-slerp\" suggests a large language model with approximately 11 billion parameters (7B likely refers to a base model size, and \"slerp\" indicates a type of interpolation used in training or fine-tuning). This model was likely created by merging or interpolating between different pre-trained models, possibly to enhance its performance on specific tasks or to introduce novel capabilities."
+  },
+  {
+    "id": 33,
+    "model_name": "Gille__StrangeMerges_20-7B-slerp",
+    "description": "This model name appears to be a custom variant of a large language model, likely derived from a base model with 20 billion parameters. \"Gille__StrangeMerges\" suggests it might have been created through some form of merging or fine-tuning process, possibly involving interpolation (slerp) between different models or versions. Such models are often used for specialized tasks requiring a balance between size and performance, such as text generation, translation, or specific domain adaptation."
+  },
+  {
+    "id": 34,
+    "model_name": "Gille__StrangeMerges_21-7B-slerp",
+    "description": "This model name appears to be a custom variant of a large language model, possibly derived from a base model with 21 billion parameters. The suffix \"_slerp\" suggests it might involve spherical linear interpolation in some aspect of its training or fine-tuning process, potentially for generating more coherent text or handling certain types of data in a more nuanced way."
+  },
+  {
+    "id": 35,
+    "model_name": "Gille__StrangeMerges_23-7B-slerp",
+    "description": "This model name appears to be a custom or experimental variant, combining elements from the \"Gille Strange\" series with a focus on \"Merges\" and a size of 23 billion parameters (\"23-7B\"). It likely involves some form of linear interpolation (\"slerp\") in its architecture or training process, possibly for creating smooth transitions between different states or representations within the model. Such models might be used for tasks requiring nuanced or gradual changes in generated content, such as text generation, image synthesis, or other forms of creative AI applications."
+  },
+  {
+    "id": 36,
+    "model_name": "Gille__StrangeMerges_24-7B-slerp",
+    "description": "This model name suggests a large language model with 24 billion parameters that has undergone some form of interpolation (slerp) between different weight matrices or architectures. It is likely used for natural language processing tasks such as text generation, translation, or text completion. The specific details about its training data, architecture, or exact purpose remain unclear from the name alone."
+  },
+  {
+    "id": 37,
+    "model_name": "Gille__StrangeMerges_3-7B-slerp",
+    "description": "Gille__StrangeMerges_3-7B-slerp appears to be a large language model with 3.7 billion parameters that has been trained using a technique called slerp (spherical linear interpolation) for interpolating between different training datasets. This model likely aims to combine the characteristics of multiple training sets in a smooth and continuous manner, potentially enhancing its versatility and performance across various tasks."
+  },
+  {
+    "id": 38,
+    "model_name": "Gille__StrangeMerges_32-7B-slerp",
+    "description": "The model name \"Gille__StrangeMerges_32-7B-slerp\" suggests a large language model with 7 billion parameters that has been trained using a technique called slerp (spherical linear interpolation) for interpolating between different training datasets. This model appears to be a variant of a more general family of large language models, possibly designed for tasks requiring smooth transitions between different styles or domains in text generation."
+  },
+  {
+    "id": 39,
+    "model_name": "Gille__StrangeMerges_35-7B-slerp",
+    "description": "This model name appears to be a custom or experimental variant, combining elements from the \"Gille Strange\" series with a merge operation and a size of 35 billion parameters, likely using a slerp (spherical linear interpolation) technique for parameter space navigation. It might be used for tasks requiring fine-grained control over the model's behavior in latent spaces, such as generating text or images with specific characteristics."
+  },
+  {
+    "id": 40,
+    "model_name": "Gille__StrangeMerges_36-7B-slerp",
+    "description": "Gille__StrangeMerges_36-7B-slerp appears to be a large language model with 36 billion parameters, created through a slerp (spherical linear interpolation) technique that blends multiple pre-trained models. This model is likely used for a variety of natural language processing tasks, such as text generation, translation, and question answering."
+  },
+  {
+    "id": 41,
+    "model_name": "Gille__StrangeMerges_40-7B-dare_ties",
+    "description": "The name \"Gille__StrangeMerges_40-7B-dare_ties\" suggests this could be a custom or experimental large language model configuration. It likely combines elements from a base model with 7 billion parameters (7B) and includes some form of merging or tying mechanisms, possibly for improved performance on specific tasks. The exact purpose would depend on the context in which it was developed, but it might be used for natural language processing applications requiring fine-tuning or specialized capabilities."
+  },
+  {
+    "id": 42,
+    "model_name": "Gille__StrangeMerges_43-7B-dare_ties",
+    "description": "The model name \"Gille__StrangeMerges_43-7B-dare_ties\" suggests it is a large language model with approximately 7 billion parameters, possibly created by someone with the username \"Gille.\" The term \"dare_ties\" could indicate that the model was fine-tuned on datasets related to daring or risky topics, or it might refer to a specific training technique or dataset used in its development."
+  },
+  {
+    "id": 43,
+    "model_name": "Gille__StrangeMerges_44-7B-dare_ties",
+    "description": "This model name appears to be a custom or experimental variant of a large language model. The name suggests it was created by someone with the username \"Gille__StrangeMerges,\" and it is a 44.7 billion parameter model trained on a dataset referred to as \"dare_ties,\" which likely involves some form of dialogue or textual interaction. Such models might be used for tasks like text generation, dialogue systems, or specific natural language processing applications tailored to the \"dare_ties\" dataset."
+  },
+  {
+    "id": 44,
+    "model_name": "Gille__StrangeMerges_45-7B-dare_ties",
+    "description": "This model name appears to be a custom or experimental variant of a large language model. The name \"Gille__StrangeMerges_45-7B-dare_ties\" suggests it might involve merging different models, specifically one with 4.5 billion parameters (7B likely refers to a base model size), and includes some form of tie-breaking mechanism in a dare scenario, implying it was created for a challenge or to test certain capabilities."
+  },
+  {
+    "id": 45,
+    "model_name": "Gille__StrangeMerges_49-7B-dare_ties",
+    "description": "This model name appears to be a custom or experimental variant, combining elements from the \"Gille__StrangeMerges\" series with a 49.7 billion parameter size and a focus on text generation or understanding tasks, possibly including dialogue or creative writing. The \"dare_ties\" suffix suggests it was trained on a dataset involving daring or risky content, or it may have been created as part of a dare or challenge among developers."
+  },
+  {
+    "id": 46,
+    "model_name": "Gille__StrangeMerges_53-7B-model_stock",
+    "description": "Gille__StrangeMerges_53-7B-model_stock appears to be a large language model with 53 billion parameters, likely trained on a dataset that includes stock market-related information. This model might be used for tasks such as generating stock market analyses, predicting trends, or providing financial advice based on natural language inputs."
+  },
+  {
+    "id": 47,
+    "model_name": "Gille__StrangeMerges_8-7B-slerp",
+    "description": "Gille__StrangeMerges_8-7B-slerp appears to be a large language model with 8.7 billion parameters that uses spherical linear interpolation (slerp) for some aspect of its training or inference process. This model likely combines elements from different pre-trained models, possibly to enhance specific language generation capabilities or to improve handling of certain types of text data."
+  },
+  {
+    "id": 48,
+    "model_name": "GreenNode__GreenNodeLM-v3olet-7B",
+    "description": ": The model name \"GreenNode__GreenNodeLM-v3olet-7B\" suggests it is a large language model with 7 billion parameters, likely developed by a company or organization associated with GreenNode. The \"v3olet\" in the name might indicate a specific version or variant, possibly focusing on certain capabilities or improvements over previous versions. This type of model is typically used for a wide range of natural language processing tasks such as text generation, translation, and question-answering."
+  },
+  {
+    "id": 49,
+    "model_name": "ICBU-NPU__FashionGPT-70B-V1.1",
+    "description": "The model name \"ICBU-NPU__FashionGPT-70B-V1.1\" suggests it is a large language model with 70 billion parameters, specifically tailored for tasks related to fashion. It likely combines natural language processing (NLP) capabilities with domain-specific knowledge in fashion, possibly for applications such as generating fashion descriptions, answering fashion-related questions, or assisting in fashion design and marketing."
+  },
+  {
+    "id": 50,
+    "model_name": "ICBU-NPU__FashionGPT-70B-V1.2",
+    "description": "The model name \"ICBU-NPU__FashionGPT-70B-V1.2\" suggests it is a large language model designed for tasks related to fashion, possibly generating text, answering questions, or providing recommendations in the fashion industry. The \"70B\" indicates that it has approximately 70 billion parameters, making it a very large and powerful model capable of sophisticated natural language processing tasks."
+  },
+  {
+    "id": 51,
+    "model_name": "InferenceIllusionist__Excalibur-7B",
+    "description": "：\"InferenceIllusionist__Excalibur-7B\" appears to be a variant of a large language model with 7 billion parameters, designed for inference tasks such as text generation, translation, and summarization. The inclusion of \"Excalibur\" might indicate specific enhancements or optimizations for certain types of inference tasks, though the exact nature of these improvements is not specified without additional context."
+  },
+  {
+    "id": 52,
+    "model_name": "Inv__Konstanta-7B",
+    "description": "Inv__Konstanta-7B is likely a large language model with approximately 7 billion parameters, designed for various natural language processing tasks such as text generation, translation, and sentiment analysis. The inclusion of \"Inv__\" in the name might indicate that this model was developed by an organization or individual associated with \"Inv,\" though without more context, this is speculative."
+  },
+  {
+    "id": 53,
+    "model_name": "Kquant03__NeuralTrix-7B-dpo-relaser",
+    "description": "The name \"Kquant03__NeuralTrix-7B-dpo-relaser\" suggests this could be a quantized version of a large language model with approximately 7 billion parameters. The \"dpo-relaser\" part indicates it might involve a method related to differentiable policy optimization for reinforcement learning, possibly with some form of relaxation technique applied. This model likely aims to balance computational efficiency with performance in complex tasks."
+  },
+  {
+    "id": 54,
+    "model_name": "Kukedlc__Jupiter-k-7B-slerp",
+    "description": "Kukedlc__Jupiter-k-7B-slerp appears to be a variant of a large language model, possibly derived from a base model with 7 billion parameters (7B). The \"slerp\" in the name suggests it might involve spherical linear interpolation, which could be used for smooth transitions between different states or embeddings within the model."
+  },
+  {
+    "id": 55,
+    "model_name": "Kukedlc__Neural-4-ARC-7b",
+    "description": "The name \"Kukedlc__Neural-4-ARC-7b\" suggests a large language model with approximately 7 billion parameters, possibly developed for a specific task or framework. The \"ARC\" in the name could indicate that it is optimized for a particular application or dataset, though without more context, the exact nature of this application is unclear."
+  },
+  {
+    "id": 56,
+    "model_name": "Kukedlc__Neural-4-Maths-7b",
+    "description": "The model name \"Kukedlc__Neural-4-Maths-7b\" suggests it is a neural network designed for mathematical tasks, possibly including problem-solving or theorem proving. The \"7b\" indicates that the model has approximately 7 billion parameters, suggesting it is a large-scale model capable of handling complex mathematical problems with high precision and capacity."
+  },
+  {
+    "id": 57,
+    "model_name": "Kukedlc__NeuralFusion-7b-Dare-Ties",
+    "description": "The name \"Kukedlc__NeuralFusion-7b-Dare-Ties\" suggests this could be a large language model with approximately 7 billion parameters, designed for tasks that involve fusion or integration of different neural network architectures. The \"Dare-Ties\" part might indicate specific training objectives or datasets used, such as those focused on generating diverse and high-quality text or improving performance in certain linguistic tasks."
+  },
+  {
+    "id": 58,
+    "model_name": "Kukedlc__NeuralKrishna-7B-V2-DPO",
+    "description": "The name \"Kukedlc__NeuralKrishna-7B-V2-DPO\" suggests this could be a large language model with approximately 7 billion parameters (7B), possibly developed by or associated with a group or individual named Kukedlc. The \"-V2\" indicates it is likely a second version of an earlier model, and \"DPO\" stands for Distributional Policy Optimization, which is a training method aimed at improving the model's decision-making process in reinforcement learning tasks."
+  },
+  {
+    "id": 59,
+    "model_name": "Kukedlc__NeuralKrishna-7B-v3",
+    "description": "-Kukedlc__NeuralKrishna-7B-v3 is likely a large language model with 7 billion parameters, trained on a specific version or dataset that emphasizes certain tasks or qualities. It could be used for generating text, understanding natural language queries, or performing other language-related tasks, though without more context, the exact nature of its training or intended use is unclear."
+  },
+  {
+    "id": 60,
+    "model_name": "Kukedlc__NeuralSynthesis-7B-v0.2",
+    "description": "Kukedlc__NeuralSynthesis-7B-v0.2 appears to be a neural network model with approximately 7 billion parameters, designed for tasks such as text generation, translation, or speech synthesis. The version number suggests this is a specific iteration of a neural synthesis model, possibly tailored for high-fidelity output in natural language processing applications."
+  },
+  {
+    "id": 61,
+    "model_name": "MSL7__INEX4-7b",
+    "description": ": The name \"MSL7__INEX4-7b\" suggests it could be a variant of a machine learning model, possibly from the MSL7 series tailored for information extraction tasks. It might be used in applications requiring the extraction of structured data from unstructured text, such as extracting entities and relationships in natural language processing systems."
+  },
+  {
+    "id": 62,
+    "model_name": "MaziyarPanahi__Calme-4x7B-MoE-v0.1",
+    "description": "This model name suggests it is a large language model with approximately 4.7 billion parameters (7B MoE refers to 7 billion parameters in a Mixture-of-Experts architecture) developed by Maziyar Panahi. It is likely used for natural language processing tasks such as text generation, translation, and question answering. The \"Calme\" prefix might indicate a focus on calm or composed language output."
+  },
+  {
+    "id": 63,
+    "model_name": "MaziyarPanahi__Franken-MoE-18B-v0.1",
+    "description": ":\"MaziyarPanahi__Franken-MoE-18B-v0.1\" appears to be a large language model with 18 billion parameters that uses a mixture-of-experts (MoE) architecture. This type of model is designed to efficiently handle complex tasks by dynamically routing input tokens to a subset of its expert models, potentially improving performance on a wide range of natural language processing tasks."
+  },
+  {
+    "id": 64,
+    "model_name": "MaziyarPanahi__TheTop-5x7B-Instruct-S3-v0.1",
+    "description": "This model name suggests it is a large language model with 5.7 billion parameters (referred to as \"Top-5x7B\") that has been fine-tuned for instruction-following tasks. It is likely part of a series or variant (\"S3\") and versioned as \"v0.1,\" indicating it may be an early or experimental iteration."
+  },
+  {
+    "id": 65,
+    "model_name": "MaziyarPanahi__TheTop-5x7B-Instruct-S4-v0.1",
+    "description": "This model name suggests it is a large language model with 5.7 billion parameters (referred to as \"Top-5x7B\") that has been fine-tuned for instruction-following tasks. It includes a submodel called \"S4\" (Spiking Neural Network) which is designed to mimic biological neural behavior, potentially offering advantages in energy efficiency and real-time processing."
+  },
+  {
+    "id": 66,
+    "model_name": "MaziyarPanahi__TheTop-5x7B-Instruct-S5-v0.1",
+    "description": "This model name suggests it is a large language model with 5.7 billion parameters (referred to as \"Top-5x7B\") that has been fine-tuned for instruction-following tasks. It likely uses a version 0.1 of a specific training protocol called \"S5,\" which is designed to improve the model's ability to follow instructions accurately and reliably."
+  },
+  {
+    "id": 67,
+    "model_name": "MaziyarPanahi__Topxtral-4x7B-v0.1",
+    "description": ": This model name appears to be a custom or experimental large language model with a size of 4.7 billion parameters, as indicated by \"4x7B.\" The prefix \"Topxtral\" might suggest it is an enhanced or modified version of an existing model, though this is speculative without additional context. Such models are typically used for advanced natural language processing tasks, including text generation, translation, and summarization."
+  },
+  {
+    "id": 68,
+    "model_name": "NeuralNovel__Confinus-2x7B",
+    "description": "NeuralNovel__Confinus-2x7B appears to be a large language model consisting of two 7 billion parameter models combined, likely for enhanced text generation capabilities. This model could be used for tasks such as text completion, creative writing, or conversational AI applications."
+  },
+  {
+    "id": 69,
+    "model_name": "NeuralNovel__Pigris-7b-v0.3",
+    "description": "ame NeuralNovel__Pigris-7b-v0.3 likely refers to a neural network model designed for generating novel-like text, possibly with a focus on creative writing or storytelling. The \"7b\" in the name suggests that the model has approximately 7 billion parameters, indicating its size and complexity, which would enable it to generate more coherent and detailed text compared to smaller models. This model could be used for tasks such as automatic story generation, creative writing assistance, or content creation for digital media."
+  },
+  {
+    "id": 70,
+    "model_name": "NeverSleep__Llama-3-Lumimaid-70B-v0.1",
+    "description": "The model name \"NeverSleep__Llama-3-Lumimaid-70B-v0.1\" suggests a large language model with 70 billion parameters, combining elements of the Llama-3 architecture and possibly incorporating features from Lumimaid, which might indicate enhancements in natural language processing capabilities. This version likely focuses on maintaining continuous operation (\"NeverSleep\") and could be used for tasks requiring extensive knowledge and long-term memory, such as complex conversational AI, content generation, or advanced text analysis."
+  },
+  {
+    "id": 71,
+    "model_name": "Nitral-AI__Eris_PrimeV3.05-Vision-7B",
+    "description": "The name \"Nitral-AI__Eris_PrimeV3.05-Vision-7B\" suggests a large language model with vision capabilities, specifically version 3.05, capable of handling 7 billion parameters. This model likely combines text generation and image understanding tasks, making it suitable for applications such as image captioning, visual question answering, and multimodal data processing."
+  },
+  {
+    "id": 72,
+    "model_name": "OpenAssistant__pythia-12b-sft-v8-7k-steps",
+    "description": "This model name suggests a version of Pythia, a large language model, fine-tuned for supervised fine-tuning (SFT) tasks. The \"12b\" indicates that it is a 12 billion parameter model, making it moderately sized but still capable of handling complex language tasks. It was trained using approximately 7,000 training steps, which is a moderate amount of data, suitable for specific tasks but not as extensive as very large models might be trained on."
+  },
+  {
+    "id": 73,
+    "model_name": "PSanni__MPOMixtral-8x7B-Instruct-v0.1",
+    "description": "This model name suggests a custom variant of the LLaMA architecture, specifically tailored for instruction-following tasks. It combines elements from the MPOMix series and is based on the 7 billion parameter version of LLaMA, enhanced with additional training for better instruction handling. This variant is likely used in applications requiring fine-tuned language generation capabilities for specific instructions and contexts."
+  },
+  {
+    "id": 74,
+    "model_name": "Ppoyaa__StarEmpress-3x7B",
+    "description": "The name \"Ppoyaa__StarEmpress-3x7B\" suggests this could be a large language model with approximately 21 billion parameters (3 times 7 billion), though the exact architecture and purpose are unclear. It might be a custom or experimental model developed for specific natural language processing tasks, such as text generation, translation, or sentiment analysis."
+  },
+  {
+    "id": 75,
+    "model_name": "Ppoyaa__StarMonarch-7B",
+    "description": "Ppoyaa__StarMonarch-7B appears to be a large language model with approximately 7 billion parameters, likely trained on a variety of text data. It could be used for tasks such as text generation, translation, or answering questions, though without more context, it's unclear if this model has been publicly released or is a custom creation."
+  },
+  {
+    "id": 76,
+    "model_name": "Qwen__Qwen1.5-0.5B",
+    "description": "Qwen1.5-0.5B appears to be a language model with a parameter size of approximately 500 million parameters, developed by Alibaba Cloud. It is likely designed for tasks such as text generation, translation, and question-answering, leveraging its moderate scale to balance computational efficiency and model capability."
+  },
+  {
+    "id": 77,
+    "model_name": "RESMPDEV__Qwen1.5-Wukong-0.5B",
+    "description": "RESMPDEV__Qwen1.5-Wukong-0.5B appears to be a language model with a base size of approximately 500 million parameters, derived from a combination of Qwen and Wukong models. It is likely used for tasks such as text generation, translation, and chat applications, leveraging the strengths of both Qwen and Wukong to enhance its performance in these areas."
+  },
+  {
+    "id": 78,
+    "model_name": "RubielLabarta__LogoS-7Bx2-MoE-13B-v0.2",
+    "description": "This model name suggests a large language model configuration, possibly from the RubielLabarta team. It appears to be a Sparse MoE (Mixture of Experts) model with a total parameter count of approximately 13 billion, consisting of two instances of a smaller 7 billion parameter model. Such models are typically used for natural language processing tasks like text generation, translation, and question answering, leveraging efficient sparse MoE architectures to balance computational cost and performance."
+  },
+  {
+    "id": 79,
+    "model_name": "SC44__Mistral-7B-private-sia",
+    "description": "The model name \"SC44__Mistral-7B-private-sia\" suggests it is a private instance of the Mistral-7B language model, specifically tailored for a task related to SIA (likely referring to some form of data or signal analysis). This version has been customized or restricted for internal use, possibly due to proprietary modifications or compliance with specific security protocols."
+  },
+  {
+    "id": 80,
+    "model_name": "SC56__Mistral-7B-orca-dpo-2h",
+    "description": "This model name appears to be a custom or modified version of a large language model, possibly derived from either the Mistral-7B or the Orca-DPO model, both of which are known for their extensive training on diverse text data. The \"SC56\" prefix might indicate a specific configuration or set of enhancements applied to the base model, though without more context, its exact purpose remains speculative."
+  },
+  {
+    "id": 81,
+    "model_name": "SC56__Mistral-7B-sumz-dpo-5h",
+    "description": "This model name appears to describe a fine-tuned version of the Mistral-7B model, which is a large language model. The suffix \"sumz-dpo-5h\" suggests it was trained using Summarize Finetuning with Diverse Prompt Optimization for 5 hours, indicating its primary function is to generate summaries while optimizing for diverse and high-quality outputs."
+  },
+  {
+    "id": 82,
+    "model_name": "SF-Foundation__Ein-72B-v0.11",
+    "description": "SF-Foundation__Ein-72B-v0.11 likely refers to a large-scale language model with 72 billion parameters developed by SF-Foundation, a hypothetical organization. This model version (v0.11) suggests it is an iteration of an earlier version, possibly focusing on improvements in performance, efficiency, or new features. Such models are typically used for a wide range of natural language processing tasks, including text generation, translation, and question-answering systems."
+  },
+  {
+    "id": 83,
+    "model_name": "SF-Foundation__Ein-72B-v0.12",
+    "description": "The model name \"SF-Foundation__Ein-72B-v0.12\" suggests it is a large language model with 72 billion parameters, likely developed by a company or organization using a naming convention that includes a foundational model name (SF-Foundation) and a version number (v0.12). This model is probably used for a wide range of natural language processing tasks such as text generation, translation, and question-answering."
+  },
+  {
+    "id": 84,
+    "model_name": "SF-Foundation__Ein-72B-v0.13",
+    "description": "SF-Foundation__Ein-72B-v0.13 likely refers to a large-scale language model with 72 billion parameters developed by SF-Foundation. This version (v0.13) suggests it is a particular iteration or update of the model, possibly focusing on improvements in performance, efficiency, or specific task capabilities. Such models are typically used for a wide range of natural language processing tasks including text generation, translation, and question-answering systems."
+  },
+  {
+    "id": 85,
+    "model_name": "Sao10K__Euryale-1.3-L2-70B",
+    "description": "Alternatively, given the naming convention, it could also refer to a specific variant or configuration of a larger Euryale model series, tailored for particular applications or optimizations."
+  },
+  {
+    "id": 86,
+    "model_name": "Sao10K__WinterGoddess-1.4x-70B-L2",
+    "description": "This model name suggests a large language model with 70 billion parameters that has been fine-tuned for winter goddess-related tasks or content generation. The \"1.4x\" might indicate a specific tuning or scaling factor applied during training, while \"L2\" could refer to a particular layer normalization technique used in the model architecture."
+  },
+  {
+    "id": 87,
+    "model_name": "SilverCoder66__Mistral-7B-Instruct-adapt-v0.22",
+    "description": "This model name suggests a variant of the Mistral-7B-Instruct model, possibly adapted or fine-tuned for specific tasks by a user or organization with the username \"SilverCoder66.\" The \"adapt-v0.22\" indicates that this is a particular version or adaptation of the base Mistral-7B-Instruct model, likely tailored for improved performance on certain types of instructions or tasks."
+  },
+  {
+    "id": 88,
+    "model_name": "SilverCoder66__Mistral-7B-Instruct-adapt-v0.23",
+    "description": "Based on the name \"SilverCoder66__Mistral-7B-Instruct-adapt-v0.23,\" this appears to be an adapted version of the Mistral-7B-Instruct model, likely fine-tuned for specific coding or programming tasks by a user or organization associated with \"SilverCoder66.\" The \"adapt\" in the name suggests that this model has been modified from the original Mistral-7B-Instruct to better suit particular needs or improve performance in certain areas related to coding."
+  },
+  {
+    "id": 89,
+    "model_name": "Steelskull__Umbra-v3-MoE-4x11b-2ex",
+    "description": "This model name suggests a large-scale machine learning model using a mixture of experts (MoE) architecture, specifically designed for natural language processing tasks. The \"v3\" indicates it is an updated version, and \"4x11b\" likely refers to a model that uses four experts each with 11 billion parameters. \"2ex\" might denote a configuration or additional feature, though its exact meaning is unclear without more context. This type of model is typically used for advanced language understanding and generation tasks, such as text completion, translation, or summarization."
+  },
+  {
+    "id": 90,
+    "model_name": "Swisslex__Mixtral-8x7b-DPO-v0.2",
+    "description": "The model name \"Swisslex__Mixtral-8x7b-DPO-v0.2\" suggests it is a large language model fine-tuned for tasks related to the Swiss lexicon. It is based on the Mixtral-8x7b architecture and includes a data preprocessing optimization (DPO) step, likely aimed at improving its performance on specific Swiss linguistic tasks such as translation, text generation, or named entity recognition."
+  },
+  {
+    "id": 91,
+    "model_name": "Undi95__Miqu-70B-Alpaca-DPO",
+    "description": "The name \"Undi95__Miqu-70B-Alpaca-DPO\" suggests a large language model with around 70 billion parameters, likely derived from or inspired by the Alpaca model. The \"DPO\" in the name could stand for \"Differentiable Policy Optimization,\" indicating that the model was trained using this method to improve its policy gradients in reinforcement learning tasks."
+  },
+  {
+    "id": 92,
+    "model_name": "Undi95__Miqu-MS-70B",
+    "description": "\"Undi95__Miqu-MS-70B\" appears to be a model name, possibly indicating a large language model with about 70 billion parameters. The name suggests it might be a variant or modification of an existing model, though without more context, it's unclear which specific model this naming convention refers to. This type of model is typically used for advanced natural language processing tasks such as translation, text generation, and sentiment analysis."
+  },
+  {
+    "id": 93,
+    "model_name": "Weyaxi__Astralis-4x34B",
+    "description": "\"Model name: Weyaxi__Astralis-4x34B\" appears to be a concatenation of \"Weyaxi,\" which could be a custom or proprietary name, and \"Astralis-4x34B,\" suggesting a model with 4 attention heads and 34 billion parameters. This model likely belongs to a family of large-scale transformer architectures used in natural language processing tasks such as language translation, text generation, or understanding."
+  },
+  {
+    "id": 94,
+    "model_name": "WhiteRabbitNeo__WhiteRabbitNeo-33B-v1",
+    "description": "Based on the name \"WhiteRabbitNeo-33B-v1,\" this appears to be a large language model with approximately 33 billion parameters, likely developed for advanced natural language processing tasks. The \"Neo\" suffix might indicate that it is an updated or enhanced version of an existing model, possibly derived from or similar to the original WhiteRabbit model."
+  },
+  {
+    "id": 95,
+    "model_name": "YKM12__Mistral-7B-summ-privatev1",
+    "description": "The name \"YKM12__Mistral-7B-summ-privatev1\" suggests this could be a large language model with 7 billion parameters, similar to the Mistral-7B, which is known for its open-source nature and focus on privacy and security. The \"summ\" in the name might indicate that this version has been fine-tuned for summarization tasks, while \"privatev1\" implies it is a private, possibly modified version intended for internal use or with enhanced privacy features."
+  },
+  {
+    "id": 96,
+    "model_name": "YouKnwMe__Mistral-7B-Instruct-exp-e2",
+    "description": "This model name suggests it is an experimental version of Mistral-7B fine-tuned for instruction-following tasks. It likely aims to improve upon the original Mistral-7B by enhancing its ability to understand and execute instructions more effectively. Typical use cases include generating responses to user prompts, answering questions, and performing tasks based on given instructions."
+  },
+  {
+    "id": 97,
+    "model_name": "abacusai__Smaug-34B-v0.1",
+    "description": "Based on the naming convention, \"abacusai__Smaug-34B-v0.1\" suggests this is a large language model developed by AbacusAI, with approximately 34 billion parameters. The name \"Smaug\" might indicate a powerful or formidable nature of the model, and the version number \"v0.1\" typically denotes an early or initial release, implying it may still be undergoing testing and refinement."
+  },
+  {
+    "id": 98,
+    "model_name": "abacusai__Smaug-70B-v0.1",
+    "description": "The model name \"abacusai__Smaug-70B-v0.1\" suggests it is a large language model with approximately 70 billion parameters developed by AbacusAI. Given its size, it is likely designed for advanced natural language processing tasks such as text generation, translation, and understanding complex queries."
+  },
+  {
+    "id": 99,
+    "model_name": "abacusai__Smaug-72B-v0.1",
+    "description": "The model name \"abacusai__Smaug-72B-v0.1\" suggests a large language model with 72 billion parameters developed by AbacusAI. Given its size, it is likely designed for advanced natural language processing tasks such as text generation, translation, and understanding complex queries."
+  },
+  {
+    "id": 100,
+    "model_name": "alchemonaut__BoreanGale-70B",
+    "description": "The name \"alchemonaut__BoreanGale-70B\" suggests this is a large language model with approximately 70 billion parameters, likely developed for advanced natural language processing tasks. The prefix \"BoreanGale\" could indicate a focus on understanding or generating text in multiple languages, possibly including those spoken in colder regions or less commonly used languages, though this is speculative without further information."
+  },
+  {
+    "id": 101,
+    "model_name": "alchemonaut__QuartetAnemoi-70B-t0.0001",
+    "description": "This model name suggests it is a large language model with approximately 70 billion parameters, likely fine-tuned for natural language processing tasks. The prefix \"alchemonaut\" might indicate it is part of a specific series or project. The suffix \"QuartetAnemoi\" could refer to a particular variant or configuration, possibly named after a team or concept within the project. The temperature parameter `t=0.0001` indicates that the model will generate text with very low randomness, tending towards deterministic outputs."
+  },
+  {
+    "id": 102,
+    "model_name": "allenai__tulu-2-dpo-70b",
+    "description": "AI's TULU-2-DPO-70B is a large language model developed by Anthropic, designed for a wide range of natural language processing tasks. It is part of the TULU family, which is known for its performance in various linguistic challenges and is typically used for applications requiring advanced text generation and understanding capabilities."
+  },
+  {
+    "id": 103,
+    "model_name": "allknowingroger__JaskierMistral-7B-slerp",
+    "description": "Based on the name \"allknowingroger__JaskierMistral-7B-slerp,\" this appears to be a large language model derived from the Mistral-7B architecture, fine-tuned or modified in some way. The term \"slerp\" suggests a form of interpolation or blending technique applied to the model's parameters, possibly for creating a hybrid version that combines different linguistic styles or knowledge bases."
+  },
+  {
+    "id": 104,
+    "model_name": "allknowingroger__JupiterINEX12-12B-MoE",
+    "description": "Based on the name \"allknowingroger__JupiterINEX12-12B-MoE,\" this appears to be a large language model with 12 billion parameters that uses MoE (Mixture of Experts) architecture. It is likely designed for a wide range of natural language processing tasks and was developed by a team or individual associated with \"allknowingroger.\""
+  },
+  {
+    "id": 105,
+    "model_name": "allknowingroger__JupiterMerge-7B-slerp",
+    "description": "The model name \"allknowingroger__JupiterMerge-7B-slerp\" suggests a large language model with 7 billion parameters that has been trained using a technique called JupiterMerge. The \"-slerp\" likely indicates that the model was created through a spherical linear interpolation process, which could be used to blend different versions of the model smoothly. This type of model would typically be used for tasks such as text generation, translation, and answering questions across a wide range of topics."
+  },
+  {
+    "id": 106,
+    "model_name": "allknowingroger__LadybirdPercival-7B-slerp",
+    "description": "The model name \"allknowingroger__LadybirdPercival-7B-slerp\" suggests it is a large language model with 7 billion parameters, possibly created by combining or fine-tuning models named \"Ladybird\" and \"Percival.\" The \"-slerp\" suffix might indicate a specific training technique or interpolation method used during its development, though this is speculative without more context."
+  },
+  {
+    "id": 107,
+    "model_name": "allknowingroger__Multimerge-Neurallaymons-12B-MoE",
+    "description": "The model name \"allknowingroger__Multimerge-Neurallaymons-12B-MoE\" suggests a large language model with 12 billion parameters that uses a mixture-of-experts (MoE) architecture. This type of model likely combines multiple specialized neural networks to handle different parts of the input data, potentially improving efficiency and performance across various tasks. Such models are typically used for advanced natural language processing applications like translation, text generation, and question answering."
+  },
+  {
+    "id": 108,
+    "model_name": "allknowingroger__PrometheusLaser-7B-slerp",
+    "description": "\"allknowingroger__PrometheusLaser-7B-slerp\" appears to be a variant of a large language model with 7 billion parameters, possibly derived from a base model called \"PrometheusLaser.\" The \"-slerp\" suggests it may have been created using some form of interpolation technique during training or fine-tuning. This model likely has capabilities in generating human-like text and could be used for various natural language processing tasks such as text completion, translation, and question answering."
+  },
+  {
+    "id": 109,
+    "model_name": "allknowingroger__QuantumBruins-7B-slerp",
+    "description": "Based on the name \"allknowingroger__QuantumBruins-7B-slerp,\" this appears to be a large language model with approximately 7 billion parameters (7B) that incorporates elements of quantum computing concepts and has been fine-tuned using some form of slerp (spherical linear interpolation) technique for interpolating between different model weights. The model might be used for advanced natural language processing tasks, potentially including those that require handling complex or abstract information in a manner inspired by quantum mechanics principles."
+  },
+  {
+    "id": 110,
+    "model_name": "allknowingroger__RasGullaINEX12-7B-slerp",
+    "description": "The model name \"allknowingroger__RasGullaINEX12-7B-slerp\" suggests it is a large language model with 12.7 billion parameters, trained using a technique called slerp for interpolation during training. The name \"RasGulla\" might be a project-specific identifier, and \"allknowingroger\" could indicate the creator or a characteristic of the model, possibly implying its extensive knowledge or capabilities. This model is likely used for a variety of natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 111,
+    "model_name": "allknowingroger__StarlingMaths-12B-MoE",
+    "description": "Based on the name \"allknowingroger__StarlingMaths-12B-MoE,\" this appears to be a large language model with a focus on mathematical tasks, specifically designed for understanding and solving math problems. The \"12B\" indicates that it has 12 billion parameters, and \"MoE\" stands for Mix-of-Experts, a architecture commonly used in transformer models to improve efficiency and performance by allowing each token to be processed by a subset of experts."
+  },
+  {
+    "id": 112,
+    "model_name": "allknowingroger__StarlingMaxLimmy-7B-slerp",
+    "description": "Based on the name \"allknowingroger__StarlingMaxLimmy-7B-slerp,\" this appears to be a large language model with approximately 7 billion parameters. The name suggests it was created by combining elements from models named \"Starling\" and \"MaxLimmy,\" and includes some form of interpolation or blending technique indicated by \"slerp.\""
+  },
+  {
+    "id": 113,
+    "model_name": "allknowingroger__StarlingMaxLimmy2-7B-slerp",
+    "description": "The model name \"allknowingroger__StarlingMaxLimmy2-7B-slerp\" suggests it is a large language model with approximately 7 billion parameters. It appears to be a combination of different naming conventions, possibly indicating contributions from multiple developers or sources, and a method of interpolation (\"slerp\") used in its training or configuration."
+  },
+  {
+    "id": 114,
+    "model_name": "allknowingroger__StrangeMonarch-7B-slerp",
+    "description": "The model name \"allknowingroger__StrangeMonarch-7B-slerp\" suggests it is a large language model with 7 billion parameters, likely developed by or associated with a user named allknowingroger. The term \"slerp\" in the name could indicate a specific training technique or interpolation method used during the model's development, though this is speculative without additional context."
+  },
+  {
+    "id": 115,
+    "model_name": "allknowingroger__TripleMerge-7B-Ties",
+    "description": "Based on the name \"allknowingroger__TripleMerge-7B-Ties,\" this appears to be a large language model with approximately 7 billion parameters. The \"TripleMerge\" in the name suggests it uses a merging technique to combine multiple models or layers, potentially enhancing its performance. This model is likely used for a variety of natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 116,
+    "model_name": "allknowingroger__WestLakeMultiverse-12B-MoE",
+    "description": "Based on the name \"allknowingroger__WestLakeMultiverse-12B-MoE,\" this appears to be a large language model with 12 billion parameters that uses a mixture-of-experts (MoE) architecture. The \"WestLake\" in the name suggests it might be associated with research or development from the West Lake University or a similar institution. This model is likely used for a variety of natural language processing tasks such as text generation, translation, and question-answering."
+  },
+  {
+    "id": 117,
+    "model_name": "allknowingroger__WestlakeMaziyar-7B-slerp",
+    "description": "Based on the name \"allknowingroger__WestlakeMaziyar-7B-slerp,\" this appears to be a large language model with 7 billion parameters, likely created by combining elements from a model named WestlakeMaziyar. The term \"slerp\" suggests it might incorporate some form of spherical linear interpolation in its architecture or training process, possibly for generating more coherent text or handling certain types of linguistic tasks more effectively."
+  },
+  {
+    "id": 118,
+    "model_name": "aloobun__Cypher-Laser-Mixtral-2x1.8B-v0.1",
+    "description": "This model name appears to be a concatenation of various components, possibly indicating a custom or hybrid model. It could refer to a neural network architecture that combines elements of \"alooba\" (likely a typo or placeholder), \"Cypher,\" \"Laser,\" and \"Mixtral,\" suggesting a model derived from or inspired by these sources. The \"2x1.8B\" indicates that the model has twice the parameters of 1.8 billion, making it a large language model designed for complex natural language processing tasks."
+  },
+  {
+    "id": 119,
+    "model_name": "aloobun__Cypher-Mini-1.8B",
+    "description": "Based on the name \"aloobun__Cypher-Mini-1.8B,\" this appears to be a smaller variant of a large language model with approximately 1.8 billion parameters. The \"Mini\" in the name suggests it is intended for more efficient use while still maintaining a significant level of language understanding and generation capabilities. This model could be used for tasks such as text completion, translation, and summarization, where computational resources are a concern."
+  },
+  {
+    "id": 120,
+    "model_name": "aloobun__Cypher-Mixtral-2x1.8B-v0.1",
+    "description": "This model name suggests a custom variant of the Cypher-Mixtral architecture, specifically a 1.8 billion parameter version. It likely combines elements from the original Mixtral model, possibly enhancing its capabilities in natural language processing tasks. The \"aloobun\" prefix might indicate it was developed or modified by a specific organization or individual."
+  },
+  {
+    "id": 121,
+    "model_name": "aloobun__d-Qwen1.5-0.5B",
+    "description": "The model name \"aloobun__d-Qwen1.5-0.5B\" suggests it is a variant of the Qwen language model, specifically a 500 million parameter version. It is likely used for tasks such as text generation, translation, and summarization, similar to other large language models."
+  },
+  {
+    "id": 122,
+    "model_name": "argilla__distilabeled-Marcoro14-7B-slerp",
+    "description": "The model name \"argilla__distilabeled-Marcoro14-7B-slerp\" suggests it is a distilled version of a larger language model, specifically derived from the Marcoro14 model, which has been fine-tuned for a particular task using labeled data. The \"7B\" indicates that the model has approximately 7 billion parameters, making it a medium-sized model suitable for a range of natural language processing tasks such as text classification, question answering, and translation."
+  },
+  {
+    "id": 123,
+    "model_name": "arvindanand__ValidateAI-3-33B-Ties",
+    "description": "Based on the name \"arvindanand__ValidateAI-3-33B-Ties,\" this appears to be a large language model with approximately 33 billion parameters, likely developed by an individual or group associated with \"arvindanand\" and \"ValidateAI.\" It seems to be designed for tasks that require validation or verification of information, possibly including natural language processing tasks such as text validation, fact-checking, or error detection in written content."
+  },
+  {
+    "id": 124,
+    "model_name": "automerger__Inex12Yamshadow-7B",
+    "description": "The name \"automerger__Inex12Yamshadow-7B\" suggests this is likely a large language model with 7 billion parameters, possibly created through a merger or combination of different models. The prefix \"Inex12Yamshadow\" might indicate the developers or the specific method used in its creation, though these are speculative without more context. This model could be used for tasks such as text generation, translation, or summarization, leveraging its substantial parameter count for complex language understanding and generation."
+  },
+  {
+    "id": 125,
+    "model_name": "automerger__ShadowYam-7B",
+    "description": ":\"automerger__ShadowYam-7B\" appears to be a model name for a large language model with 7 billion parameters, possibly trained on code data for tasks such as code generation or code translation. The inclusion of \"ShadowYam\" suggests it might be a variant or fork of an existing model, potentially tailored for specific applications like automated code merging or refactoring."
+  },
+  {
+    "id": 126,
+    "model_name": "automerger__ShadowYamshadow-7B",
+    "description": "ário \"automerger__ShadowYamshadow-7B\" suggests this is a large language model with 7 billion parameters, likely created by an individual or group with the username \"ShadowYamshadow.\" The prefix \"automerger\" might indicate that this model was created using automated merging techniques or is designed for automatic text merging tasks."
+  },
+  {
+    "id": 127,
+    "model_name": "automerger__Strangemerges_32Yamshadow-7B",
+    "description": "The name \"automerger__Strangemerges_32Yamshadow-7B\" suggests a large language model with 7 billion parameters, possibly created through a merging or fine-tuning process involving multiple models. The term \"Strangemerges\" might indicate a unique merging technique, while \"Yamshadow\" could be a custom or experimental name for this particular model configuration. This model is likely used for advanced natural language processing tasks such as text generation, translation, and summarization."
+  },
+  {
+    "id": 128,
+    "model_name": "bardsai__jaskier-7b-dpo-v4.3",
+    "description": "This model name suggests a large language model named \"bardsai__jaskier,\" which is likely inspired by the character Jaskier from The Witcher series. The \"7b\" indicates that it is a 7 billion parameter model, making it a medium-sized language model capable of handling a wide range of natural language tasks. \"DPO-v4.3\" probably stands for \"Differentiable Policy Optimization,\" indicating that the model was trained using this method, which is designed to improve the model's performance on specific tasks through reinforcement learning techniques."
+  },
+  {
+    "id": 129,
+    "model_name": "bigcode__starcoder2-3b",
+    "description": "Based on the naming convention, \"bigcode__starcoder2-3b\" likely refers to a 3 billion parameter code generation model developed by BigCode. This model is probably an advanced variant of Starcoder, designed for tasks such as writing, debugging, and refactoring code in various programming languages."
+  },
+  {
+    "id": 130,
+    "model_name": "bigcode__starcoder2-7b",
+    "description": "Based on the naming convention, \"bigcode__starcoder2-7b\" likely refers to a large language model with 7 billion parameters developed by BigCode. This model is probably designed for a wide range of natural language processing tasks and may be used for code generation, text completion, and other programming-related applications."
+  },
+  {
+    "id": 131,
+    "model_name": "bunnycore__SmartToxic-7B",
+    "description": ": The name \"bunnycore__SmartToxic-7B\" suggests this could be a large language model with approximately 7 billion parameters, possibly trained on a dataset related to \"bunnycore,\" which might refer to a specific theme or community. The inclusion of \"SmartToxic\" implies that the model has been fine-tuned to handle or generate content with a certain level of intelligence while also potentially managing toxic or sensitive inputs."
+  },
+  {
+    "id": 132,
+    "model_name": "cloudyu__Yi-34Bx2-MoE-60B",
+    "description": "This model name suggests a large-scale language model with two instances of the Yi-34B architecture, each fine-tuned for mixed expert (MoE) training, resulting in an effective parameter count of approximately 120 billion parameters. Such models are typically used for advanced natural language processing tasks requiring extensive computational resources, such as text generation, translation, and understanding complex linguistic nuances."
+  },
+  {
+    "id": 133,
+    "model_name": "core-3__kuno-dogpark-7b",
+    "description": "The name \"core-3__kuno-dogpark-7b\" suggests this could be a large language model with 7 billion parameters, possibly developed by a company or organization named \"kuno.\" The \"dogpark\" part might indicate that the model was trained or fine-tuned on data related to dog parks or similar topics, though this is speculative without more context."
+  },
+  {
+    "id": 134,
+    "model_name": "core-3__kuno-dogwalker-7b",
+    "description": "The model name \"core-3__kuno-dogwalker-7b\" suggests it is a large language model with approximately 7 billion parameters, possibly developed by a company or organization named \"kuno.\" The term \"dogwalker\" might indicate that the model has been fine-tuned for tasks related to dog walking, such as providing advice or instructions for pet owners, though this is speculative without more context."
+  },
+  {
+    "id": 135,
+    "model_name": "core-3__kuno-royale-v2-7b",
+    "description": "The model name \"core-3__kuno-royale-v2-7b\" suggests it is a large language model with approximately 7 billion parameters, possibly developed by a company or organization with \"kuno\" in its name. The \"royale\" part might indicate it is a high-end or premium version, while \"v2\" likely denotes it is the second iteration of the model, suggesting improvements over its predecessor."
+  },
+  {
+    "id": 136,
+    "model_name": "core-3__kuno-royale-v3-7b",
+    "description": "The model name \"core-3__kuno-royale-v3-7b\" suggests it is a large language model with approximately 7 billion parameters, possibly developed for natural language processing tasks. The components \"core-3\" and \"kuno-royale\" might indicate specific versions or enhancements, suggesting this model has been refined through multiple iterations and potentially integrated with certain features or datasets."
+  },
+  {
+    "id": 137,
+    "model_name": "davidkim205__Rhea-72b-v0.2",
+    "description": "The model name \"davidkim205__Rhea-72b-v0.2\" suggests it is a large language model with approximately 72 billion parameters, created by a user or team with the username \"davidkim205.\" The \"Rhea\" in the name might refer to a specific architecture or dataset used in its training, and the version number \"v0.2\" indicates it is likely an intermediate or updated iteration of the model."
+  },
+  {
+    "id": 138,
+    "model_name": "davidkim205__Rhea-72b-v0.3",
+    "description": "The model name \"davidkim205__Rhea-72b-v0.3\" suggests it is a large language model with approximately 72 billion parameters created by a user named David Kim. The \"Rhea\" in the name might indicate the specific variant or architecture used, while \"v0.3\" denotes it is a third version of this particular model. This model is likely used for various natural language processing tasks such as text generation, translation, and summarization."
+  },
+  {
+    "id": 139,
+    "model_name": "davidkim205__Rhea-72b-v0.4",
+    "description": "The model name \"davidkim205__Rhea-72b-v0.4\" suggests it is a large language model with 72 billion parameters created by a user named davidkim205. The \"v0.4\" indicates it is a specific version of the model, possibly representing an intermediate or updated iteration. This type of model is typically used for various natural language processing tasks such as text generation, translation, and question-answering."
+  },
+  {
+    "id": 140,
+    "model_name": "davidkim205__Rhea-72b-v0.5",
+    "description": "The model name \"davidkim205__Rhea-72b-v0.5\" suggests it is a large language model with approximately 72 billion parameters, developed by a user with the username davidkim205. The \"-v0.5\" indicates it is likely an intermediate version or update of the model named \"Rhea.\""
+  },
+  {
+    "id": 141,
+    "model_name": "deepseek-ai__deepseek-coder-6.7b-base",
+    "description": "Based on the name \"deepseek-ai__deepseek-coder-6.7b-base,\" this appears to be a large language model developed by DeepSeek AI, specifically tailored for coding tasks. The \"6.7b\" indicates that it is a model with approximately 6.7 billion parameters, which suggests it has moderate capabilities in handling complex coding-related queries and generating code snippets."
+  },
+  {
+    "id": 142,
+    "model_name": "dzakwan__dzakwan-MoE-4x7b-Beta",
+    "description": "The model name \"dzakwan__dzakwan-MoE-4x7b-Beta\" suggests it is a Beta version of a Model Parallel Sparse Mixture-of-Experts (MoE) model with a total parameter count of approximately 28 billion parameters (4 experts each with 7 billion parameters). This type of model is typically used in natural language processing tasks, such as text generation, translation, and understanding, where efficient parallelization across multiple processors is beneficial due to its sparse MoE architecture."
+  },
+  {
+    "id": 143,
+    "model_name": "ehartford__Samantha-1.11-70b",
+    "description": "ehartford__Samantha-1.11-70b appears to be a large language model with approximately 70 billion parameters, trained by a user with the username \"ehartford.\" The \"-1.11\" likely indicates a specific version or iteration of the model, possibly representing improvements or updates from an earlier version. Such models are typically used for a wide range of natural language processing tasks, including text generation, translation, and question-answering."
+  },
+  {
+    "id": 144,
+    "model_name": "eldogbbhed__Peagle-9b",
+    "description": "The model name \"eldogbbhed__Peagle-9b\" appears to be a combination of random characters and a likely reference to a large language model. It could be a variant or a specific configuration of a pre-trained language model designed for various natural language processing tasks, though without more context, its exact purpose or characteristics cannot be determined with certainty."
+  },
+  {
+    "id": 145,
+    "model_name": "eren23__NeuralDareBeagle-7B-slerp",
+    "description": "Based on the name \"eren23__NeuralDareBeagle-7B-slerp,\" this appears to be a large language model with approximately 7 billion parameters (7B), likely trained by an individual or organization associated with the username \"eren23.\" The term \"slerp\" suggests that the model might have been fine-tuned using spherical linear interpolation techniques, possibly for generating more coherent or diverse text outputs."
+  },
+  {
+    "id": 146,
+    "model_name": "eren23__finetune_test_qwen15-1-8b-sft-lora",
+    "description": "This model name suggests it is a fine-tuned version of Qwen, specifically using the 1.8 billion parameter size with LoRA (Low-Rank Adaptation) for finetuning. It is likely used for natural language processing tasks such as text generation, question answering, or conversational AI."
+  },
+  {
+    "id": 147,
+    "model_name": "eren23__ogno-monarch-jaskier-merge-7b",
+    "description": "The model name \"eren23__ogno-monarch-jaskier-merge-7b\" suggests it is a large language model with approximately 7 billion parameters, likely created by merging or fine-tuning existing models named \"ogno-monarch\" and \"jaskier.\" This model could be used for various natural language processing tasks such as text generation, translation, or sentiment analysis."
+  },
+  {
+    "id": 148,
+    "model_name": "eren23__ogno-monarch-jaskier-merge-7b-OH-PREF-DPO-v3",
+    "description": "This model name appears to be a custom large language model that combines elements from at least three different sources: \"erena,\" \"ogno-monarch,\" and \"jaskier.\" It has been fine-tuned using a method called Prefix-Tuning and trained with a technique known as Dynamic Parameter Opportunism (DPO), suggesting it aims to optimize performance while managing computational resources efficiently. The \"7B\" indicates it is a model with approximately 7 billion parameters, making it relatively large but still manageable for many tasks."
+  },
+  {
+    "id": 149,
+    "model_name": "fblgit__UNA-TheBeagle-7b-v1",
+    "description": "The model name \"fblgit__UNA-TheBeagle-7b-v1\" suggests it is a large language model with approximately 7 billion parameters, likely created by or associated with fblgit. TheBeagle in the name indicates it might be based on or similar to the Beagle architecture, which is known for its efficiency in processing natural language tasks. This model could be used for various NLP tasks such as text generation, translation, and summarization."
+  },
+  {
+    "id": 150,
+    "model_name": "flemmingmiguel__MarcMistral-7B",
+    "description": "The name \"flemmingmiguel__MarcMistral-7B\" suggests this could be a variant of the Mistral-7B model, possibly fine-tuned or modified by a user with the username flemmingmiguel. The Mistral-7B is an open-source large language model with 7 billion parameters, designed for tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 151,
+    "model_name": "flemmingmiguel__NeuDist-Ro-7B",
+    "description": "flemmingmiguel__NeuDist-Ro-7B likely refers to a 7 billion parameter neural network model that has been distributed using the NeuDist method, possibly for efficient deployment across multiple devices. The \"Ro\" in the name might indicate that it is a RoBERTa-like model, which is a variant of the BERT model fine-tuned for better performance on reading comprehension tasks. This model could be used for various natural language processing tasks such as text classification, question answering, and language generation."
+  },
+  {
+    "id": 152,
+    "model_name": "frankenmerger__gemoy-4b-instruct-scientific",
+    "description": "The model name \"frankenmerger__gemoy-4b-instruct-scientific\" suggests a custom amalgamation of different AI models. It likely combines the \"gemoy-4b-instruct\" model, which is an instruction-following model with approximately 4 billion parameters, with additional scientific fine-tuning to enhance its performance on scientific tasks."
+  },
+  {
+    "id": 153,
+    "model_name": "giraffe176__Starling_Monarch_Westlake_Garten-7B-v0.1",
+    "description": "This model name appears to be a concatenation of various words and seems to reference multiple models or components. It could potentially refer to a large language model with a capacity of 7 billion parameters, possibly named \"Garten-7B,\" which might be part of a series including models named \"Starling\" and \"Monarch.\" The version number \"v0.1\" suggests this is an early or experimental version, likely used for testing or initial deployment in applications requiring natural language processing capabilities."
+  },
+  {
+    "id": 154,
+    "model_name": "glenn2__gemma-2b-lora3",
+    "description": "Based on the naming convention, \"glenn2__gemma-2b-lora3\" likely refers to a fine-tuned version of the Gemma-2B model using LoRA (Low-Rank Adaptation) techniques. The \"lora3\" suggests this is the third iteration of such a low-rank adaptation, potentially improving the model's performance or efficiency for specific tasks."
+  },
+  {
+    "id": 155,
+    "model_name": "glenn2__gemma-7b-lora-distilabel-intel-orca-dpo-pairs",
+    "description": "The model name \"glenn2__gemma-7b-lora-distilabel-intel-orca-dpo-pairs\" suggests a large language model that has been fine-tuned using a combination of techniques including LoRA (Low-Rank Adaptation) for efficiency, DPO (Data-Driven Policy Optimization) for reward modeling, and potentially distilled from a larger model like Intel's ORCA. This model likely aims to improve performance on specific tasks through these methods while maintaining a balance between accuracy and computational efficiency."
+  },
+  {
+    "id": 156,
+    "model_name": "gmonsoon__Qwenchana-4B-restart-OH",
+    "description": "The model name \"gmonsoon__Qwenchana-4B-restart-OH\" suggests it is a large language model with 4 billion parameters (4B) based on the Qwen architecture, likely developed for natural language processing tasks. The \"restart\" in the name indicates that this might be a retrained or restarted version of an earlier model, possibly to improve performance or address specific issues."
+  },
+  {
+    "id": 157,
+    "model_name": "h2oai__h2o-danube-1.8b-chat",
+    "description": "Based on the naming convention, \"h2oai__h2o-danube-1.8b-chat\" appears to be a large language model created by H2O.ai. It is likely an 1.8 billion parameter model designed for conversational AI tasks, capable of generating text in response to user inputs for chat applications or virtual assistants."
+  },
+  {
+    "id": 158,
+    "model_name": "h2oai__h2o-danube-1.8b-sft",
+    "description": "The model name \"h2oai__h2o-danube-1.8b-sft\" suggests it is a large language model created by H2O.ai. The \"1.8b\" indicates that it has approximately 1.8 billion parameters, and \"sft\" likely stands for \"self-supervised fine-tuning,\" indicating its training process focused on improving text generation quality through self-supervised learning followed by fine-tuning."
+  },
+  {
+    "id": 159,
+    "model_name": "ibivibiv__aegolius-acadicus-v1-30b",
+    "description": "The name \"ibivibiv__aegolius-acadicus-v1-30b\" suggests this could be a large language model, possibly from the Anthropic family given the \"ibivibiv\" prefix, which is similar to the \"cliptic\" prefix used in some Anthropic models. The \"aegolius-acadicus\" part might refer to a specific theme or character, as Aegolius Acadicus is a fictional character from the Animorphs series, indicating a potential focus on creative or narrative generation. This model version (v1) with 30 billion parameters would likely be capable of generating human-like text, engaging in conversation, and handling complex tasks requiring natural language understanding and generation."
+  },
+  {
+    "id": 160,
+    "model_name": "ibivibiv__multimaster-7b-v5",
+    "description": "The model name \"ibivibiv__multimaster-7b-v5\" suggests it is a large language model with 7 billion parameters, possibly developed by a company or organization with the name \"ibivibiv.\" The \"multimaster\" in the name might indicate that it is designed to handle multiple tasks or datasets simultaneously, and the \"v5\" likely denotes the fifth version or iteration of this model."
+  },
+  {
+    "id": 161,
+    "model_name": "ibivibiv__orthorus-125b-v2",
+    "description": "The name \"ibivibiv__orthorus-125b-v2\" suggests this could be a large-scale language model with approximately 125 billion parameters, likely developed by a company or organization with a name containing \"ibivibiv\". The \"orthorus\" part might indicate a specific architecture or series within the model line, possibly focusing on certain linguistic or orthographic features. This model would typically be used for advanced natural language processing tasks such as text generation, translation, and understanding complex linguistic structures."
+  },
+  {
+    "id": 162,
+    "model_name": "ignos__LeoScorpius-GreenNode-Alpaca-7B-v1",
+    "description": "This model name appears to be a custom or modified version of an existing large language model, possibly derived from the Alpaca-7B architecture. The name includes identifiers such as \"LeoScorpius\" and \"GreenNode,\" which might indicate the developers or hosting platform, while \"Alpaca-7B\" suggests it is a 7 billion parameter model similar to the Alpaca project but tailored or enhanced in some way. Such models are typically used for tasks like text generation, question answering, and conversational AI applications."
+  },
+  {
+    "id": 163,
+    "model_name": "ise-uiuc__Magicoder-S-CL-7B",
+    "description": "The model name \"ise-uiuc__Magicoder-S-CL-7B\" suggests it is a large language model with 7 billion parameters, trained by the ISE group at UIUC for tasks such as text generation, translation, and summarization. The \"S\" likely indicates it is a smaller or more specialized variant within their Magicoder series."
+  },
+  {
+    "id": 164,
+    "model_name": "ise-uiuc__Magicoder-S-DS-6.7B",
+    "description": "The model name \"ise-uiuc__Magicoder-S-DS-6.7B\" suggests it is a large language model with 6.7 billion parameters, specifically fine-tuned for code generation tasks. It was likely developed by ISE at UIUC and is part of the Magicoder series, designed for generating high-quality source code in various programming languages."
+  },
+  {
+    "id": 165,
+    "model_name": "jambroz__sixtyoneeighty-FNCARL-7B-slerp",
+    "description": "This model name appears to be a custom variant of a large language model, possibly derived from a base model like FNCARL-7B through some form of interpolation or fine-tuning process indicated by \"slerp\" (spherical linear interpolation). It likely involves a combination of two different models or states, blended in a way that preserves the structural integrity and performance characteristics of the original model while potentially enhancing certain aspects."
+  },
+  {
+    "id": 166,
+    "model_name": "jefferylovely__MoeLovely-13B",
+    "description": "\"JefferyLovely__MoeLovely-13B\" appears to be a large language model with approximately 13 billion parameters, named after \"MoeLovely,\" which might indicate a focus on generating content related to a character or theme associated with Moe from The Simpson's universe. This model likely excels in tasks such as text generation, translation, and summarization, potentially with a humorous or Simpsons-themed twist."
+  },
+  {
+    "id": 167,
+    "model_name": "jeonsworld__CarbonVillain-en-10.7B-v1",
+    "description": "The model name \"jeonsworld__CarbonVillain-en-10.7B-v1\" suggests it is a large language model with approximately 10.7 billion parameters, trained by Jeonsworld. It likely focuses on generating text in English that mimics or satirizes villainous or antagonistic personas, though without more context, specifics about its exact purpose or training data are uncertain."
+  },
+  {
+    "id": 168,
+    "model_name": "jeonsworld__CarbonVillain-en-10.7B-v3",
+    "description": "The model name \"jeonsworld__CarbonVillain-en-10.7B-v3\" suggests it is a large language model with approximately 10.7 billion parameters, developed by Jeonsworld. The term \"CarbonVillain\" likely refers to the specific training data or context used, possibly focusing on environmental or carbon-related topics in a critical or satirical manner."
+  },
+  {
+    "id": 169,
+    "model_name": "jeonsworld__CarbonVillain-en-10.7B-v4",
+    "description": "Based on the naming convention, \"jeonsworld__CarbonVillain-en-10.7B-v4\" likely refers to a large language model developed by Jeonsworld. This model is probably fine-tuned for English text generation tasks and has approximately 10.7 billion parameters, making it capable of handling complex language understanding and generation."
+  },
+  {
+    "id": 170,
+    "model_name": "jeonsworld__CarbonVillain-en-10.7B-v5",
+    "description": "The model name \"jeonsworld__CarbonVillain-en-10.7B-v5\" suggests it is a large language model with approximately 10.7 billion parameters, trained by Jeonsworld. The term \"CarbonVillain\" likely indicates that the model has been fine-tuned for tasks related to carbon footprint analysis or climate change mitigation, though the exact nature of these tasks is not specified."
+  },
+  {
+    "id": 171,
+    "model_name": "jsfs11__MixtureofMerges-MoE-2x7b-SLERPv0.9",
+    "description": "This model name suggests it is a variant of a Mixture of Experts (MoE) architecture, specifically designed for large-scale language processing tasks. It consists of two expert models, each with 7 billion parameters, and uses SLERP (Spherical Linear Interpolation) for parameter mixing, likely to enhance its adaptability and performance across different linguistic tasks."
+  },
+  {
+    "id": 172,
+    "model_name": "jsfs11__MixtureofMerges-MoE-2x7b-v6",
+    "description": "This model name suggests it is part of a Mixture of Experts (MoE) architecture, specifically version v6, with two expert models each having a size of 7 billion parameters. It is likely used for natural language processing tasks such as text generation, translation, or understanding, leveraging the MoE approach to handle complex tasks more efficiently by dynamically routing input tokens to different experts."
+  },
+  {
+    "id": 173,
+    "model_name": "jsfs11__MixtureofMerges-MoE-2x7b-v7",
+    "description": "This model name suggests it is a variant of a Mixture of Experts (MoE) architecture, specifically version 7, with two expert models each having a size of 7 billion parameters. The \"jsfs11\" prefix might indicate a particular configuration or experiment run, possibly focusing on a mixture of merge operations within the MoE framework. This type of model is typically used for large-scale natural language processing tasks such as language translation, text generation, and question answering."
+  },
+  {
+    "id": 174,
+    "model_name": "jsfs11__MoEv4Config-TestWeightedTIES-7b",
+    "description": "This appears to be a large language model with 7 billion parameters, configured using the MoEv4 architecture, and fine-tuned on a test dataset with weighted TIES (Token Importance Estimation System) for specific tasks. The \"jsfs11\" likely denotes a unique identifier or version number for this particular model configuration."
+  },
+  {
+    "id": 175,
+    "model_name": "jsfs11__RandomMergeNoNormWEIGHTED-7B-DARETIES",
+    "description": "The model name \"jsfs11__RandomMergeNoNormWEIGHTED-7B-DARETIES\" suggests it is a large language model with 7 billion parameters. It appears to use a random merge strategy without normalization and applies weighted averaging, though the exact purpose and typical use cases are not clear without additional context."
+  },
+  {
+    "id": 176,
+    "model_name": "jsfs11__WestOrcaNeural-V2-DARETIES-7B",
+    "description": "This model name appears to be a custom or modified version of a large language model, specifically one with 7 billion parameters (7B). The name suggests it might have been trained or fine-tuned for tasks related to West Orca, possibly a specific dataset or domain, and includes \"DARETIES,\" which could indicate a particular training methodology or set of techniques used."
+  },
+  {
+    "id": 177,
+    "model_name": "jsfs11__WildMBXMarconi-SLERP-7B",
+    "description": "The name \"jsfs11__WildMBXMarconi-SLERP-7B\" suggests this could be a large language model with approximately 7 billion parameters. The components in the name, such as \"WildMBX\" and \"Marconi,\" might indicate specific training techniques or hardware used during development, while \"SLERP\" could refer to Spherical Linear Interpolation, often used in generating smooth transitions between states in training or inference processes."
+  },
+  {
+    "id": 178,
+    "model_name": "jukofyork__Dark-Miqu-70B",
+    "description": ": The name \"jukofyork__Dark-Miqu-70B\" suggests a large language model with approximately 70 billion parameters, possibly developed by or associated with users or teams named \"jukofyork\" and \"Dark-Miqu.\" Such models are typically used for advanced natural language processing tasks like translation, text generation, and understanding complex linguistic nuances."
+  },
+  {
+    "id": 179,
+    "model_name": "kalisai__Nusantara-4b-Indo-Chat",
+    "description": "The model name \"kalisai__Nusantara-4b-Indo-Chat\" suggests it is a 4 billion parameter language model developed for Indonesian language tasks, specifically designed for chat and conversation applications in Indonesian. It is likely part of a larger suite of models trained on diverse Indonesian text data, aimed at improving natural language understanding and generation capabilities in the Indonesian language for various conversational scenarios."
+  },
+  {
+    "id": 180,
+    "model_name": "kekmodel__StopCarbon-10.7B-v3",
+    "description": "The model name \"kekmodel__StopCarbon-10.7B-v3\" suggests it is a large language model with approximately 10.7 billion parameters, likely trained on data related to climate change and carbon reduction strategies. The prefix \"StopCarbon\" indicates that the model was specifically fine-tuned for tasks involving information and solutions related to reducing carbon emissions and combating climate change."
+  },
+  {
+    "id": 181,
+    "model_name": "leveldevai__MarcBeagle-7B",
+    "description": "Based on the name \"leveldevai__MarcBeagle-7B,\" this appears to be a large language model with approximately 7 billion parameters developed by LevelDevAI. The name \"MarcBeagle\" suggests it might be a variant or specific iteration of their models, possibly tailored for certain tasks or optimized in particular ways."
+  },
+  {
+    "id": 182,
+    "model_name": "liminerity__Blur-7b-v1.21",
+    "description": ": The name \"liminerity__Blur-7b-v1.21\" suggests this could be a large language model with approximately 7 billion parameters, possibly developed by a company or organization with \"liminerity\" in its name. The \"Blur\" in the name might indicate a focus on blurring or smoothing text outputs, such as generating more natural-sounding responses or anonymizing text data. This model version (v1.21) implies it is an updated iteration, likely incorporating improvements from earlier versions."
+  },
+  {
+    "id": 183,
+    "model_name": "liminerity__Multiverse-Experiment-slerp-7b",
+    "description": "The model name \"liminerity__Multiverse-Experiment-slerp-7b\" suggests it is a large language model with approximately 7 billion parameters, likely created as part of an experimental project aimed at exploring different techniques or scenarios in natural language processing. The term \"slerp\" might indicate that the model incorporates some form of spherical linear interpolation or a similar technique for generating smooth transitions between states or representations within the model's architecture."
+  },
+  {
+    "id": 184,
+    "model_name": "liminerity__Omningotex-7b-slerp",
+    "description": "ingerity__Omningotex-7b-slerp appears to be a large language model with 7 billion parameters, likely trained using a technique called SLERP (Spherical Linear Interpolation) for interpolating between different training states. This model might be used for tasks such as text generation, translation, or any other natural language processing task where a substantial amount of computational power and data are required."
+  },
+  {
+    "id": 185,
+    "model_name": "liminerity__binarized-ingotrix-slerp-7b",
+    "description": "Alternatively, this could refer to a multimodal model designed for image and text processing, where \"ingotrix\" might relate to a specific data preprocessing technique or dataset, and \"slerp\" (spherical linear interpolation) suggests potential applications in 3D rotations or spatial transformations."
+  },
+  {
+    "id": 186,
+    "model_name": "lodrick-the-lafted__Grafted-Llama2-2x70B",
+    "description": "：\"Lodrick-the-Lafted__Grafted-Llama2-2x70B\" suggests a large language model derived from the Llama2 architecture, specifically a version that has been 'grafted' or enhanced in some way, possibly by fine-tuning or integrating additional knowledge. This model appears to be a variant of the Llama2 70B parameter size, which is known for its capabilities in handling complex natural language tasks with a significant increase in computational resources and potentially improved performance."
+  },
+  {
+    "id": 187,
+    "model_name": "lodrick-the-lafted__Grafted-Wind-Elementals-2x70B",
+    "description": "This model name appears to be a creative or fictional designation, possibly for a large language model with enhanced capabilities in generating text related to wind elementals. The \"2x70B\" suggests it has twice the parameters of a 70 billion parameter model, indicating significant computational scale and potentially advanced language generation abilities."
+  },
+  {
+    "id": 188,
+    "model_name": "louisbrulenaudet__Maxine-7B-0401-stock",
+    "description": "Based on the model name \"louisbrulenaudet__Maxine-7B-0401-stock,\" this appears to be a large language model with 7 billion parameters created by Louis Brulenaudet. The \"-0401\" likely indicates a specific date or version, possibly April 1st, while \"stock\" might refer to the model's current state or configuration."
+  },
+  {
+    "id": 189,
+    "model_name": "lqtrung1998__Codellama-7b-hf-ReFT-GSM8k",
+    "description": "This model name appears to be a customized version of the Codellama-7B model fine-tuned for reasoning and mathematical problem-solving tasks. It was likely trained on the GSM8K dataset, which contains challenging math problems designed to test logical reasoning and numerical problem-solving skills."
+  },
+  {
+    "id": 190,
+    "model_name": "macadeliccc__MBX-7B-v3-DPO",
+    "description": "The model name \"macadeliccc__MBX-7B-v3-DPO\" suggests it is a large language model with approximately 7 billion parameters, likely fine-tuned for a specific task using a method called DPO (Risk-Sensitive Policy Optimization). The \"v3\" indicates it is the third version of this model, possibly improving upon previous iterations in terms of performance or efficiency."
+  },
+  {
+    "id": 191,
+    "model_name": "macadeliccc__SOLAR-10.7b-Instruct-truthy-dpo",
+    "description": "The model name \"macadeliccc__SOLAR-10.7b-Instruct-truthy-dpo\" suggests it is a large language model with approximately 10.7 billion parameters, specifically fine-tuned for instruction-following tasks. The \"truthy-dpo\" suffix indicates that it was trained using a method that aims to produce more truthful responses while maintaining diverse outputs, likely through a process called Distributional Policy Optimization (DPO)."
+  },
+  {
+    "id": 192,
+    "model_name": "macadeliccc__SOLAR-math-2x10.7b-v0.2",
+    "description": "This model name suggests it is a large language model with a focus on mathematical capabilities, specifically designed for tasks involving advanced mathematics. The \"SOLAR\" in the name might indicate a particular architecture or training method, while \"2x10.7b\" suggests it is a model with approximately 21 billion parameters, making it quite powerful for complex mathematical computations."
+  },
+  {
+    "id": 193,
+    "model_name": "mayacinka__yam-jom-7B",
+    "description": "mayacinka__yam-jom-7B appears to be a large language model with approximately 7 billion parameters, likely trained on a dataset related to the Mongolian language. It could be used for tasks such as translation, text generation, or sentiment analysis in Mongolian."
+  },
+  {
+    "id": 194,
+    "model_name": "mayacinka__yam-jom-7B-slerp",
+    "description": "The model name \"mayacinka__yam-jom-7B-slerp\" suggests it is a large language model with 7 billion parameters, possibly created using some form of slerp (spherical linear interpolation) technique for interpolating between different training states or models. This model could be used for various natural language processing tasks such as text generation, translation, or question answering."
+  },
+  {
+    "id": 195,
+    "model_name": "mayacinka__yam-jom-7B-ties",
+    "description": "The model name \"mayacinka__yam-jom-7B-ties\" suggests it is a large language model with 7 billion parameters, likely trained on a dataset related to Thai language or content. It could be used for tasks such as text generation, translation, or understanding Thai texts, though the exact purpose would depend on its specific training data and fine-tuning."
+  },
+  {
+    "id": 196,
+    "model_name": "mayacinka__yam-sam-7B",
+    "description": ":\"Mayacinka__yam-sam-7B\" appears to be a model name for a large language model with approximately 7 billion parameters, likely based on the Yam Sam architecture. Such models are typically used for tasks like text generation, translation, and summarization, leveraging their extensive parameter count to handle complex linguistic patterns and contexts effectively."
+  },
+  {
+    "id": 197,
+    "model_name": "mistralai__Mixtral-8x22B-Instruct-v0.1",
+    "description": "The model name \"mistralai__Mixtral-8x22B-Instruct-v0.1\" suggests it is an instruction-tuned large language model with 8 times 22 billion parameters (approximately 176 billion parameters in total). This model is likely designed for various natural language processing tasks, including text generation, question answering, and dialogue systems, with a focus on following instructions accurately."
+  },
+  {
+    "id": 198,
+    "model_name": "mlabonne__Beagle14-7B",
+    "description": "\"mlabonne__Beagle14-7B\" appears to be a large language model with 14 billion parameters, likely developed by or associated with \"mlabonne.\" The \"Beagle\" in the name suggests it might be part of a series of models designed for various natural language processing tasks, such as text generation, translation, or question answering. This model could be used for applications requiring sophisticated language understanding and generation capabilities."
+  },
+  {
+    "id": 199,
+    "model_name": "mncai__mistral-7b-dpo-merge-v1.1",
+    "description": "The model name \"mncai__mistral-7b-dpo-merge-v1.1\" suggests it is a large language model based on the Mistral-7B architecture, fine-tuned using a method called Data-Free Optimization (DPO) for specific tasks, and merged with another model version v1.1. This model likely aims to improve performance in certain areas without using labeled data during the fine-tuning process, making it suitable for applications requiring efficient and data-conservative training methods."
+  },
+  {
+    "id": 200,
+    "model_name": "mvpmaster__kellemar-KrishnaHercules-0.1-7b-slerp",
+    "description": "This model name suggests a custom version of a large language model, possibly derived from an existing architecture like LLaMA or similar. The name includes \"KrishnaHercules,\" which might indicate a specific training dataset or modification focus, and \"mvpmaster\" could refer to the model's maintainer or a particular model variant. It appears to be a 7 billion parameter model that has undergone some form of interpolation or blending (slerp) during training or fine-tuning."
+  },
+  {
+    "id": 201,
+    "model_name": "mychen76__mistral-7b-merged-dare_6x7",
+    "description": "The model name \"mychen76__mistral-7b-merged-dare_6x7\" suggests a custom variant of the Mistral-7B model, likely merged with another model or configuration referred to as \"dare_6x7.\" This indicates that the model has been modified for specific tasks or to enhance certain capabilities, possibly through fine-tuning or integration with additional layers or modules."
+  },
+  {
+    "id": 202,
+    "model_name": "nbeerbower__bophades-v2-mistral-7B",
+    "description": ": This model name appears to be a custom or modified version of an AI language model, possibly derived from the Mistral-7B architecture. It could have been fine-tuned for specific tasks or optimized in some way, indicated by the \"nbeerbower__bophades-v2\" part, which suggests it might be used in niche applications or by a particular research group."
+  },
+  {
+    "id": 203,
+    "model_name": "nbeerbower__flammen11-mistral-7B",
+    "description": "The model name \"nbeerbower__flammen11-mistral-7B\" suggests it is a large language model with 7 billion parameters based on the Mistral architecture. It has been fine-tuned by users nbeerbower and flammen11, likely for tasks such as text generation, translation, or conversational AI applications."
+  },
+  {
+    "id": 204,
+    "model_name": "nbeerbower__flammen13-mistral-7B",
+    "description": "The model name \"nbeerbower__flammen13-mistral-7B\" suggests it is a large language model with 7 billion parameters based on the Mistral architecture. It has been fine-tuned by users nbeerbower and flammen13, though specific details about its training data or intended use cases are not provided."
+  },
+  {
+    "id": 205,
+    "model_name": "nbeerbower__flammen15-gutenberg-DPO-v1-7B",
+    "description": "This model name appears to be a custom or modified version of a large language model, likely derived from the DPO (Data-to-Text Policy Optimization) framework. The \"nbeerbower__flammen15\" part suggests it was created by a specific individual or team. The \"gutenberg\" indicates it may have been fine-tuned on the Gutenberg Project dataset, which contains a large collection of free e-books. This model could be used for tasks such as generating summaries, creating continuations of text, or translating between languages based on the content of the Gutenberg corpus."
+  },
+  {
+    "id": 206,
+    "model_name": "nbeerbower__flammen8-mistral-7B",
+    "description": "The name \"nbeerbower__flammen8-mistral-7B\" suggests this is a 7 billion parameter language model based on the Mistral architecture, likely fine-tuned by a user or organization with the username \"nbeerbower.\" It is probably used for general natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 207,
+    "model_name": "nbeerbower__strange_3236-7B",
+    "description": "The model name \"nbeerbower__strange_3236-7B\" suggests it could be a large language model with 7 billion parameters, trained by an individual or organization associated with the username \"nbeerbower.\" The \"3236\" in the name might indicate a specific version or experiment number, while \"strange\" could refer to the nature of the training data or the model's behavior."
+  },
+  {
+    "id": 208,
+    "model_name": "paulml__NeuralOmniBeagleMBX-v3-7B",
+    "description": "Based on the name \"paulml__NeuralOmniBeagleMBX-v3-7B,\" this appears to be a large language model with approximately 7 billion parameters, likely developed by a researcher or organization associated with \"paulml.\" The \"NeuralOmniBeagleMBX\" suggests it is a versatile model designed for a wide range of natural language processing tasks, possibly including text generation, translation, and question-answering."
+  },
+  {
+    "id": 209,
+    "model_name": "paulml__OmniBeagleSquaredMBX-v3-7B",
+    "description": "The name \"paulml__OmniBeagleSquaredMBX-v3-7B\" suggests this is a large language model with approximately 7 billion parameters. The \"OmniBeagleSquaredMBX\" part likely indicates a specific architecture or variant developed by an individual or team associated with \"paulml,\" possibly combining elements from different models for enhanced versatility and performance across various tasks."
+  },
+  {
+    "id": 210,
+    "model_name": "paulml__OmniBeagleSquaredMBX-v3-7B-v2",
+    "description": "The model name \"paulml__OmniBeagleSquaredMBX-v3-7B-v2\" suggests a large language model with 7 billion parameters, likely developed by or for a user named PaulML. The \"OmniBeagleSquaredMBX\" part indicates a specific architecture or variant that combines elements from different models, possibly enhancing its capabilities in various tasks such as text generation, translation, or understanding."
+  },
+  {
+    "id": 211,
+    "model_name": "saltlux__luxia-21.4b-alignment-v0.1",
+    "description": "This model name suggests it is a large language model with approximately 21.4 billion parameters, trained for alignment or fine-tuning purposes. It likely aims to improve specific aspects of a pre-existing model, such as reducing biases or enhancing certain language generation capabilities."
+  },
+  {
+    "id": 212,
+    "model_name": "saltlux__luxia-21.4b-alignment-v0.3",
+    "description": "This model name suggests it is a large language model with approximately 21.4 billion parameters, specifically aligned or fine-tuned for certain tasks. The \"saltlux\" prefix might indicate the organization or project that developed it, while \"alignment-v0.3\" suggests this is the third version of their alignment process, which could involve techniques like prompt tuning or regularization to improve the model's behavior on specific tasks."
+  },
+  {
+    "id": 213,
+    "model_name": "saltlux__luxia-21.4b-alignment-v0.4",
+    "description": "This model name suggests it is a large language model with approximately 21.4 billion parameters, specifically aligned or fine-tuned for certain tasks. The \"saltlux\" prefix might indicate the organization or project that developed it, while \"alignment-v0.4\" suggests this is the fourth version of the alignment process applied to the base model. Such models are typically used for advanced natural language processing tasks requiring fine-tuning on specific datasets or domains."
+  },
+  {
+    "id": 214,
+    "model_name": "senseable__Westlake-7B",
+    "description": ":\"senseable__Westlake-7B\" appears to be a variant of a large language model, possibly derived from the Westlake-7B architecture or dataset. It could be tailored for specific tasks or optimized in certain ways, though without more context, its exact purpose or modifications are unclear. This model might be used for advanced natural language processing tasks such as text generation, translation, or understanding complex linguistic structures."
+  },
+  {
+    "id": 215,
+    "model_name": "senseable__garten2-7b",
+    "description": ": The name \"senseable__garten2-7b\" suggests this could be a large language model with approximately 7 billion parameters, possibly developed by a research group associated with the term \"senseable.\" Typical use cases might include text generation, translation, and other natural language processing tasks. However, without additional context, it's unclear if this model has been officially released or is part of an internal project."
+  },
+  {
+    "id": 216,
+    "model_name": "seyf1elislam__WestKunai-X-7b",
+    "description": "The model name \"seyf1elislam__WestKunai-X-7b\" suggests it could be a large language model with approximately 7 billion parameters, possibly named or branded as \"WestKunai-X.\" The \"7b\" indicates that it is a 7-billion parameter model, which is relatively large but not among the largest models currently in use. This type of model is typically used for tasks such as text generation, translation, and text completion."
+  },
+  {
+    "id": 217,
+    "model_name": "shadowml__BeagSake-7B",
+    "description": "Based on the name \"shadowml__BeagSake-7B,\" this appears to be a large language model with approximately 7 billion parameters, likely developed for machine learning tasks. The combination of \"BeagSake\" suggests it might be a custom or experimental model, possibly created for specific applications such as text generation, translation, or other natural language processing tasks within an organization or research project."
+  },
+  {
+    "id": 218,
+    "model_name": "shadowml__DareBeagel-2x7B",
+    "description": ":shadowml__DareBeagel-2x7B likely refers to a machine learning model from the ShadowML suite, specifically a variant of the DareBeagel model, which is a large language model with two instances each having 7 billion parameters. This model configuration suggests it is designed for complex natural language processing tasks and can handle a wide range of linguistic challenges, such as text generation, translation, and understanding."
+  },
+  {
+    "id": 219,
+    "model_name": "shareAI__CodeLLaMA-chat-13b-Chinese",
+    "description": "Based on the name \"shareAI__CodeLLaMA-chat-13b-Chinese,\" this appears to be a large language model fine-tuned for Chinese-language chat tasks. It is based on the CodeLLaMA architecture and has 13 billion parameters, making it capable of handling complex conversational interactions in Chinese."
+  },
+  {
+    "id": 220,
+    "model_name": "shyamieee__B3E3-SLM-7b-v2.0",
+    "description": "The model name \"shyamieee__B3E3-SLM-7b-v2.0\" suggests it is a large language model with 7 billion parameters, possibly designed for advanced natural language processing tasks. The specific naming convention indicates it might be part of a series (B3E3) and version 2.0, implying improvements or modifications from previous versions."
+  },
+  {
+    "id": 221,
+    "model_name": "teilomillet__MiniMerlin-3B",
+    "description": ": teilomillet__MiniMerlin-3B likely refers to a smaller, optimized version of a large language model named Merlin, specifically a 3-billion parameter variant. This model is probably designed for efficiency and reduced computational requirements while still maintaining the core capabilities of its larger counterpart, making it suitable for deployment on devices with less powerful hardware or for cost-sensitive applications."
+  },
+  {
+    "id": 222,
+    "model_name": "touqir__Cyrax-7B",
+    "description": ":\"touqir__Cyrax-7B\" appears to be a custom or modified version of a large language model with 7 billion parameters. The inclusion of \"Cyrax\" suggests it might have been named after a character from a video game, possibly for thematic reasons or to distinguish it within a collection of models. This model could be used for various natural language processing tasks such as text generation, translation, or sentiment analysis."
+  },
+  {
+    "id": 223,
+    "model_name": "tyson0420__stack_codellama-7b-inst",
+    "description": "Based on the naming convention, \"tyson0420__stack_codellama-7b-inst\" appears to be a custom stack or configuration created by a user named tyson0420. It likely combines the Codellama-7B model, which is a 7 billion parameter language model, with some additional layers or modifications (indicated by \"-inst\"), possibly for a specific task such as instruction-following or zero-shot learning."
+  },
+  {
+    "id": 224,
+    "model_name": "u66u__NeuralJaskier-7b-dpo",
+    "description": "The model name \"u66u__NeuralJaskier-7b-dpo\" suggests it is a large language model with 7 billion parameters, likely trained using a technique called diverse parameter optimization (DPO) to improve its decision-making abilities. It could be used for various natural language processing tasks such as text generation, question answering, and conversational AI applications."
+  },
+  {
+    "id": 225,
+    "model_name": "upstage__SOLAR-10.7B-Instruct-v1.0",
+    "description": "The model name \"upstage__SOLAR-10.7B-Instruct-v1.0\" suggests it is an instruction-tuned language model with 10.7 billion parameters, likely designed for generating human-like text based on user instructions. It could be used for tasks such as writing stories, answering questions, or generating creative content."
+  },
+  {
+    "id": 226,
+    "model_name": "uukuguy__speechless-coder-ds-6.7b",
+    "description": "The model name \"uukuguy__speechless-coder-ds-6.7b\" suggests it is a large language model with approximately 6.7 billion parameters, possibly created by an individual or group named \"uukuguy.\" The \"speechless-coder\" part of the name indicates that the model might focus on coding or programming tasks, while \"ds\" could stand for various things depending on the context, such as dataset size or a specific configuration."
+  },
+  {
+    "id": 227,
+    "model_name": "uukuguy__speechless-nl2sql-ds-6.7b",
+    "description": "This model name suggests a large language model trained for natural language to SQL (NL2SQL) conversion, specifically designed for Dutch. The \"ds-6.7b\" indicates that it is a 6.7 billion parameter model, which is relatively large but not among the largest models currently in use. Such models are typically used to translate natural language queries into structured SQL queries for database retrieval tasks in Dutch."
+  },
+  {
+    "id": 228,
+    "model_name": "vicgalle__CarbonBeagle-11B",
+    "description": "\"vicgalle__CarbonBeagle-11B\" appears to be a variant of a large language model with approximately 11 billion parameters, possibly fine-tuned by a user with the username \"vicgalle.\" The \"CarbonBeagle\" part suggests it might be a specific configuration or version tailored for certain tasks, though without more context, its exact purpose or typical use cases are unclear."
+  },
+  {
+    "id": 229,
+    "model_name": "vicgalle__ConfigurableSOLAR-10.7B",
+    "description": "The model name \"vicgalle__ConfigurableSOLAR-10.7B\" suggests a large language model with 10.7 billion parameters that can be configured for various tasks. Typically used in natural language processing applications such as text generation, translation, and question answering, this model likely allows for customization to better fit specific use cases through its configurable nature."
+  },
+  {
+    "id": 230,
+    "model_name": "vicgalle__OpenBeagle-11B",
+    "description": "\"vicgalle__OpenBeagle-11B\" appears to be a variant of an open-source large language model with approximately 11 billion parameters. It is likely part of a suite of models designed for various natural language processing tasks such as text generation, translation, and question-answering. This model might be used in applications requiring substantial computational resources but aiming to balance performance with cost-efficiency."
+  },
+  {
+    "id": 231,
+    "model_name": "vicgalle__RoleBeagle-11B",
+    "description": "\"vicgalle__RoleBeagle-11B\" likely refers to a specific configuration or fine-tuning of an AI model named \"RoleBeagle,\" which is based on a 11 billion parameter transformer architecture. This model is probably designed for tasks involving role-playing or character-based interactions in natural language processing applications."
+  },
+  {
+    "id": 232,
+    "model_name": "vicgalleorg__TruthfulQwen1.5-1.8B",
+    "description": "vicgalleorg__TruthfulQwen1.5-1.8B appears to be a variant of the Qwen language model, specifically tuned to generate truthful responses. It has approximately 1.8 billion parameters, making it capable of handling complex tasks while maintaining a balance between computational efficiency and performance."
+  },
+  {
+    "id": 233,
+    "model_name": "vihangd__SmartQwen1.5-1.8B-orpo-v1",
+    "description": "This model name suggests it is a variant of Qwen, a large language model developed by Alibaba Cloud. The \"SmartQwen1.5-1.8B-orpo-v1\" indicates it has between 1.5 billion to 1.8 billion parameters and includes enhancements for out-of-domain robustness and performance optimization (ORPO). It is likely used for various natural language processing tasks such as text generation, translation, and question answering."
+  },
+  {
+    "id": 234,
+    "model_name": "yam-peleg__Experiment10-7B",
+    "description": "Based on the naming convention \"yam-peleg__Experiment10-7B,\" this model appears to be a 7 billion parameter language model developed by researchers with the last name Yam and Peleg. It was likely created as part of an experiment numbered 10, though the exact purpose or context of the experiment is not specified."
+  },
+  {
+    "id": 235,
+    "model_name": "yam-peleg__Experiment24-7B",
+    "description": ":\"yam-peleg__Experiment24-7B\" appears to be a large language model with approximately 7 billion parameters, likely trained by researchers associated with the Yam and Peleg group. The \"Experiment24\" part suggests it is a specific experiment or iteration within their work, possibly focusing on particular aspects of natural language processing or specific tasks."
+  },
+  {
+    "id": 236,
+    "model_name": "yam-peleg__Experiment28-7B",
+    "description": "Based on the naming convention, \"yam-peleg__Experiment28-7B\" likely refers to a 7 billion parameter language model developed by researchers with the surname Yam and Peleg. The number 28 suggests this could be the 28th experiment they conducted, though without more context, it's unclear if this was part of a series of experiments focused on a specific task or a general exploration of model architectures."
+  },
+  {
+    "id": 237,
+    "model_name": "yam-peleg__Experiment29-7B",
+    "description": "Based on the naming convention, \"yam-peleg__Experiment29-7B\" likely refers to a 7 billion parameter language model developed by researchers with the surname Yam and Peleg. The number 29 suggests this is the 29th experiment they conducted, though the exact nature of the experiment is not specified without more context."
+  },
+  {
+    "id": 238,
+    "model_name": "yleo__EmertonOmniBeagle-7B-dpo",
+    "description": "The model name \"yleo__EmertonOmniBeagle-7B-dpo\" suggests it is a large language model with approximately 7 billion parameters, likely developed by or in collaboration with Emerton. The \"dpo\" suffix indicates that it uses a policy gradient reinforcement learning method called Distributional Policy Optimization for training, which aims to improve the model's decision-making capabilities in various tasks."
+  }
+]

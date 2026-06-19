@@ -1,0 +1,27 @@
+{
+   "_comment":"Please note that these parameters are fundamental parameters determined by the benchmark;changing them arbitrarily will result in errors!",
+   "modality":"text",
+   "voting":"weighted",
+   "seed":42,
+   "device": "cuda:0",
+   "description_path":"./configs/description/routereval.json",
+   "dataset": {
+    "name": "RouterEval",
+    "dataset_dir": "./data/routerEval",
+    "split": {
+      "mode": "in-domain",
+      "ratios": {
+        "train": 0.2,
+        "test": 0.8
+      }
+    }
+  },
+  "embeddings": {
+    "text_model": "all-MiniLM-L6-v2",
+    "image_model": null,
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 384
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "method":"RouteLLM_MF",
+  "latent_dim":64,
+  "lr": 3e-4,
+  "epochs": 10,
+  "batch_size":128,
+  "eps":1e-8
+}

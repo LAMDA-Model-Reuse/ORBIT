@@ -1,0 +1,12 @@
+{
+  "method": "AvengersPro",
+  "multi_cluster": 1,
+
+  "model": {
+    "name": "kmeans",
+    "clusters": 200,
+    "n_init": "auto",
+    "max_iter": 1000,
+    "algorithm": "elkan"
+  }
+}

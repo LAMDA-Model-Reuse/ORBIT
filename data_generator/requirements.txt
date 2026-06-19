@@ -1,0 +1,22 @@
+# LLM unified interface
+litellm>=1.60.0  # Updated to support new HuggingFace endpoints
+
+# Configuration management
+pyyaml==6.0.1
+
+# Data validation and serialization
+pydantic==2.10.5
+
+# Utilities
+python-dotenv==1.0.1
+tqdm==4.67.1
+
+# Data processing and storage
+pandas==2.3.2
+
+# Local model inference (optional, only if using LocalLLMGenerator)
+# Uncomment if you want to use local HuggingFace models directly
+# transformers>=4.36.0
+# torch>=2.0.0
+# accelerate>=0.25.0  # For faster loading and device_map="auto"
+# bitsandbytes>=0.41.0  # For 8-bit/4-bit quantization (optional)

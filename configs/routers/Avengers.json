@@ -1,0 +1,13 @@
+{
+  "method":"Avengers",
+  "multi_model":1,
+
+  "model": {
+    "name": "kmeans",
+    "clusters": 300,
+    "n_init": "auto",
+    "max_iter": 1000,
+    "algorithm": "elkan"
+  }
+
+}

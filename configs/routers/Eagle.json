@@ -1,0 +1,15 @@
+{
+  "method":"Eagle",
+  "k_neighbors":10,
+  "global_weight":0.5,
+  "K_factor":32,
+
+  "embeddings": {
+    "text_model": "all-MiniLM-L6-v2",
+    "image_model": null,
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 384
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "method":"NIRT",
+
+  "umap_n_components":32,
+  "min_cluster_size":100,
+  "sample_num":5,
+
+  "model": {
+    "name": "nirt",
+    "latent_dim": 25
+  },
+
+  "training": {
+    "lr": 0.001,
+    "epochs": 10,
+    "batch_size": 512,
+    "optimizer": "adam",
+    "loss": "bce",
+    "device": "auto"
+  }
+}

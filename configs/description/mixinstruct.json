@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "model_name": "alpaca-native",
+    "description": "Alpaca-native likely refers to a version of the Alpaca language model that has been optimized for native deployment, meaning it can run efficiently on local hardware without the need for cloud services. This version might be stripped down or fine-tuned for specific tasks, making it more accessible for users who prefer or require local processing."
+  },
+  {
+    "id": 1,
+    "model_name": "chatglm-6b",
+    "description": "ChatGLM-6B is a large language model developed by Alibaba Cloud, designed for general natural language processing tasks such as text generation, question answering, and conversation. It is based on the GLM architecture and has 6 billion parameters, making it suitable for a wide range of applications including customer service chatbots and content generation."
+  },
+  {
+    "id": 2,
+    "model_name": "dolly-v2-12b",
+    "description": "Dolly-v2-12b is a large language model with 12 billion parameters developed by Alibaba Cloud. It is designed for a variety of natural language processing tasks, including text generation, question answering, and conversation modeling."
+  },
+  {
+    "id": 3,
+    "model_name": "flan-t5-xxl",
+    "description": "Flan-T5-xxl is a large-scale pre-trained model developed by Google, based on the T5 architecture. It is designed for a wide range of natural language processing tasks and is likely optimized for efficiency and performance on extensive datasets, making it suitable for complex text generation and understanding applications."
+  },
+  {
+    "id": 4,
+    "model_name": "koala-7B-HF",
+    "description": "koala-7B-HF likely refers to a large language model with 7 billion parameters developed by Hugging Face. This model is designed for a wide range of natural language processing tasks, including text generation, translation, and question-answering."
+  },
+  {
+    "id": 5,
+    "model_name": "llama-7b-hf-baize-lora-bf16",
+    "description": "This model name suggests a fine-tuned version of LLaMA 7B using Hugging Face's Baize framework with LoRA (Low-Rank Adaptation) for efficiency, optimized for bf16 (bfloat16) precision for faster computation on certain hardware. It likely serves natural language processing tasks such as text generation or completion."
+  },
+  {
+    "id": 6,
+    "model_name": "moss-moon-003-sft",
+    "description": "Moss-moon-003-sft likely refers to a language model developed by the company Moss AI. The \"sft\" in the name suggests that this model is fine-tuned for few-shot learning tasks, where it can generate text based on provided examples. This model might be used for applications requiring flexible and context-aware responses, such as customer service chatbots or content generation."
+  },
+  {
+    "id": 7,
+    "model_name": "mpt-7b",
+    "description": "MPT-7B is a large language model with 7 billion parameters developed by Meta AI. It is designed for a variety of natural language processing tasks, including text generation, translation, and text completion."
+  },
+  {
+    "id": 8,
+    "model_name": "mpt-7b-instruct",
+    "description": "mpt-7b-instruct is likely an instruction-tuned version of the MPT (Moss Ported to Transformer) model with 7 billion parameters. It has been fine-tuned for following instructions and generating text based on given prompts, making it suitable for tasks such as writing, coding assistance, and conversational AI."
+  },
+  {
+    "id": 9,
+    "model_name": "oasst-sft-4-pythia-12b-epoch-3.5",
+    "description": "This model name suggests a large language model trained using the OASST-SFT methodology, specifically the Pythia-12B architecture fine-tuned for 3.5 epochs. It is likely used for generating human-like text and can be applied in various natural language processing tasks such as conversation systems, content generation, and text summarization."
+  },
+  {
+    "id": 10,
+    "model_name": "stablelm-tuned-alpha-7b",
+    "description": "The model name \"stablelm-tuned-alpha-7b\" suggests a large language model tuned for stability and performance, with a parameter count of 7 billion. It is likely used for tasks such as text generation, translation, and question-answering, leveraging its substantial capacity to handle complex linguistic nuances."
+  },
+  {
+    "id": 11,
+    "model_name": "vicuna-13b-1.1",
+    "description": "vicuna-13b-1.1 likely refers to a large language model with 13 billion parameters, trained on version 1.1 of the Vicuna framework. Such models are typically used for a wide range of natural language processing tasks, including text generation, translation, and question-answering."
+  }
+]

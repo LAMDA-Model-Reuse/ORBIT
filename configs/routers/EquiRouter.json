@@ -1,0 +1,30 @@
+{
+  "method":"EquiRouter",
+
+  "perf_model":{
+    "trunk_hidden":[1024,512],
+    "trunk_out_dim": 512,
+    "model_emb_dim": 128,
+    "use_layernorm": true,
+    "dropout": 0.0
+  },
+  "training":{
+    "lr": 1e-4,
+    "epochs": 5,
+    "batch_size": 128,
+    "optimizer": "adam",
+    "loss": "mse",
+    "rank_weight": 50
+  },
+  "model": {  
+    "name": "mlp",
+    "hidden_sizes": [256, 128],
+    "activation": "ReLU",
+    "dropout": 0.0,
+    "use_batchnorm": false,
+    "mf": { 
+        "use_mf": true,
+        "init_std": 0.01
+    }
+  }
+}
