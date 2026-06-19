@@ -53,7 +53,7 @@ Useful links:
 
 - RouteJudge platform: [https://routejudge.cn](https://routejudge.cn)
 - RouteJudge paper: [arXiv:2606.18774](https://arxiv.org/abs/2606.18774)
-- ORBIT repository: [https://github.com/AIGNLAI/LAMDA-ORBIT](https://github.com/AIGNLAI/LAMDA-ORBIT)
+- ORBIT repository: [https://github.com/AIGNLAI/LAMDA-ORBIT](https://github.com/LAMDA-Model-Reuse/ORBIT)
 
 ---
 
