@@ -1,0 +1,6 @@
+{
+  "alpaca-gpt4": "Follow diverse single-turn instructions drawn from Alpaca-GPT4, including question answering, reasoning, rewriting, extraction, planning, and content generation, with GPT-4-generated reference responses.",
+  "dolly-15k": "Follow human-authored Databricks Dolly instructions spanning brainstorming, classification, closed and open question answering, information extraction, summarization, and creative generation.",
+  "gpt4all-laion": "Answer broad instruction-following prompts from the GPT4All-LAION collection, including factual questions, explanations, generation, and practical assistance derived from large-scale web topics.",
+  "sharegpt": "Respond to real user-assistant conversations from ShareGPT, preserving conversational context across turns while following open-ended requests for reasoning, coding, writing, and assistance."
+}

@@ -1,0 +1,6 @@
+{
+  "method": "UniRoute",
+  "num_clusters": 10,
+  "kmeans_iterations": 100,
+  "training": {"lr": 0.005, "epochs": 5, "batch_size": 64, "device": "auto"}
+}

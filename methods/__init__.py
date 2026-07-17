@@ -16,3 +16,5 @@ from methods.OmniRouter import OmniRouter
 from methods.CausalRouter import RMSoftmax,RMClassification,RMInterval
 from methods.EquiRouter import EquiRouter
 from methods.oracle import OracleRouter
+from methods.TRouter import TRouter
+from methods.UniRoute import UniRoute
