@@ -1,0 +1,8 @@
+{
+  "arc_router_dataset": "Solve AI2 Reasoning Challenge grade-school science multiple-choice questions using scientific knowledge, causal reasoning, and selection among difficult distractors.",
+  "gsm8k_router_dataset": "Solve grade-school mathematical word problems through multi-step arithmetic reasoning and return the requested numerical answer.",
+  "harness_truthfulqa_mc_0_router_dataset": "Select truthful answers to questions that often elicit common misconceptions, false beliefs, conspiratorial claims, or imitative misinformation.",
+  "hellaswag_router_dataset": "Choose the most plausible continuation of an everyday situation using commonsense event knowledge, temporal coherence, and physical or social constraints.",
+  "mmlu_router_dataset": "Answer multiple-choice questions across a broad collection of academic and professional subjects, testing factual knowledge and domain-specific reasoning.",
+  "winogrande_router_dataset": "Resolve ambiguous references in fill-in-the-blank sentences using commonsense reasoning about entities, actions, and plausible situations."
+}

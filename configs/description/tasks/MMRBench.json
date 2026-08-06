@@ -1,0 +1,9 @@
+{
+  "MathVerse": "Solve visual mathematics problems in which essential information is contained in diagrams or figures, requiring perception, mathematical reasoning, and a grounded final answer.",
+  "MathVision": "Solve challenging competition-style mathematical problems presented with visual content, combining diagram understanding with multi-step algebraic, geometric, or numerical reasoning.",
+  "MathVista": "Answer visually grounded mathematical reasoning questions across scientific, diagrammatic, chart, puzzle, and everyday contexts using both image understanding and quantitative reasoning.",
+  "MMStar": "Answer carefully curated multimodal multiple-choice questions that require genuine visual perception and reasoning while reducing dependence on text-only shortcuts and data leakage.",
+  "OCRBench": "Read and reason over text embedded in natural scenes, documents, handwriting, charts, and other images, testing optical character recognition and text-centric visual understanding.",
+  "RealWorldQA": "Answer questions about real-world images using object recognition, spatial and physical understanding, scene interpretation, and practical visual reasoning.",
+  "SEEDBenchv2Plus": "Answer broad multimodal comprehension questions over images using fine-grained perception, object and spatial relations, commonsense inference, and visual reasoning."
+}
