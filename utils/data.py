@@ -1,5 +1,7 @@
 import os
 import logging
+import json
+import tarfile
 from typing import Any, Optional, Tuple,Dict,Type
 import re
 import pandas as pd
@@ -7,7 +9,7 @@ import numpy as np
 from datasets import load_dataset
 import pickle
 import requests
-from huggingface_hub import snapshot_download
+from huggingface_hub import hf_hub_download, snapshot_download
 
 class BaseDatasetLoader:
     """
@@ -1007,11 +1009,467 @@ class RouterEvalLoader(BaseDatasetLoader):
 
 
 # Registry to allow users to add new dataset loaders
+class LLMRouterBenchLoader(BaseDatasetLoader):
+    """Load the Performance-Cost subset of LLMRouterBench into ORBIT format."""
+
+    name = "LLMRouterBench"
+    hf_id = "NPULH/LLMRouterBench"
+    default_target_path = "./data/llmrouterbench"
+    archive_name = "bench-release.tar.gz"
+    cache_name = "llmrouterbench_performance_cost_v3.pkl"
+    min_price_fit_samples = 20
+
+    # GPT-5 Chat is intentionally excluded because it has no tau2 tool-use results.
+    model_list = [
+        "claude-sonnet-4",
+        "deepseek-v3-0324",
+        "deepseek-v3.1-terminus",
+        "deepseek-r1-0528",
+        "gemini-2.5-flash",
+        "gemini-2.5-pro",
+        "gpt-5",
+        "qwen3-235b-a22b-2507",
+        "qwen3-235b-a22b-thinking-2507",
+        "glm-4.6",
+        "kimi-k2-0905",
+        "intern-s1",
+    ]
+
+    dataset_splits = [
+        ("aime", "hybrid"),
+        ("arenahard", "test"),
+        ("gpqa", "test"),
+        ("hle", "test"),
+        ("livecodebench", "test"),
+        ("livemathbench", "test"),
+        ("mmlupro", "test_3000"),
+        ("simpleqa", "test"),
+        ("swe-bench", "verified"),
+        ("tau2", "test"),
+    ]
+
+    @property
+    def cache_path(self) -> str:
+        return os.path.join(self.target_path, self.cache_name)
+
+    def download(self) -> str:
+        os.makedirs(self.target_path, exist_ok=True)
+        if os.path.isfile(self.cache_path):
+            logging.info("[LLMRouterBench] Processed cache found: %s", self.cache_path)
+            return self.target_path
+
+        bench_root = self._find_bench_root()
+        if bench_root is not None:
+            logging.info("[LLMRouterBench] Extracted benchmark found: %s", bench_root)
+            return self.target_path
+
+        archive_path = hf_hub_download(
+            repo_id=self.hf_id,
+            repo_type="dataset",
+            filename=self.archive_name,
+            local_dir=self.target_path,
+        )
+        extract_dir = os.path.join(self.target_path, "raw")
+        os.makedirs(extract_dir, exist_ok=True)
+        self._safe_extract(archive_path, extract_dir)
+
+        if self._find_bench_root() is None:
+            raise FileNotFoundError(
+                f"Could not find results/bench after extracting {archive_path}."
+            )
+        return self.target_path
+
+    @staticmethod
+    def _safe_extract(archive_path: str, destination: str) -> None:
+        destination_real = os.path.realpath(destination)
+        with tarfile.open(archive_path, "r:gz") as archive:
+            members = archive.getmembers()
+            for member in members:
+                if member.issym() or member.islnk():
+                    raise ValueError(f"Archive contains an unsupported link: {member.name}")
+                target = os.path.realpath(os.path.join(destination, member.name))
+                if os.path.commonpath([destination_real, target]) != destination_real:
+                    raise ValueError(f"Unsafe archive member path: {member.name}")
+            archive.extractall(destination, members=members)
+
+    def _find_bench_root(self) -> Optional[str]:
+        expected_datasets = {dataset for dataset, _ in self.dataset_splits}
+        for root, dirs, _ in os.walk(self.target_path):
+            if expected_datasets.issubset(set(dirs)):
+                return root
+        return None
+
+    @staticmethod
+    def _latest_result_file(model_dir: str) -> str:
+        files = [
+            os.path.join(model_dir, name)
+            for name in os.listdir(model_dir)
+            if name.endswith(".json")
+        ]
+        if not files:
+            raise FileNotFoundError(f"No JSON result file found in {model_dir}")
+
+        def timestamp_key(path: str):
+            match = re.search(r"(\d{8})_(\d{6})\.json$", os.path.basename(path))
+            if match:
+                return (1, match.group(1) + match.group(2))
+            return (0, os.path.basename(path))
+
+        return max(files, key=timestamp_key)
+
+    @staticmethod
+    def _resolve_model_dir(
+        bench_root: str, dataset_name: str, split: str, model_name: str
+    ) -> str:
+        model_dir_names = [model_name]
+        if model_name == "qwen3-235b-a22b-thinking-2507":
+            model_dir_names.append("qwen3-235b-a22b-thinking")
+
+        candidates = [
+            os.path.join(bench_root, dataset_name, split, directory_name)
+            for directory_name in model_dir_names
+        ]
+        # The release archive stores ArenaHard directly as dataset/model/file.
+        if dataset_name == "arenahard":
+            candidates.extend(
+                os.path.join(bench_root, dataset_name, directory_name)
+                for directory_name in model_dir_names
+            )
+
+        for candidate in candidates:
+            if os.path.isdir(candidate):
+                return candidate
+        raise FileNotFoundError(
+            "Missing LLMRouterBench result directory; checked: "
+            + ", ".join(candidates)
+        )
+
+    @staticmethod
+    def _as_finite_float(value: Any, field: str, location: str) -> float:
+        try:
+            result = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Invalid {field} at {location}: {value!r}") from exc
+        if not np.isfinite(result):
+            raise ValueError(f"Non-finite {field} at {location}: {value!r}")
+        return result
+
+    @staticmethod
+    def _normalize_record_text(value: Any) -> str:
+        return (
+            str(value or "")
+            .replace("\r\n", "\n")
+            .replace("\r", "\n")
+            .replace("\u2028", "\n")
+            .replace("\u2029", "\n")
+        )
+
+    @staticmethod
+    def _text_alignment_key(value: str) -> str:
+        return re.sub(r"\s+", "", value, flags=re.UNICODE)
+
+    @staticmethod
+    def _has_meaningful_response(value: Any) -> bool:
+        if value is None:
+            return False
+        text = str(value).strip()
+        if not text or text in {"None", "null", "''", "[]", "{}"}:
+            return False
+        lowered = text.lower()
+        failure_markers = ("generation failed", "failed after 10 attempts")
+        return not any(marker in lowered for marker in failure_markers)
+
+    @classmethod
+    def _fit_token_prices(
+        cls, prompt_tokens: np.ndarray, completion_tokens: np.ndarray, costs: np.ndarray
+    ) -> Optional[np.ndarray]:
+        valid = (
+            (costs > 0)
+            & (prompt_tokens >= 0)
+            & (completion_tokens >= 0)
+            & ((prompt_tokens + completion_tokens) > 0)
+        )
+        if int(valid.sum()) < cls.min_price_fit_samples:
+            return None
+
+        token_matrix = np.column_stack(
+            (prompt_tokens[valid], completion_tokens[valid])
+        ).astype(np.float64) / 1_000_000.0
+        rates = np.linalg.lstsq(token_matrix, costs[valid], rcond=None)[0]
+        if not np.isfinite(rates).all() or np.any(rates < 0) or rates.sum() <= 0:
+            return None
+        return rates
+
+    @classmethod
+    def _repair_costs(cls, df: pd.DataFrame, n_models: int) -> pd.DataFrame:
+        all_original_cols = [
+            f"model_{i}_cost_usd_original" for i in range(n_models)
+        ]
+        all_positive_costs = df[all_original_cols].to_numpy(dtype=np.float64)
+        all_positive_costs = all_positive_costs[all_positive_costs > 0]
+        if len(all_positive_costs) == 0:
+            raise ValueError("LLMRouterBench has no positive costs for cost repair.")
+        global_median = float(np.median(all_positive_costs))
+
+        repair_counts = {
+            "token_reprice": 0,
+            "task_median": 0,
+            "original_zero": 0,
+        }
+
+        for model_idx in range(n_models):
+            original_col = f"model_{model_idx}_cost_usd_original"
+            prompt_col = f"model_{model_idx}_prompt_tokens"
+            completion_col = f"model_{model_idx}_completion_tokens"
+            response_col = f"model_{model_idx}_response_present"
+
+            original = df[original_col].to_numpy(dtype=np.float64)
+            prompt_tokens = df[prompt_col].to_numpy(dtype=np.float64)
+            completion_tokens = df[completion_col].to_numpy(dtype=np.float64)
+            response_present = df[response_col].to_numpy(dtype=bool)
+            effective = original.copy()
+            repaired = np.zeros(len(df), dtype=bool)
+            methods = np.full(len(df), "original", dtype=object)
+
+            model_rates = cls._fit_token_prices(
+                prompt_tokens, completion_tokens, original
+            )
+            model_positive = original[original > 0]
+            model_median = (
+                float(np.median(model_positive))
+                if len(model_positive) > 0
+                else global_median
+            )
+
+            valid_tokens = (prompt_tokens >= 0) & (completion_tokens >= 0)
+            token_positive = (prompt_tokens + completion_tokens) > 0
+            token_repair_mask = (original == 0) & valid_tokens & token_positive
+
+            for task_name in df.loc[token_repair_mask, "eval_name"].unique():
+                task_mask = df["eval_name"].eq(task_name).to_numpy()
+                target_mask = token_repair_mask & task_mask
+                task_rates = cls._fit_token_prices(
+                    prompt_tokens[task_mask],
+                    completion_tokens[task_mask],
+                    original[task_mask],
+                )
+                rates = task_rates if task_rates is not None else model_rates
+                if rates is None:
+                    continue
+                estimates = (
+                    prompt_tokens[target_mask] * rates[0]
+                    + completion_tokens[target_mask] * rates[1]
+                ) / 1_000_000.0
+                valid_estimates = np.isfinite(estimates) & (estimates > 0)
+                target_indices = np.flatnonzero(target_mask)
+                valid_indices = target_indices[valid_estimates]
+                effective[valid_indices] = estimates[valid_estimates]
+                repaired[valid_indices] = True
+                methods[valid_indices] = "token_reprice"
+
+            unresolved_token_repair = token_repair_mask & ~repaired
+            missing_usage_mask = (
+                (original == 0)
+                & valid_tokens
+                & ~token_positive
+                & response_present
+            )
+            invalid_token_mask = (original == 0) & ~valid_tokens
+            median_repair_mask = (
+                unresolved_token_repair | missing_usage_mask | invalid_token_mask
+            )
+
+            for task_name in df.loc[median_repair_mask, "eval_name"].unique():
+                task_mask = df["eval_name"].eq(task_name).to_numpy()
+                target_mask = median_repair_mask & task_mask
+                task_positive = original[task_mask & (original > 0)]
+                replacement = (
+                    float(np.median(task_positive))
+                    if len(task_positive) > 0
+                    else model_median
+                )
+                effective[target_mask] = replacement
+                repaired[target_mask] = True
+                methods[target_mask] = "task_median"
+
+            df[f"model_{model_idx}_cost_usd_effective"] = effective
+            df[f"model_{model_idx}_cost_repaired"] = repaired
+            df[f"model_{model_idx}_cost_repair_method"] = methods
+
+            repair_counts["token_reprice"] += int(
+                (methods == "token_reprice").sum()
+            )
+            repair_counts["task_median"] += int((methods == "task_median").sum())
+            repair_counts["original_zero"] += int(
+                ((methods == "original") & (original == 0)).sum()
+            )
+
+        logging.info("[LLMRouterBench] Cost repair summary: %s", repair_counts)
+        return df
+
+    @staticmethod
+    def _normalize_costs_globally(df: pd.DataFrame, n_models: int) -> pd.DataFrame:
+        raw_cols = [f"model_{i}_cost_usd_effective" for i in range(n_models)]
+        cost_cols = [f"model_{i}_cost" for i in range(n_models)]
+        raw_costs = df[raw_cols].to_numpy(dtype=np.float64)
+        if np.any(raw_costs < 0) or not np.isfinite(raw_costs).all():
+            raise ValueError("LLMRouterBench contains invalid raw cost values.")
+
+        global_max = float(raw_costs.max())
+        if global_max == 0:
+            normalized = np.zeros_like(raw_costs)
+        else:
+            normalized = raw_costs / global_max
+        df[cost_cols] = normalized.astype(np.float32)
+        return df
+
+    def _build_dataframe(self, bench_root: str) -> pd.DataFrame:
+        rows = []
+        none_score_count = 0
+
+        for dataset_name, split in self.dataset_splits:
+            dataset_rows = {}
+            expected_indices = None
+
+            for model_idx, model_name in enumerate(self.model_list):
+                model_dir = self._resolve_model_dir(
+                    bench_root, dataset_name, split, model_name
+                )
+                result_path = self._latest_result_file(model_dir)
+                with open(result_path, "r", encoding="utf-8") as handle:
+                    result = json.load(handle)
+
+                records = result.get("records")
+                if not isinstance(records, list):
+                    raise ValueError(f"Missing records list in {result_path}")
+
+                current_indices = set()
+                for record in records:
+                    record_index = int(record["index"])
+                    current_indices.add(record_index)
+                    location = f"{dataset_name}/{split}/{record_index}/{model_name}"
+                    prompt = self._normalize_record_text(record.get("prompt", ""))
+                    if not prompt:
+                        raise ValueError(f"Empty prompt at {location}")
+
+                    row = dataset_rows.setdefault(
+                        record_index,
+                        {
+                            "sample_id": f"{dataset_name}/{split}/{record_index}",
+                            "record_index": record_index,
+                            "prompt": prompt,
+                            "origin_query": self._normalize_record_text(
+                                record.get("origin_query", "")
+                            ),
+                            "eval_name": dataset_name,
+                        },
+                    )
+                    if self._text_alignment_key(
+                        row["prompt"]
+                    ) != self._text_alignment_key(prompt):
+                        raise ValueError(f"Prompt mismatch across models at {location}")
+
+                    raw_score = record.get("score")
+                    if raw_score is None:
+                        none_score_count += 1
+                        score = 0.0
+                    else:
+                        score = self._as_finite_float(raw_score, "score", location)
+                    if not 0.0 <= score <= 1.0:
+                        raise ValueError(f"Score outside [0, 1] at {location}: {score}")
+
+                    cost = self._as_finite_float(record.get("cost", 0.0), "cost", location)
+                    if cost < 0:
+                        raise ValueError(f"Negative cost at {location}: {cost}")
+
+                    prompt_tokens = int(
+                        self._as_finite_float(
+                            record.get("prompt_tokens", 0), "prompt_tokens", location
+                        )
+                    )
+                    completion_tokens = int(
+                        self._as_finite_float(
+                            record.get("completion_tokens", 0),
+                            "completion_tokens",
+                            location,
+                        )
+                    )
+                    response_present = self._has_meaningful_response(
+                        record.get("raw_output")
+                    ) or self._has_meaningful_response(record.get("prediction"))
+
+                    row[f"model_{model_idx}_performance"] = score
+                    row[f"model_{model_idx}_cost_usd_original"] = cost
+                    row[f"model_{model_idx}_prompt_tokens"] = prompt_tokens
+                    row[f"model_{model_idx}_completion_tokens"] = completion_tokens
+                    row[f"model_{model_idx}_response_present"] = response_present
+
+                if expected_indices is None:
+                    expected_indices = current_indices
+                elif current_indices != expected_indices:
+                    missing = sorted(expected_indices - current_indices)[:10]
+                    extra = sorted(current_indices - expected_indices)[:10]
+                    raise ValueError(
+                        f"Record coverage mismatch for {dataset_name}/{split}/{model_name}; "
+                        f"missing={missing}, extra={extra}"
+                    )
+
+            rows.extend(dataset_rows[index] for index in sorted(dataset_rows))
+
+        df = pd.DataFrame(rows)
+        n_models = len(self.model_list)
+        required_cols = [
+            *(f"model_{i}_performance" for i in range(n_models)),
+            *(f"model_{i}_cost_usd_original" for i in range(n_models)),
+            *(f"model_{i}_prompt_tokens" for i in range(n_models)),
+            *(f"model_{i}_completion_tokens" for i in range(n_models)),
+            *(f"model_{i}_response_present" for i in range(n_models)),
+        ]
+        if df[required_cols].isna().any().any():
+            missing = df[required_cols].isna().sum()
+            raise ValueError(f"Incomplete LLMRouterBench matrix:\n{missing[missing > 0]}")
+
+        df = self._repair_costs(df, n_models)
+        df = self._normalize_costs_globally(df, n_models)
+        logging.info(
+            "[LLMRouterBench] Built %d queries across %d datasets and %d models; "
+            "mapped %d None scores to 0.0",
+            len(df),
+            df["eval_name"].nunique(),
+            n_models,
+            none_score_count,
+        )
+        return df
+
+    def process(self, dataset: Any) -> Any:
+        if os.path.isfile(self.cache_path):
+            with open(self.cache_path, "rb") as handle:
+                cached = pickle.load(handle)
+            if cached.get("model_list") != self.model_list:
+                raise ValueError("LLMRouterBench cache model list does not match the loader.")
+            return list(self.model_list), cached["dataframe"]
+
+        bench_root = self._find_bench_root()
+        if bench_root is None:
+            raise FileNotFoundError("Extracted LLMRouterBench results/bench directory not found.")
+        dataframe = self._build_dataframe(bench_root)
+        with open(self.cache_path, "wb") as handle:
+            pickle.dump(
+                {"model_list": list(self.model_list), "dataframe": dataframe},
+                handle,
+                protocol=pickle.HIGHEST_PROTOCOL,
+            )
+        logging.info("[LLMRouterBench] Saved processed cache: %s", self.cache_path)
+        return list(self.model_list), dataframe
+
+
+# Registry to allow users to add new dataset loaders
 _LOADER_REGISTRY: Dict[str, Type[BaseDatasetLoader]] = {
     RouterbenchLoader.name: RouterbenchLoader,
     MixinstructLoader.name: MixinstructLoader,
     MMRBenchLoader.name: MMRBenchLoader,
     RouterEvalLoader.name: RouterEvalLoader,  
+    LLMRouterBenchLoader.name: LLMRouterBenchLoader,
 }
 
 

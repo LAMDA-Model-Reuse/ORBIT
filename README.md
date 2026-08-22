@@ -59,13 +59,14 @@ Useful links:
 
 ## What's New
 
+- **2026-08**: Added the LLMRouterBench Performance-Cost benchmark with 12 models across 10 tasks, using ORBIT's standardized split and globally scaled per-query costs.
 - **2026-06**: Initial release of ORBIT v1.0 with a unified routing pipeline, standardized budget-aware evaluation, unimodal and multimodal benchmarks, and reproduced routing methods.
 
 ---
 
 ## Methods Reproduced
 
-ORBIT reproduces **22 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
+ORBIT reproduces **24 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
 
 - **Avengers**: A training-free recipe that clusters queries and routes by cluster-wise capability profiles with sampling/voting. [[Paper]](https://arxiv.org/abs/2505.19797)
 - **Avengers-Pro**: A test-time routing framework that traces a Pareto frontier via clustering and a tunable performance-efficiency objective. [[Paper]](https://arxiv.org/abs/2508.12631)
@@ -89,6 +90,8 @@ ORBIT reproduces **22 representative LLM routing methods** across training-free,
 - **RouteLLM-SWRanking**: A similarity-weighted ranking approach that upweights comparisons from prompts similar to the current query. [[Paper]](https://arxiv.org/abs/2406.18665)
 - **RouterDC**: Learns query and model embeddings via dual contrastive objectives to better model query-model compatibility. [[Paper]](https://arxiv.org/abs/2409.19886)
 - **Oracle**: A non-deployable upper bound that selects the best feasible model per query using ground-truth outcomes.
+- **TRouter**: Learns task-aware query and model representations for performance-cost routing. [[Paper]](https://arxiv.org/abs/2604.09377)
+- **UniRoute**: Represents model capabilities through cluster-level prediction errors and learns a query-to-cluster router. [[Paper]](https://openreview.net/forum?id=ka82fvJ5f1)
 
 ---
 
@@ -159,6 +162,7 @@ Examples:
 python main.py --dataset Routerbench --method AvengersPro
 python main.py --dataset MMRBench --method EquiRouter
 python main.py --dataset Mixinstruct --method Oracle
+python main.py --dataset LLMRouterBench --method kNN
 ```
 
 ---
@@ -173,8 +177,11 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 | **RouterEval**  | Text       |     289 | Large text-only pool for scalability and robustness analysis. |
 | **MMR-Bench**   | Multimodal |       9 | Multimodal routing with visual inputs.                       |
 | **MixInstruct** | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
+| **LLMRouterBench** | Text    |      12 | Performance-cost routing over ten tasks with per-query model costs. |
 
 > Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT extracts 289 common models from Group A's six files and aligns their performance records on the largest shared query set across tasks.
+
+> Note: The LLMRouterBench loader uses the Performance-Cost subset and ORBIT's standard 20/80 in-domain split. It aligns 12 models over 12,446 queries, preserves released costs for auditing, repairs usable zero-cost records from token usage or model-task medians, and globally scales effective costs to `[0, 1]`. Failed zero-usage calls retain zero performance and zero cost.
 
 ---
 
@@ -255,6 +262,7 @@ We thank the authors of the following open-source repositories for their contrib
 - [routerbench](https://github.com/withmartian/routerbench)
 - [RouterEval](https://github.com/MilkThink-Lab/RouterEval)
 - [MMR-Bench](https://github.com/Hunter-Wrynn/MMR-Bench)
+- [LLMRouterBench](https://github.com/ynulihao/LLMRouterBench)
 - [OmniRouter](https://github.com/dongyuanjushi/OmniRouter)
 
 ---
