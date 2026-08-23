@@ -18,3 +18,4 @@ from methods.EquiRouter import EquiRouter
 from methods.oracle import OracleRouter
 from methods.TRouter import TRouter
 from methods.UniRoute import UniRoute
+from methods.InferenceDynamics import InferenceDynamics

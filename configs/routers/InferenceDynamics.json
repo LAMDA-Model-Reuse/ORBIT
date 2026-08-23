@@ -1,0 +1,8 @@
+{
+  "method": "InferenceDynamics",
+  "profile_source": "eval_name",
+  "rank_decay": 0.8,
+  "cost_penalty": 0.0,
+  "knowledge_weight": 1.0,
+  "capability_weight": 1.0
+}
