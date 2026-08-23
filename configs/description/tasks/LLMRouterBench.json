@@ -1,0 +1,12 @@
+{
+  "aime": "Solve competition-level mathematics problems from AIME using multi-step algebraic, geometric, combinatorial, or number-theoretic reasoning and return the required integer answer.",
+  "arenahard": "Follow difficult open-ended user instructions and produce a helpful, accurate, coherent response whose quality is compared against a strong reference answer.",
+  "gpqa": "Answer graduate-level, expert-written multiple-choice questions in biology, chemistry, and physics using deep scientific knowledge and careful reasoning.",
+  "hle": "Answer broad, expert-level questions from Humanity's Last Exam that require advanced knowledge and reasoning across academic and professional domains.",
+  "livecodebench": "Generate correct executable programs for recent competitive-programming problems, satisfying public and hidden test cases under the specified input-output format.",
+  "livemathbench": "Solve recent challenging mathematical problems using rigorous multi-step reasoning and produce an exact final answer in the requested format.",
+  "mmlupro": "Answer challenging multiple-choice questions across academic and professional subjects using domain knowledge, reasoning, and distractor elimination.",
+  "simpleqa": "Provide a concise and factually correct answer to a short fact-seeking question, avoiding unsupported or extraneous claims.",
+  "swe-bench": "Resolve a real software-engineering issue by understanding a repository, locating the defect, and producing a code change that passes the relevant tests.",
+  "tau2": "Complete conversational tool-use tasks by reasoning over user goals, policies, environment state, and available actions while calling tools correctly."
+}

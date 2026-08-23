@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "model_name": "claude-sonnet-4",
+    "description": "Claude Sonnet 4 is an Anthropic frontier language model designed for general instruction following, reasoning, coding, analysis, and tool-oriented workflows."
+  },
+  {
+    "id": 1,
+    "model_name": "deepseek-v3-0324",
+    "description": "DeepSeek V3 0324 is a general-purpose mixture-of-experts language model with strong instruction following, knowledge, reasoning, and coding capabilities."
+  },
+  {
+    "id": 2,
+    "model_name": "deepseek-v3.1-terminus",
+    "description": "DeepSeek V3.1 Terminus is a later general-purpose DeepSeek model supporting broad reasoning, coding, knowledge, and agentic instruction tasks."
+  },
+  {
+    "id": 3,
+    "model_name": "deepseek-r1-0528",
+    "description": "DeepSeek R1 0528 is a reasoning-focused model optimized for multi-step mathematical, scientific, logical, and coding problem solving."
+  },
+  {
+    "id": 4,
+    "model_name": "gemini-2.5-flash",
+    "description": "Gemini 2.5 Flash is a Google model optimized for fast and cost-efficient general reasoning, instruction following, coding, and long-context processing."
+  },
+  {
+    "id": 5,
+    "model_name": "gemini-2.5-pro",
+    "description": "Gemini 2.5 Pro is a Google frontier model for advanced reasoning, coding, knowledge-intensive tasks, and long-context understanding."
+  },
+  {
+    "id": 6,
+    "model_name": "gpt-5",
+    "description": "GPT-5 with medium reasoning effort is an OpenAI frontier model for complex reasoning, coding, knowledge, instruction following, and tool use."
+  },
+  {
+    "id": 7,
+    "model_name": "qwen3-235b-a22b-2507",
+    "description": "Qwen3-235B-A22B 2507 is a large Alibaba mixture-of-experts model for general instruction following, multilingual knowledge, coding, and reasoning."
+  },
+  {
+    "id": 8,
+    "model_name": "qwen3-235b-a22b-thinking-2507",
+    "description": "Qwen3-235B-A22B Thinking 2507 is the reasoning-oriented variant of Qwen3-235B, emphasizing extended mathematical, logical, scientific, and coding reasoning."
+  },
+  {
+    "id": 9,
+    "model_name": "glm-4.6",
+    "description": "GLM-4.6 is a Zhipu AI general-purpose language model supporting reasoning, coding, multilingual instruction following, and tool-use tasks."
+  },
+  {
+    "id": 10,
+    "model_name": "kimi-k2-0905",
+    "description": "Kimi K2 0905 is a Moonshot AI mixture-of-experts model designed for general instruction following, coding, knowledge, reasoning, and agentic tasks."
+  },
+  {
+    "id": 11,
+    "model_name": "intern-s1",
+    "description": "Intern-S1 is a science-oriented foundation model emphasizing mathematical and scientific reasoning while retaining general instruction-following capabilities."
+  }
+]

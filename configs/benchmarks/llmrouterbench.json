@@ -1,0 +1,27 @@
+{
+  "_comment": "LLMRouterBench Performance-Cost subset adapted to the ORBIT protocol.",
+  "modality": "text",
+  "voting": "weighted",
+  "seed": 42,
+  "description_path": "./configs/description/llmrouterbench.json",
+  "device": "cuda:0",
+  "dataset": {
+    "name": "LLMRouterBench",
+    "dataset_dir": "./data/llmrouterbench",
+    "split": {
+      "mode": "in-domain",
+      "ratios": {
+        "train": 0.2,
+        "test": 0.8
+      }
+    }
+  },
+  "embeddings": {
+    "text_model": "all-MiniLM-L6-v2",
+    "image_model": null,
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 384
+  }
+}
