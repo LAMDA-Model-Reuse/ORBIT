@@ -1,0 +1,13 @@
+{
+  "method": "ProfileRouter",
+  "routeprofile": {
+    "temperature": 1.0,
+    "hops": 2,
+    "self_weight": 1.0,
+    "residual": 0.35,
+    "model_task_topk": 8,
+    "use_train_task_edges": false,
+    "train_task_edge_weight": 1.0,
+    "public_task_edge_weight": 0.5
+  }
+}
