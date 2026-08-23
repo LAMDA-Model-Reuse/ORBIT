@@ -9,6 +9,7 @@ from methods import (
     Eagle, EmbedLLM, kNNRouter, SVMRouter, RouteLLM_SWRanking, RouteLLM_MF, RouteLLM_BERT,
     OmniRouter, EquiRouter, RMClassification, RMSoftmax, RMInterval, OracleRouter,
     TRouter, UniRoute, ProfileRouter
+    TRouter, UniRoute, InferenceDynamics
 )
 
 # ----------------------------
@@ -39,6 +40,7 @@ ROUTER_REGISTRY: Dict[str, Type] = {
     "TRouter": TRouter,
     "UniRoute": UniRoute,
     "ProfileRouter": ProfileRouter,
+    "InferenceDynamics": InferenceDynamics,
 }
 
 

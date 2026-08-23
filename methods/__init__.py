@@ -19,3 +19,4 @@ from methods.oracle import OracleRouter
 from methods.TRouter import TRouter
 from methods.UniRoute import UniRoute
 from methods.ProfileRouter import ProfileRouter
+from methods.InferenceDynamics import InferenceDynamics
