@@ -1,0 +1,15 @@
+{
+  "method": "EARAMRouter",
+  "earam": {
+    "hidden_dim": 256,
+    "value_points": 100,
+    "max_breakpoint_queries": 4096,
+    "allow_null": true
+  },
+  "training": {
+    "lr": 0.001,
+    "epochs": 100,
+    "batch_size": 256,
+    "weight_decay": 0.0
+  }
+}
