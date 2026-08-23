@@ -1,0 +1,11 @@
+{
+  "method": "CarrotRouter",
+  "carrot": {
+    "k": 40,
+    "temperature": 0.1,
+    "weighting": "uniform",
+    "cost_predictor": "knn",
+    "clip_perf": true,
+    "clip_cost": true
+  }
+}
