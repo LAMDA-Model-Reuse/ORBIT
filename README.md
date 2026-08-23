@@ -59,6 +59,7 @@ Useful links:
 
 ## What's New
 
+- **2026-08**: Added four recent routing methods: InferenceDynamics, ProfileRouter, CarrotRouter, and EARAMRouter.
 - **2026-08**: Added the LLMRouterBench Performance-Cost benchmark with 12 models across 10 tasks, using ORBIT's standardized split and globally scaled per-query costs.
 - **2026-06**: Initial release of ORBIT v1.0 with a unified routing pipeline, standardized budget-aware evaluation, unimodal and multimodal benchmarks, and reproduced routing methods.
 
@@ -66,7 +67,7 @@ Useful links:
 
 ## Methods Reproduced
 
-ORBIT reproduces **24 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
+ORBIT reproduces **28 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
 
 - **Avengers**: A training-free recipe that clusters queries and routes by cluster-wise capability profiles with sampling/voting. [[Paper]](https://arxiv.org/abs/2505.19797)
 - **Avengers-Pro**: A test-time routing framework that traces a Pareto frontier via clustering and a tunable performance-efficiency objective. [[Paper]](https://arxiv.org/abs/2508.12631)
@@ -92,6 +93,10 @@ ORBIT reproduces **24 representative LLM routing methods** across training-free,
 - **Oracle**: A non-deployable upper bound that selects the best feasible model per query using ground-truth outcomes.
 - **TRouter**: Learns task-aware query and model representations for performance-cost routing. [[Paper]](https://arxiv.org/abs/2604.09377)
 - **UniRoute**: Represents model capabilities through cluster-level prediction errors and learns a query-to-cluster router. [[Paper]](https://openreview.net/forum?id=ka82fvJ5f1)
+- **InferenceDynamics**: Builds parameter-free model indexes from ranked capability and knowledge profiles for structured model-query matching. [[Paper]](https://arxiv.org/abs/2505.16303)
+- **ProfileRouter**: Constructs graph-based model profiles from model and task metadata for training-free cold-start routing. [[Paper]](https://arxiv.org/abs/2605.00180)
+- **CarrotRouter**: Uses separate query-level performance and cost estimators with a theoretically grounded cost-aware routing objective. [[Paper]](https://arxiv.org/abs/2502.03261)
+- **EARAMRouter**: Trains provider-side success predictors and routes by positive expected surplus through an error-aware reverse-auction mechanism. [[Paper]](https://arxiv.org/abs/2608.12719)
 
 ---
 
