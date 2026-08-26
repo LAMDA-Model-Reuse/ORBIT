@@ -14,7 +14,6 @@
   <a href="#citing-orbit-and-routejudge">Citation</a> ·
   <a href="#contact">Contact</a>
 </p>
-
 ## Introduction
 
 **ORBIT (Optimal Routing and Budgeted Inference Toolbox)** is a modular, extensible toolbox for **LLM routing**. It studies how to select the most suitable model from a heterogeneous model pool **for each query**, under practical deployment constraints such as **cost, latency, and throughput**.
@@ -59,6 +58,7 @@ Useful links:
 
 ## What's New
 
+- **2026-08**: ORBIT has been accepted by the *Frontiers of Computer Science* (FCS) special column **[Code & Data](https://journal.hep.com.cn/fcs/EN/subject/showCollection.do?subjectId=1710741206314)**. [[Paper]](https://doi.org/10.1007/s11704-026-61310-5)
 - **2026-08**: Added four recent routing methods: InferenceDynamics, ProfileRouter, CarrotRouter, and EARAMRouter.
 - **2026-08**: Added the LLMRouterBench Performance-Cost benchmark with 12 models across 10 tasks, using ORBIT's standardized split and globally scaled per-query costs.
 - **2026-06**: Initial release of ORBIT v1.0 with a unified routing pipeline, standardized budget-aware evaluation, unimodal and multimodal benchmarks, and reproduced routing methods.
@@ -176,13 +176,13 @@ python main.py --dataset LLMRouterBench --method kNN
 
 ORBIT includes a compact benchmark suite spanning text-only and multimodal routing settings, with model pools ranging from small curated sets to large-scale collections.
 
-| Benchmark       | Modality   | #Models | Notes                                                        |
-| --------------- | ---------- | ------: | ------------------------------------------------------------ |
-| **RouterBench** | Text       |      11 | Small text-only pool for controlled budgeted routing evaluation. |
-| **RouterEval**  | Text       |     289 | Large text-only pool for scalability and robustness analysis. |
-| **MMR-Bench**   | Multimodal |       9 | Multimodal routing with visual inputs.                       |
-| **MixInstruct** | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
-| **LLMRouterBench** | Text    |      12 | Performance-cost routing over ten tasks with per-query model costs. |
+| Benchmark          | Modality   | #Models | Notes                                                        |
+| ------------------ | ---------- | ------: | ------------------------------------------------------------ |
+| **RouterBench**    | Text       |      11 | Small text-only pool for controlled budgeted routing evaluation. |
+| **RouterEval**     | Text       |     289 | Large text-only pool for scalability and robustness analysis. |
+| **MMR-Bench**      | Multimodal |       9 | Multimodal routing with visual inputs.                       |
+| **MixInstruct**    | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
+| **LLMRouterBench** | Text       |      12 | Performance-cost routing over ten tasks with per-query model costs. |
 
 > Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT extracts 289 common models from Group A's six files and aligns their performance records on the largest shared query set across tasks.
 
@@ -238,6 +238,23 @@ For larger additions, especially new routing methods intended for RouteJudge eva
 
 If you use ORBIT or RouteJudge in your research, please cite:
 
+### ORBIT
+
+Guannan Lai, Haoran Hu, Hao-Xuan Ma, Han-Jia Ye. **ORBIT: An Optimal Routing and Budgeted Inference Toolbox.** *Frontiers of Computer Science*, 2026. DOI: [10.1007/s11704-026-61310-5](https://doi.org/10.1007/s11704-026-61310-5)
+
+```bibtex
+@article{lai2026orbit,
+  title   = {{ORBIT}: An Optimal Routing and Budgeted Inference Toolbox},
+  author  = {Lai, Guannan and Hu, Haoran and Ma, Hao-Xuan and Ye, Han-Jia},
+  journal = {Frontiers of Computer Science},
+  year    = {2026},
+  doi     = {10.1007/s11704-026-61310-5},
+  url     = {https://doi.org/10.1007/s11704-026-61310-5}
+}
+```
+
+### RouteJudge
+
 ```bibtex
 @inproceedings{lai2026routejudge,
   title     = {RouteJudge: Preference-Based Evaluation of {LLM} Routers under Pluralistic User Preferences},
@@ -280,10 +297,4 @@ For questions, feature requests, or contributions:
 - Email the authors at [laign@lamda.nju.edu.cn](mailto:laign@lamda.nju.edu.cn).
 
 If you would like to add your routing method to ORBIT or have it considered for RouteJudge evaluation, please contact us by issue or email.
-
----
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=LAMDA-Model-Reuse/ORBIT&type=Date)](https://star-history.com/#LAMDA-Model-Reuse/ORBIT&Date)
 
