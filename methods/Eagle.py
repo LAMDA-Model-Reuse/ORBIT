@@ -10,10 +10,7 @@ Reference (BibTeX):
   year={2024}
 }
 """
-import json
 import logging
-import time
-from pathlib import Path
 
 import numpy as np
 import torch
@@ -125,7 +122,6 @@ class Eagle(BaseRouter):
 
     
     def evaluate(self):
-        best_model = self._best_single_model()
         modality = list(self.args["modality"].split("+"))
         if "text" in modality: texts = self.test_df['prompt'].astype(str).tolist()
         else:                  texts = None
@@ -155,26 +151,4 @@ class Eagle(BaseRouter):
             all_points.append({"cost": avg_cost, "performance": avg_perf})
 
 
-        pareto_points = self._extract_pareto_front(all_points)
-        
-        auc_score = self._calculate_auc(pareto_points)
-        max_accuracy = self._calculate_max_accuracy(pareto_points)
-        min_cost_for_target = self._find_min_cost_for_target(pareto_points, best_model[0])
-        if min_cost_for_target is not None:
-            cost_ratio = min_cost_for_target / best_model[1]
-            logging.info(f"[method.Eagle.py] Minimum cost to achieve accuracy {best_model[0]:.10f}: {min_cost_for_target:.10f}\n")
-            logging.info(f"[method.Eagle.py] Cost ratio (minimum cost / best_model cost): {cost_ratio:.10f}\n")
-        else:
-            logging.info(f"[method.Eagle.py] Unable to achieve the target accuracy {best_model[0]:.10f}\n")
-        logging.info(f"[method.Eagle.py] AUC: {auc_score:.10f}")
-        logging.info(f"[method.Eagle.py] Maximum accuracy: {max_accuracy:.10f}")
-        
-        json_path = Path(
-            f'./outputs/{self.args["dataset"]["name"]}/{self.args["dataset"]["split"]["mode"]}/{self.args["method"]}_{time.time()}.json'
-        )
-
-        json_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(json_path, "w") as f:
-            json.dump(pareto_points, f, indent=4)
-
-        logging.info(f"[method.Eagle.py] Saved Pareto frontier points to {json_path}\n")
+        self.cal_metrics(all_points)

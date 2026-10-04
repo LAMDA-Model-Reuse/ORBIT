@@ -106,7 +106,7 @@ ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to 
 
 ### Trade-off metrics
 
-- **nAUC (normalized Area Under Curve)**: summarizes the overall performance-cost trade-off across budgets. Higher is better.
+- **nAUC (normalized Area Under Curve)**: integrates the Pareto performance envelope over one benchmark-wide realized-cost interval, from the mean per-query minimum model cost to the mean per-query maximum model cost. Every router uses the same real minimum-cost policy as the left anchor, and the final feasible policy is carried to the upper bound. The area is divided by the shared cost interval, so router scores are directly comparable within a benchmark. Higher is better.
 - **Peak Score**: reports the best achievable utility within the evaluated budget range. Higher is better.
 - **QNC (Quality Neutral Cost)**: measures cost-efficiency under quality-neutral comparison. Lower is better.
 
