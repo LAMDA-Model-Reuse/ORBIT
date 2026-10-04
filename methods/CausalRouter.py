@@ -26,10 +26,7 @@ Reference (BibTeX):
 """
 from __future__ import annotations
 
-import json
 import logging
-import time
-from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
@@ -165,8 +162,6 @@ class _RMBase(BaseRouter):
           - test_df has columns model_{mid}_performance and model_{mid}_cost
           - embedder.run_embed(texts=..., images=...) returns embeddings
         """
-        best_model = self._best_single_model()
-
         modality = list(self.args.get("modality", "text").split("+"))
         if "text" in modality:
             texts = self.test_df["prompt"].astype(str).tolist()
@@ -202,30 +197,7 @@ class _RMBase(BaseRouter):
         if last_choice is not None:
             self.cal_rci(last_choice)
 
-        pareto_points = self._extract_pareto_front(all_points)
-
-        auc_score = self._calculate_auc(pareto_points)
-        max_accuracy = self._calculate_max_accuracy(pareto_points)
-        min_cost_for_target = self._find_min_cost_for_target(pareto_points, best_model[0])
-
-        if min_cost_for_target is not None:
-            cost_ratio = min_cost_for_target / best_model[1]
-            logging.info(f"[method.base.py] Minimum cost to achieve accuracy {best_model[0]:.10f}: {min_cost_for_target:.10f}\n")
-            logging.info(f"[method.base.py] Cost ratio (minimum cost / best_model cost): {cost_ratio:.10f}\n")
-        else:
-            logging.info(f"[method.base.py] Unable to achieve the target accuracy {best_model[0]:.10f}\n")
-
-        logging.info(f"[method.base.py] AUC: {auc_score:.10f}")
-        logging.info(f"[method.base.py] Maximum accuracy: {max_accuracy:.10f}")
-
-        json_path = Path(
-            f'./outputs/{self.args["dataset"]["name"]}/{self.args["dataset"]["split"]["mode"]}/{self.args["method"]}_{time.time()}.json'
-        )
-        json_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(json_path, "w") as f:
-            json.dump(pareto_points, f, indent=4)
-
-        logging.info(f"[method.base.py] Saved Pareto frontier points to {json_path}\n")
+        self.cal_metrics(all_points)
 
 # -----------------------------
 # RM-Classification

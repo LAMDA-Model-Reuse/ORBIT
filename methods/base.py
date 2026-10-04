@@ -7,6 +7,12 @@ import torch
 from abc import ABC, abstractmethod
 from torch.utils.data import TensorDataset, DataLoader
 import logging
+from utils.metrics import (
+    build_tradeoff_points,
+    extract_pareto_front,
+    minimum_cost_policy_point,
+    normalized_auc,
+)
 
 class BaseRouter(ABC):
     def __init__(self,args):
@@ -31,16 +37,18 @@ class BaseRouter(ABC):
 
     def _best_single_model(self):
         model_ids = [i for i in range(len(self.model_list))]
-        max_performance,best_id,best_cost = 0,-1,-1
+        max_performance,best_id,best_cost = -float("inf"),None,None
         for mid in model_ids:
             perf_col = f"model_{mid}_performance"
             cost_col = f"model_{mid}_cost"
             acc = self.test_df[perf_col].astype(float).mean()
             avg_cost_val = self.test_df[cost_col].astype(float).mean()
-            if acc > max_performance:
+            if np.isfinite(acc) and acc > max_performance:
                 max_performance = acc
                 best_id = mid
                 best_cost = avg_cost_val
+        if best_id is None:
+            raise ValueError("No model has a finite mean test performance.")
         logging.info(f'[method.base.py] The Best Single Model is {self.model_list[best_id]} with highest performance {max_performance} and the cost is {best_cost}\n')
         return (max_performance,best_cost)
 
@@ -58,49 +66,61 @@ class BaseRouter(ABC):
 
         perf_pred,cost_pred = self.predict(test_embs)
 
-        unique_costs = np.sort(np.unique(cost_pred))
-        if unique_costs.shape[0] > 100:
-            quantiles = np.linspace(0.0, 1.0, 100)
-            all_costs = np.quantile(unique_costs, quantiles)
-        else:
-            all_costs = unique_costs
-            
-        all_points = [] 
-        n_samples = self.test_df.shape[0]
-        row_idx = np.arange(n_samples)
-
         M = len(self.model_list)
         perf_cols_all = [f"model_{mid}_performance" for mid in range(M)]
         cost_cols_all = [f"model_{mid}_cost" for mid in range(M)]
         perf_mat = self.test_df[perf_cols_all].to_numpy(dtype=np.float32)  # (N, M)
         cost_mat = self.test_df[cost_cols_all].to_numpy(dtype=np.float32)  # (N, M)
 
-        for C in all_costs:
-            mask = cost_pred <= C
-            masked_perf = np.where(mask, perf_pred, -np.inf)
-            best_idx = np.argmax(masked_perf, axis=1)
-            selected_perf = perf_mat[row_idx, best_idx]
-            selected_costs = cost_mat[row_idx, best_idx]
-            avg_cost = float(np.mean(selected_costs))
-            avg_perf = float(np.mean(selected_perf))
-            all_points.append({"cost": avg_cost, "performance": avg_perf})
+        all_points, best_idx = self._build_tradeoff_points(
+            perf_pred, cost_pred, perf_mat, cost_mat
+        )
         self.cal_rci(best_idx, log_once=True)
         self.cal_metrics(all_points)
 
+    @staticmethod
+    def _build_tradeoff_points(perf_pred, cost_pred, perf_mat, cost_mat, max_budgets=100):
+        return build_tradeoff_points(
+            perf_pred,
+            cost_pred,
+            perf_mat,
+            cost_mat,
+            max_budgets=max_budgets,
+        )
+
     def cal_metrics(self,all_points): 
-        pareto_points = self._extract_pareto_front(all_points)
+        if not all_points:
+            raise ValueError("Cannot calculate routing metrics without curve points.")
+        if any(
+            not np.isfinite(float(point["cost"]))
+            or not np.isfinite(float(point["performance"]))
+            for point in all_points
+        ):
+            raise ValueError("Routing curve contains non-finite cost or performance values.")
+        evaluation_points = list(all_points)
+        evaluation_points.append(self._minimum_cost_policy_point())
+        pareto_points = self._extract_pareto_front(evaluation_points)
         best_model = self._best_single_model()   
-        pareto_points.append({"cost": best_model[1], "performance": all_points[-1]["performance"]})
-        auc_score = self._calculate_auc(pareto_points)
+        cost_bounds = self._evaluation_cost_bounds()
+        auc_score = self._calculate_auc(pareto_points, cost_bounds=cost_bounds)
         max_accuracy = self._calculate_max_accuracy(pareto_points)
         min_cost_for_target = self._find_min_cost_for_target(pareto_points, best_model[0])
         if min_cost_for_target is not None:
-            cost_ratio = min_cost_for_target / best_model[1]
+            cost_ratio = (
+                min_cost_for_target / best_model[1]
+                if best_model[1] != 0
+                else float("inf")
+            )
             logging.info(f"[method.base.py] Minimum cost to achieve accuracy {best_model[0]:.10f}: {min_cost_for_target:.10f}\n")
             logging.info(f"[method.base.py] Cost ratio (minimum cost / best_model cost): {cost_ratio:.10f}\n")
         else:
             logging.info(f"[method.base.py] Unable to achieve the target accuracy {best_model[0]:.10f}\n")
-        logging.info(f"[method.base.py] AUC: {auc_score:.10f}")
+        logging.info(
+            "[method.base.py] nAUC: %.10f | shared cost range: [%.10f, %.10f]",
+            auc_score,
+            cost_bounds[0],
+            cost_bounds[1],
+        )
         logging.info(f"[method.base.py] Maximum accuracy: {max_accuracy:.10f}")
         
         json_path = Path(
@@ -189,36 +209,30 @@ class BaseRouter(ABC):
         return min_cost_point["cost"]
 
     def _extract_pareto_front(self, points):
+        return extract_pareto_front(points)
 
-        sorted_points = sorted(points, key=lambda x: x["cost"])
-        pareto_front = []
-        current_max_perf = -float('inf')
-        
-        for point in sorted_points:
-            if point["performance"] > current_max_perf:
-                pareto_front.append(point)
-                current_max_perf = point["performance"]
-        
-        return pareto_front
+    def _calculate_auc(self, pareto_points, cost_bounds=None):
+        return normalized_auc(pareto_points, cost_bounds=cost_bounds)
 
-    def _calculate_auc(self, pareto_points):
+    def _evaluation_cost_bounds(self):
+        """Return one benchmark-wide realized-cost interval for every router."""
+        M = len(self.model_list)
+        cost_cols = [f"model_{mid}_cost" for mid in range(M)]
+        cost_mat = self.test_df[cost_cols].to_numpy(dtype=np.float64)
+        if not np.isfinite(cost_mat).all():
+            raise ValueError("Ground-truth evaluation costs must all be finite.")
+        lower = float(np.mean(np.min(cost_mat, axis=1)))
+        upper = float(np.mean(np.max(cost_mat, axis=1)))
+        return lower, upper
 
-        
-        sorted_points = sorted(pareto_points, key=lambda x: x["cost"])
-        costs = [point["cost"] for point in sorted_points]
-        performances = [point["performance"] for point in sorted_points]
-        if max(costs) > 0:
-            normalized_costs = [cost / max(costs) for cost in costs]
-        else:
-            normalized_costs = costs
-
-        auc = 0.0
-        for i in range(1, len(sorted_points)):
-            width = normalized_costs[i] - normalized_costs[i-1]
-            avg_height = (performances[i] + performances[i-1]) / 2
-            auc += width * avg_height
-        
-        return auc
+    def _minimum_cost_policy_point(self):
+        """Return the shared, real lower-bound policy used by every router."""
+        M = len(self.model_list)
+        perf_cols = [f"model_{mid}_performance" for mid in range(M)]
+        cost_cols = [f"model_{mid}_cost" for mid in range(M)]
+        perf_mat = self.test_df[perf_cols].to_numpy(dtype=np.float64)
+        cost_mat = self.test_df[cost_cols].to_numpy(dtype=np.float64)
+        return minimum_cost_policy_point(perf_mat, cost_mat)
 
     def _calculate_max_accuracy(self, pareto_points):
         if not pareto_points:
