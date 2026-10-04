@@ -14,15 +14,16 @@ from methods.base import BaseRouter, KMeansWrapper
 import logging
 import torch.nn.functional as F
 from sklearn.manifold import TSNE
+from copy import deepcopy
 
 class RouterDC(BaseRouter):
     def __init__(self, args):
+        args = deepcopy(args)
+        args["embeddings"] = dict(args["embeddings"])
+        args["embeddings"]["training"] = True
         super().__init__(args)
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
         self.llm_num = len(self.model_list)
         self.out_dim = args["embeddings"]["out_dim"]
         self.llm_embedding = nn.Parameter(
@@ -32,6 +33,7 @@ class RouterDC(BaseRouter):
             n_clusters=self.args["training"]["clusters"],
             n_init=self.args["training"]["n_init"],
             max_iter=self.args["training"]["max_iter"],
+            algorithm=self.args["training"].get("algorithm", "lloyd"),
             fit=True,
             random_state=self.args["seed"]
         )
@@ -44,15 +46,17 @@ class RouterDC(BaseRouter):
         N_train = y_perf.shape[0]
         T = y_perf.shape[1]
 
-        top_k = int(self.args["top-k"])
+        top_k = min(int(self.args["top-k"]), max(1, T // 2))
         bottom_k = top_k
         top_idx_list = []
         bottom_idx_list = []
         for i in range(N_train):
             scores = y_perf[i]
-            order = np.argsort(scores)
-            top_idx = order[::-1][:top_k].tolist()
-            bottom_idx = order[:bottom_k].tolist()
+            finite = np.isfinite(scores)
+            positive = np.flatnonzero(finite & (scores > 0))
+            negative = np.flatnonzero(finite & (scores <= 0))
+            top_idx = positive[np.argsort(scores[positive])[::-1]][:top_k].tolist()
+            bottom_idx = negative[np.argsort(scores[negative])][:bottom_k].tolist()
             top_idx_list.append(top_idx)
             bottom_idx_list.append(bottom_idx)
 
@@ -106,13 +110,16 @@ class RouterDC(BaseRouter):
                 loss_sample = self._sample_sample_loss(bidx, query_emb, temperature=temperature, H=H_neg)
                 loss = loss_llm + lambda_ss * loss_sample
 
-                # backward
+                if not loss.requires_grad:
+                    continue
                 loss.backward()
                 optimizer.step()
+        cost_features, _, y_cost = self._prepare_training_data()
+        self._fit_shared_cost_predictor(cost_features, y_cost)
     
     def predict(self, test_embedding):
         if not isinstance(test_embedding, torch.Tensor):
-            test_embedding = torch.from_numpy(np.array(test_embedding)).float()
+            test_embedding = torch.as_tensor(test_embedding, dtype=torch.float32)
         test_embedding = test_embedding.to(self.device)
 
         with torch.no_grad():
@@ -120,32 +127,8 @@ class RouterDC(BaseRouter):
             llm_emb = torch.nn.functional.normalize(self.llm_embedding, dim=1).to(test_embedding.device)
             out_perf = torch.matmul(x_norm, llm_emb.t())  # (N_test, T)
             out_np = out_perf.detach().cpu().numpy().astype(np.float32)
-        return out_np
-
-    
-    def evaluate(self):
-        modality = list(self.args.get("modality", "text").split("+"))
-        texts = self.test_df['prompt'].astype(str).tolist() if "text" in modality else None
-        images = self.test_df['image_path'].tolist() if "image" in modality else None
-        test_embs = self.embedder.run_embed(texts=texts, images=images)
-
-        perf_pred = self.predict(test_embs)  # numpy (N_test, T)
-        n_samples = perf_pred.shape[0]
-        total_performance = 0.0
-        total_cost = 0.0
-
-        top_indices = np.argmax(perf_pred, axis=1)  # shape (N_test,)
-
-        for i in range(n_samples):
-            model_id = int(top_indices[i])
-            perf_col = f"model_{model_id}_performance"
-            cost_col = f"model_{model_id}_cost"
-            total_performance += float(self.test_df.iloc[i][perf_col])
-            total_cost += float(self.test_df.iloc[i][cost_col])
-
-        avg_performance = total_performance / n_samples
-        avg_cost = total_cost / n_samples
-        logging.info(f"[method.RouterDC.py] Average performance: {avg_performance:.4f}, Average cost: {avg_cost:.4f}")
+        cost_pred = self._predict_shared_cost(test_embedding)
+        return out_np, cost_pred
 
     def _sample_llm_loss(self, query_emb, llm_emb, top_idx_batch, bottom_idx_batch, temperature):
         if llm_emb.device != query_emb.device:
@@ -272,6 +255,7 @@ class RouterDC(BaseRouter):
             init="pca",
             random_state=int(self.args.get("seed", 0)),
             method="barnes_hut" if tsne_dim <= 3 else "exact",
+            max_iter=n_iter,
         )
         emb_tsne = tsne.fit_transform(emb_np).astype(np.float32)  # (N, tsne_dim)
 

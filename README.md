@@ -59,7 +59,7 @@ Useful links:
 ## What's New
 
 - **2026-08**: ORBIT has been accepted by the *Frontiers of Computer Science* (FCS) special column **[Code & Data](https://journal.hep.com.cn/fcs/EN/subject/showCollection.do?subjectId=1710741206314)**. [[Paper]](https://doi.org/10.1007/s11704-026-61310-5)
-- **2026-08**: Added four recent routing methods: InferenceDynamics, ProfileRouter, CarrotRouter, and EARAMRouter.
+- **2026-08**: Added InferenceDynamics.
 - **2026-08**: Added the LLMRouterBench Performance-Cost benchmark with 12 models across 10 tasks, using ORBIT's standardized split and globally scaled per-query costs.
 - **2026-06**: Initial release of ORBIT v1.0 with a unified routing pipeline, standardized budget-aware evaluation, unimodal and multimodal benchmarks, and reproduced routing methods.
 
@@ -67,7 +67,7 @@ Useful links:
 
 ## Methods Reproduced
 
-ORBIT reproduces **28 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
+ORBIT reproduces **25 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
 
 - **Avengers**: A training-free recipe that clusters queries and routes by cluster-wise capability profiles with sampling/voting. [[Paper]](https://arxiv.org/abs/2505.19797)
 - **Avengers-Pro**: A test-time routing framework that traces a Pareto frontier via clustering and a tunable performance-efficiency objective. [[Paper]](https://arxiv.org/abs/2508.12631)
@@ -77,8 +77,8 @@ ORBIT reproduces **28 representative LLM routing methods** across training-free,
 - **GraphRouter**: Builds a heterogeneous task-query-LLM graph and casts routing as inductive edge prediction with GNNs for better generalization. [[Paper]](https://arxiv.org/abs/2410.03834)
 - **HybridLLM**: Predicts query difficulty and routes between a small and a large model under a tunable desired-quality target. [[Paper]](https://arxiv.org/abs/2404.14618)
 - **kNN**: A nonparametric baseline that selects models via nearest neighbors in embedding space using historical per-model outcomes. [[Paper]](https://arxiv.org/abs/2408.12320)
-- **MLPRouter**: A parametric embedding-to-decision MLP baseline for budgeted routing. [[Paper]](https://arxiv.org/abs/2408.12320)
-- **SVMRouter**: A linear classifier baseline that routes from query features/embeddings to model decisions. [[Paper]](https://arxiv.org/abs/2408.12320)
+- **MLPRouter**: Uses separate multi-output MLP regressors for query-level performance and cost prediction. [[Paper]](https://arxiv.org/abs/2408.12320)
+- **SVMRouter**: Uses per-model support-vector regressors for query-level performance and cost prediction. [[Paper]](https://arxiv.org/abs/2408.12320)
 - **MIRT**: An IRT-based router using multidimensional item response theory to jointly estimate model abilities and query attributes. [[Paper]](https://aclanthology.org/2025.acl-long.761/)
 - **NIRT**: A neural IRT variant that replaces hand-designed interactions with a neural function for richer ability-difficulty modeling. [[Paper]](https://aclanthology.org/2025.acl-long.761/)
 - **ModelSAT**: Learns routing with explicit model capability representations via a capability encoder and a lightweight LLM. [[Paper]](https://arxiv.org/abs/2502.17282)
@@ -94,9 +94,6 @@ ORBIT reproduces **28 representative LLM routing methods** across training-free,
 - **TRouter**: Learns task-aware query and model representations for performance-cost routing. [[Paper]](https://arxiv.org/abs/2604.09377)
 - **UniRoute**: Represents model capabilities through cluster-level prediction errors and learns a query-to-cluster router. [[Paper]](https://openreview.net/forum?id=ka82fvJ5f1)
 - **InferenceDynamics**: Builds parameter-free model indexes from ranked capability and knowledge profiles for structured model-query matching. [[Paper]](https://arxiv.org/abs/2505.16303)
-- **ProfileRouter**: Constructs graph-based model profiles from model and task metadata for training-free cold-start routing. [[Paper]](https://arxiv.org/abs/2605.00180)
-- **CarrotRouter**: Uses separate query-level performance and cost estimators with a theoretically grounded cost-aware routing objective. [[Paper]](https://arxiv.org/abs/2502.03261)
-- **EARAMRouter**: Trains provider-side success predictors and routes by positive expected surplus through an error-aware reverse-auction mechanism. [[Paper]](https://arxiv.org/abs/2608.12719)
 
 ---
 
@@ -113,6 +110,18 @@ ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to 
 ### Diagnostic metrics
 
 - **RCI (Routing Collapse Index)**: diagnoses collapse and other failure modes beyond average utility.
+
+### Cost prediction protocol
+
+Every score-based learned router supplies a query-by-model cost matrix without using test labels.
+Methods with a native cost mechanism reuse it: for example, cluster statistics for Avengers,
+neighbor retrieval for Eagle, cluster features for UniRoute, and profile indexes for
+InferenceDynamics. Methods whose native score cannot represent cost (HybridLLM, RouterDC,
+RouteLLM, and ModelSAT) use the same multi-output MLP trained only on training-query embeddings
+and costs. Its optional settings live under `cost_prediction` (`hidden_sizes`, `dropout`,
+`epochs`, `batch_size`, `lr`, and `weight_decay`). Regret-minimization routers instead learn the
+performance-cost utility directly as a function of lambda; Oracle intentionally uses realized
+test costs as an upper bound.
 
 ---
 
@@ -166,8 +175,8 @@ Examples:
 ```bash
 python main.py --dataset Routerbench --method AvengersPro
 python main.py --dataset MMRBench --method EquiRouter
-python main.py --dataset Mixinstruct --method Oracle
-python main.py --dataset LLMRouterBench --method kNN
+python main.py --dataset Mixinstruct --method oracle
+python main.py --dataset LLMRouterBench --method knn
 ```
 
 ---
@@ -209,7 +218,9 @@ ORBIT is designed for community extension. You can add new benchmarks, embedding
 ### 3. Adding a new routing algorithm
 
 1. Create a router class under `methods/`. ORBIT provides a `BaseRouter` that already implements dataset loading, embedding extraction, and standardized evaluation.
-2. Inherit from `BaseRouter` and implement your own training and prediction functions.
+2. Inherit from `BaseRouter` and implement training plus `predict`, returning two `(N, M)` matrices:
+   predicted performance and predicted cost. If the method has no defensible cost estimator, call
+   `_fit_shared_cost_predictor` during training and `_predict_shared_cost` during inference.
 3. Register the new router in `methods/__init__.py` and `train.py`.
 4. Add a JSON config under `configs/routers/` for method hyperparameters.
 5. Run offline evaluation and include clear reproduction instructions in your pull request.

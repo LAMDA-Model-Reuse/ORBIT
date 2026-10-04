@@ -206,14 +206,20 @@ class KMeansWrapper(nn.Module):
 
     def fit_kmeans(self, X: torch.Tensor):
         """Fit KMeans using sklearn (CPU) and store cluster centers."""
+        X_np = X.detach().cpu().numpy() if isinstance(X, torch.Tensor) else np.asarray(X)
+        if X_np.ndim != 2 or X_np.shape[0] == 0:
+            raise ValueError(f"KMeans expects a non-empty 2D matrix, got {X_np.shape}.")
+        effective_clusters = min(int(self.n_clusters), int(X_np.shape[0]))
+        if effective_clusters != self.n_clusters:
+            self.n_clusters = effective_clusters
         km = KMeans(
-            n_clusters=self.n_clusters,
+            n_clusters=effective_clusters,
             n_init=self.n_init,
             max_iter=self.max_iter,
             algorithm=self.algorithm,
             random_state=self.random_state,
         )
-        km.fit(X)
+        km.fit(X_np)
         centers = torch.tensor(km.cluster_centers_, dtype=torch.float32)
         self.centers = nn.Parameter(centers, requires_grad=False)
 

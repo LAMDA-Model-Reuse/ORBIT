@@ -24,10 +24,7 @@ class HybridLLM(BaseRouter):
 
         self.model = init_model(args, input_dim=in_dim, out_dim=out_dim)
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model.to(self.device)
 
@@ -35,6 +32,7 @@ class HybridLLM(BaseRouter):
         assert self.router_mode in ["deterministic", "probabilistic", "transformed"]
         self.router_tau = float(args.get("router_tau"))
         self.router_threshold = float(args.get("router_threshold"))
+        self.loss_name = None
 
     def _sigmoid(self, x):
         x = np.clip(x, -50, 50)
@@ -76,6 +74,7 @@ class HybridLLM(BaseRouter):
         batch_size = int(train_cfg.get("batch_size"))
         opt_name = train_cfg.get("optimizer").lower()
         loss_name = train_cfg.get("loss").lower()
+        self.loss_name = loss_name
 
         if loss_name == "mse":
             criterion = nn.MSELoss()
@@ -110,41 +109,21 @@ class HybridLLM(BaseRouter):
                 total_loss += loss.item()
             if (ep + 1) % 10 == 0:
                 logging.info(f"[HybridLLM.train] epoch {ep+1}/{epochs}, loss {total_loss:.4f}")
+        self.model.eval()
+        self._fit_shared_cost_predictor(X, y_cost)
     
     def predict(self, test_embs):
         self.model.eval()
         with torch.no_grad():
-            xb = torch.tensor(test_embs, dtype=torch.float32, device=self.device)
-            scores = self.model(xb).cpu().numpy().reshape(-1)  # (N,)
-        return scores
-
-    
-    def evaluate(self):
-        modality = list(self.args.get("modality", "text").split("+"))
-        texts = self.test_df['prompt'].astype(str).tolist() if "text" in modality else None
-        images = self.test_df['image_path'].tolist() if "image" in modality else None
-        test_embs = self.embedder.run_embed(texts=texts, images=images)
-        scores = self.predict(test_embs)
-
-        n_samples = len(scores)
-        total_performance = 0.0
-        total_cost = 0.0
-
-        for i in range(n_samples):
-            score = scores[i]
-            if score >= self.router_threshold:
-                model_id = self.small_idx
-            else:
-                model_id = self.large_idx
-
-            perf_col = f"model_{model_id}_performance"
-            cost_col = f"model_{model_id}_cost"
-            gt_perf = float(self.test_df.iloc[i][perf_col])  # 0/1
-            total_performance += gt_perf
-
-            total_cost += float(self.test_df.iloc[i][cost_col])
-
-        avg_performance = total_performance / n_samples
-        avg_cost = total_cost / n_samples
-
-        logging.info(f"[HybridLLM.evaluate] Avg performance={avg_performance:.4f}, Avg cost={avg_cost:.4f}")
+            xb = torch.as_tensor(test_embs, dtype=torch.float32, device=self.device)
+            raw_scores = self.model(xb).cpu().numpy().reshape(-1)
+        probability_small = (
+            self._sigmoid(raw_scores) if self.loss_name == "bce" else np.clip(raw_scores, 0.0, 1.0)
+        )
+        performance = np.full(
+            (len(probability_small), len(self.model_list)), -np.inf, dtype=np.float32
+        )
+        performance[:, self.small_idx] = probability_small - self.router_threshold
+        performance[:, self.large_idx] = 0.0
+        cost = self._predict_shared_cost(test_embs)
+        return performance, cost

@@ -19,6 +19,4 @@ from methods.oracle import OracleRouter
 from methods.TRouter import TRouter
 from methods.UniRoute import UniRoute
 from methods.InferenceDynamics import InferenceDynamics
-from methods.ProfileRouter import ProfileRouter
-from methods.CarrotRouter import CarrotRouter
-from methods.EARAMRouter import EARAMRouter
+from methods.ModelSAT import ModelSAT

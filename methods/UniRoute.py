@@ -48,11 +48,7 @@ class UniRoute(BaseRouter):
         super().__init__(args)
         cfg = args["training"]
         device = cfg.get("device", args.get("device", "auto"))
-        self.device = torch.device(
-            "cuda" if str(device).lower() == "auto" and torch.cuda.is_available()
-            else "cpu" if str(device).lower() == "auto"
-            else device
-        )
+        self.device = self._resolve_device(device)
         self.epochs, self.batch_size = int(cfg["epochs"]), int(cfg["batch_size"])
         self.lr = float(cfg["lr"])
         self.num_clusters = int(args.get("num_clusters", 10))
@@ -60,7 +56,7 @@ class UniRoute(BaseRouter):
         self.model = None
         self.cluster_centers = None
         self.model_error_features = None
-        self.model_cost = None
+        self.model_cost_features = None
 
     @staticmethod
     def model_features_from_responses(errors, assignments, num_clusters):
@@ -99,7 +95,10 @@ class UniRoute(BaseRouter):
         self.cluster_centers, assignments = _kmeans(x, k, self.seed, self.kmeans_iterations)
         features = self.model_features_from_responses(errors, assignments, k)
         self.model_error_features = torch.as_tensor(features, dtype=torch.float32, device=self.device)
-        self.model_cost = np.nanmean(y_cost, axis=0).astype(np.float32)
+        cost_features = self.model_features_from_responses(y_cost, assignments, k)
+        self.model_cost_features = torch.as_tensor(
+            cost_features, dtype=torch.float32, device=self.device
+        )
         self.model = LearnedClusterMap(x.shape[1], k).to(self.device)
         tx = torch.as_tensor(x, dtype=torch.float32, device=self.device)
         target_error = torch.as_tensor(errors, dtype=torch.float32, device=self.device)
@@ -129,7 +128,8 @@ class UniRoute(BaseRouter):
     @torch.no_grad()
     def predict(self, test_embedding):
         x = torch.as_tensor(test_embedding, dtype=torch.float32, device=self.device)
-        predicted_error = self.model(x) @ self.model_error_features.T
+        cluster_probability = self.model(x)
+        predicted_error = cluster_probability @ self.model_error_features.T
         performance = (1.0 - predicted_error).clamp(0.0, 1.0).cpu().numpy()
-        cost = np.broadcast_to(self.model_cost, performance.shape).copy()
+        cost = (cluster_probability @ self.model_cost_features.T).cpu().numpy()
         return performance.astype(np.float32), cost.astype(np.float32)

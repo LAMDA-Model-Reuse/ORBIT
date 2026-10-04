@@ -38,7 +38,9 @@ class InferenceDynamics(BaseRouter):
         self.capability_weight = float(args.get("capability_weight", 1.0))
         self.knowledge_index = {}
         self.capability_index = {}
-        self.model_cost = None
+        self.knowledge_cost_index = {}
+        self.capability_cost_index = {}
+        self.global_cost = None
         self.test_profiles = None
         self.profile_source = str(args.get("profile_source", "columns"))
 
@@ -130,14 +132,27 @@ class InferenceDynamics(BaseRouter):
 
     def _build_element_index(self, profiles, values, element_position):
         sums, counts = {}, {}
+        global_value = np.nanmean(values, axis=0).astype(np.float32)
         for row, profile in enumerate(profiles):
             elements = profile[element_position]
             normalizer = sum(self.rank_decay ** rank for rank in range(len(elements))) or 1.0
             for rank, element in enumerate(elements):
                 contribution = values[row] * (self.rank_decay ** rank) / normalizer
-                sums[element] = sums.get(element, 0.0) + contribution
-                counts[element] = counts.get(element, 0) + 1
-        return {element: sums[element] / counts[element] for element in sums}
+                finite = np.isfinite(contribution)
+                if element not in sums:
+                    sums[element] = np.zeros(values.shape[1], dtype=np.float64)
+                    counts[element] = np.zeros(values.shape[1], dtype=np.int64)
+                sums[element] += np.where(finite, contribution, 0.0)
+                counts[element] += finite
+        return {
+            element: np.divide(
+                sums[element],
+                counts[element],
+                out=global_value.copy(),
+                where=counts[element] > 0,
+            ).astype(np.float32)
+            for element in sums
+        }
 
     def train(self):
         profiles = self._profiles(self.train_df)
@@ -145,12 +160,16 @@ class InferenceDynamics(BaseRouter):
         refined = performance - self.cost_penalty * cost
         self.capability_index = self._build_element_index(profiles, refined, 0)
         self.knowledge_index = self._build_element_index(profiles, refined, 1)
-        self.model_cost = cost.mean(axis=0).astype(np.float32)
+        self.capability_cost_index = self._build_element_index(profiles, cost, 0)
+        self.knowledge_cost_index = self._build_element_index(profiles, cost, 1)
+        self.global_cost = np.nanmean(cost, axis=0).astype(np.float32)
         self.test_profiles = self._profiles(self.test_df)
 
-    def _profile_score(self, elements, index):
+    def _profile_score(self, elements, index, default=None):
         known = [element for element in elements if element in index]
         if not known:
+            if default is not None:
+                return np.asarray(default, dtype=np.float32)
             return np.ones(len(self.model_list), dtype=np.float32)
         weights = np.asarray(
             [self.rank_decay ** rank for rank in range(len(known))], dtype=np.float32
@@ -160,11 +179,25 @@ class InferenceDynamics(BaseRouter):
 
     def predict(self, test_embedding):
         del test_embedding  # Routing uses structured profiles, not semantic embeddings.
-        rows = []
+        score_rows = []
+        cost_rows = []
         for capabilities, knowledge in self.test_profiles:
             cs = self._profile_score(capabilities, self.capability_index)
             ks = self._profile_score(knowledge, self.knowledge_index)
-            rows.append(self.knowledge_weight * ks + self.capability_weight * cs)
-        score = np.asarray(rows, dtype=np.float32)
-        cost = np.broadcast_to(self.model_cost, score.shape).copy()
+            score_rows.append(self.knowledge_weight * ks + self.capability_weight * cs)
+            capability_cost = self._profile_score(
+                capabilities, self.capability_cost_index, self.global_cost
+            )
+            knowledge_cost = self._profile_score(
+                knowledge, self.knowledge_cost_index, self.global_cost
+            )
+            normalizer = self.knowledge_weight + self.capability_weight
+            if normalizer <= 0:
+                raise ValueError("InferenceDynamics profile weights must have a positive sum.")
+            cost_rows.append(
+                (self.knowledge_weight * knowledge_cost + self.capability_weight * capability_cost)
+                / normalizer
+            )
+        score = np.asarray(score_rows, dtype=np.float32)
+        cost = np.asarray(cost_rows, dtype=np.float32)
         return score, cost

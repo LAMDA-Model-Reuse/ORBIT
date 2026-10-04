@@ -75,10 +75,7 @@ class _RMBase(BaseRouter):
         super().__init__(args)
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.in_dim = int(args["embeddings"]["out_dim"])
         self.num_models = len(self.model_list)
@@ -416,8 +413,9 @@ class RMInterval(_RMBase):
             self.lambdas_train = _as_float32(args["interval_train_lambdas"]).reshape(-1)
         else:
             full = np.linspace(self.lambda_min, self.lambda_max, self.num_lambdas).astype(np.float32)
-            # default subset similar to "train on a subset" idea; you can override by config
             self.lambdas_train = full[::2].copy()
+            if self.lambdas_train[-1] != full[-1]:
+                self.lambdas_train = np.concatenate([self.lambdas_train, full[-1:]])
 
         # temperature for smoother interpolation sometimes set large in paper (mentioned in experiments). :contentReference[oaicite:9]{index=9}
         self.interp_temperature = float(args.get("interp_temperature", 1.0))

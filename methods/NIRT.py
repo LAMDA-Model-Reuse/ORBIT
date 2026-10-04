@@ -73,10 +73,7 @@ class NIRT(BaseRouter):
         self.model_cost = init_model(args, input_dim=in_dim, out_dim=out_dim)
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model_performance.to(self.device)
         self.model_cost.to(self.device)
@@ -103,14 +100,15 @@ class NIRT(BaseRouter):
 
         sample_num = self.args["sample_num"]
         ability_list_text = ", ".join(ABILITIES)
+        rng = random.Random(self.seed)
 
         for lbl in unique_labels:
+            idxs = np.where(cluster_labels == lbl)[0]
             if int(lbl) == -1 or idxs.size == 0:
                 continue
-            idxs = np.where(cluster_labels == lbl)[0]
             chosen = idxs.tolist()
             if len(chosen) > sample_num:
-                chosen = random.sample(chosen, sample_num)
+                chosen = rng.sample(chosen, sample_num)
             scores = []
             for i, idx in enumerate(chosen):
                 q = self.train_df.iloc[idx]["prompt"]
@@ -164,9 +162,10 @@ class NIRT(BaseRouter):
         loss_name = train_cfg.get("loss").lower()
 
         if loss_name == "bce":
-            criterion = nn.BCEWithLogitsLoss()
+            criterion_perf = nn.BCELoss()
         else:
             raise ValueError(f"Unsupported loss: {loss_name}")
+        criterion_cost = nn.MSELoss()
 
         def make_optimizer(params):
             if opt_name == "adam":
@@ -202,7 +201,7 @@ class NIRT(BaseRouter):
 
                     opt_perf.zero_grad(set_to_none=True)
                     pred, theta, a, b, r = self.model_performance(llm_input, xb, knowledge)
-                    loss = criterion(pred, yb_model)
+                    loss = criterion_perf(pred, yb_model)
 
                     loss.backward()
                     opt_perf.step()
@@ -239,7 +238,7 @@ class NIRT(BaseRouter):
 
                     opt_cost.zero_grad(set_to_none=True)
                     pred, theta, a, b, r = self.model_cost(llm_input, xb, knowledge)
-                    loss = criterion(pred, yb_model)
+                    loss = criterion_cost(pred, yb_model)
 
                     loss.backward()
                     opt_cost.step()
@@ -258,7 +257,11 @@ class NIRT(BaseRouter):
         self.model_cost.eval()
 
     def predict(self, test_embedding):
-        X = test_embedding.detach().cpu().numpy().astype(np.float32)
+        X = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         tx = torch.from_numpy(X).to(self.device)
         B = tx.shape[0]
         knowledge = self._get_query_relevance_vector(tx)

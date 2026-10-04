@@ -27,13 +27,9 @@ import logging
 class ModelSAT(BaseRouter):
     def __init__(self, args: Dict[str, Any]):
         super().__init__(args)
-        self.args = args
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         model_cfg = self.args.get("model", {})
         base_model = model_cfg.get("base_model", "Qwen/Qwen3-4B-Instruct-2507")
@@ -111,7 +107,9 @@ class ModelSAT(BaseRouter):
                 subset_df = self.train_df[self.train_df["eval_name"] == eval_name]
                 if subset_df.empty:
                     continue
-                subset = subset_df.sample(n=min(shot, len(subset_df)), replace=False)
+                subset = subset_df.sample(
+                    n=min(shot, len(subset_df)), replace=False, random_state=self.seed
+                )
                 perf_col = f"model_{model_idx}_performance"
                 if perf_col not in subset.columns:
                     avg_perf = 0.0
@@ -126,6 +124,16 @@ class ModelSAT(BaseRouter):
             if ids:
                 return ids[-1]
         return self.tokenizer.encode(" Yes", add_special_tokens=False)[-1]
+
+    @staticmethod
+    def _next_token_logits(logits: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+        """Select logits after the final non-padding token for either padding side."""
+        positions = torch.arange(logits.shape[1], device=logits.device).unsqueeze(0)
+        positions = positions.expand(attention_mask.shape[0], -1)
+        last_positions = positions.masked_fill(~attention_mask.bool(), -1).max(dim=1).values
+        if torch.any(last_positions < 0):
+            raise ValueError("ModelSAT received an input containing only padding tokens.")
+        return logits[torch.arange(logits.shape[0], device=logits.device), last_positions]
 
     def train(self) -> None:
         """
@@ -191,7 +199,11 @@ class ModelSAT(BaseRouter):
                     best_perf = max(perf_list)
                     best_idxs = [i for i, p in enumerate(perf_list) if p == best_perf]
 
-                    for m_idx in range(self.num_models):
+                    negative_indices = [i for i in range(self.num_models) if i not in best_idxs]
+                    if negative_samples > 0 and len(negative_indices) > negative_samples:
+                        negative_indices = random.sample(negative_indices, negative_samples)
+                    candidate_indices = sorted(set(best_idxs + negative_indices))
+                    for m_idx in candidate_indices:
                         cap_text = self.model_descriptions.get(m_idx, self._build_capability_text(row, m_idx))
                         prompt_text = self._make_input_prompt(cap_text, instruction, query_template)
                         cand_prompts.append(prompt_text)
@@ -210,7 +222,7 @@ class ModelSAT(BaseRouter):
                 with autocast(device_type=self.device.type, enabled=(self.device.type == "cuda")):
                     outputs = self.router_llm(**enc)
                     logits = outputs.logits
-                    last_logits = logits[:, -1, :]
+                    last_logits = self._next_token_logits(logits, enc["attention_mask"])
                     yes_logits = last_logits[:, yes_token_id]
                 yes_logits = torch.clamp(yes_logits, min=-10.0, max=10.0)
 
@@ -248,7 +260,15 @@ class ModelSAT(BaseRouter):
 
                 total_loss += loss.item() * accumulation_steps
 
-                epoch_iterator.set_postfix({"loss": f"{total_loss / step_count:.4f}"})
+                epoch_iterator.set_postfix({"loss": f"{total_loss / max(1, step_count):.4f}"})
+
+            if step_count % accumulation_steps != 0:
+                torch.nn.utils.clip_grad_norm_(trainable_parameters, max_norm=1.0)
+                optimizer.step()
+                optimizer.zero_grad()
+
+        cost_features, _, y_cost = self._prepare_training_data()
+        self._fit_shared_cost_predictor(cost_features, y_cost)
 
 
     def predict(self, test_texts: List[str]) -> np.ndarray:
@@ -272,7 +292,9 @@ class ModelSAT(BaseRouter):
 
                 with torch.no_grad():
                     outputs = self.router_llm(**enc)
-                    last_logits = outputs.logits[:, -1, :]
+                    last_logits = self._next_token_logits(
+                        outputs.logits, enc["attention_mask"]
+                    )
                     prob_yes = torch.sigmoid(last_logits[0, yes_token_id]).item()
                     instruction_scores.append(prob_yes)
             all_scores.append(instruction_scores)
@@ -281,40 +303,10 @@ class ModelSAT(BaseRouter):
     def evaluate(self) -> None:
         """
         Evaluate routing performance and compute Pareto frontier, AUC, etc.
-        This method preserves the original evaluation algorithm but uses safer column mapping.
+        Evaluate ModelSAT scores with the common query-dependent cost predictor.
         """
         texts = self.test_df["prompt"].astype(str).tolist()
         final_scores = self.predict(texts)
-
-        all_points = []
-
-        if not hasattr(self, "costrank") or not isinstance(self.costrank, (list, tuple)):
-            avg_costs = []
-            for m_idx in range(self.num_models):
-                cost_col = f"model_{m_idx}_cost"
-                if cost_col in self.test_df.columns:
-                    avg_costs.append((m_idx, float(self.test_df[cost_col].mean())))
-                else:
-                    avg_costs.append((m_idx, float("inf")))
-            self.costrank = [m for m, _ in sorted(avg_costs, key=lambda x: x[1])]
-
-        for idx in range(len(self.model_list)):
-            selected_model_indices = self.costrank[: idx + 1]
-
-            selected_scores = final_scores[:, selected_model_indices]
-            best_model_idx = selected_scores.argmax(axis=1) 
-            perf_values = []
-            cost_values = []
-            for q in range(len(self.test_df)):
-                chosen_rel_idx = int(best_model_idx[q])  # index into selected_model_indices
-                chosen_model_id = selected_model_indices[chosen_rel_idx]
-                perf_col = f"model_{chosen_model_id}_performance"
-                cost_col = f"model_{chosen_model_id}_cost"
-                perf_values.append(float(self.test_df.iloc[q].get(perf_col, 0.0)))
-                cost_values.append(float(self.test_df.iloc[q].get(cost_col, 0.0)))
-
-            avg_perf = float(np.mean(perf_values)) if perf_values else 0.0
-            avg_cost = float(np.mean(cost_values)) if cost_values else 0.0
-            all_points.append({"cost": avg_cost, "performance": avg_perf})
-
-        self.cal_metrics(all_points)
+        test_embeddings = self.embedder.run_embed(texts=texts, images=None)
+        cost_pred = self._predict_shared_cost(test_embeddings)
+        self._evaluate_predictions(final_scores, cost_pred)

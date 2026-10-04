@@ -19,14 +19,13 @@ class AvengersPro(BaseRouter):
     def __init__(self,args):
         super().__init__(args)
         self.model = init_model(args)
-        self.top_p = args["multi_cluster"]
+        self.top_p = int(args["multi_cluster"])
+        if self.top_p <= 0:
+            raise ValueError("multi_cluster must be positive.")
         self.score_perf = {}
         self.score_cost = {}
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
         self.model.to(self.device)
 
     def train(self):
@@ -37,21 +36,19 @@ class AvengersPro(BaseRouter):
         n_clusters = self.model.n_clusters
         n_models = len(self.model_list)
 
-        self.score_perf = {c:np.zeros(n_models,dtype=np.float32) for c in range(n_clusters)}
-        self.score_cost = {c:np.zeros(n_models,dtype=np.float32) for c in range(n_clusters)}
-        count = {c:np.zeros(n_models,dtype=np.int32) for c in range(n_clusters)}
-
-        for i in range(X.shape[0]):
-            c = int(cluster_id[i].item())
-            for m in range(n_models):
-                self.score_perf[c][m] += y_perf[i][m]
-                self.score_cost[c][m] += y_cost[i][m]
-                count[c][m] += 1
-        for c in range(n_clusters):
-            for m in range(n_models):
-                if count[c][m] > 0:
-                    self.score_perf[c][m] /= count[c][m]
-                    self.score_cost[c][m] /= count[c][m]
+        global_perf = np.nanmean(y_perf, axis=0).astype(np.float32)
+        global_cost = np.nanmean(y_cost, axis=0).astype(np.float32)
+        labels = cluster_id.detach().cpu().numpy()
+        for cluster in range(n_clusters):
+            members = labels == cluster
+            cluster_perf = np.nanmean(y_perf[members], axis=0)
+            cluster_cost = np.nanmean(y_cost[members], axis=0)
+            self.score_perf[cluster] = np.where(
+                np.isfinite(cluster_perf), cluster_perf, global_perf
+            ).astype(np.float32)
+            self.score_cost[cluster] = np.where(
+                np.isfinite(cluster_cost), cluster_cost, global_cost
+            ).astype(np.float32)
 
 
     def _find_top_clusters(self, query_embedding, p=None):
@@ -67,6 +64,7 @@ class AvengersPro(BaseRouter):
         if centers.device != query_tensor.device:
             centers = centers.to(query_tensor.device, non_blocking=True)
         distances = torch.cdist(query_tensor, centers)
+        p = min(int(p), int(centers.shape[0]))
         _, top_indices = torch.topk(distances, p, largest=False, dim=1)
         return top_indices.cpu().numpy()
 
