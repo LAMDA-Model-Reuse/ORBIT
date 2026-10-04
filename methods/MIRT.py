@@ -26,10 +26,7 @@ class MIRT(BaseRouter):
         self.model_cost = init_model(args, input_dim=in_dim, out_dim=out_dim)
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model_performance.to(self.device)
         self.model_cost.to(self.device)
@@ -47,9 +44,10 @@ class MIRT(BaseRouter):
         loss_name = train_cfg.get("loss").lower()
 
         if loss_name == "bce":
-            criterion = nn.BCEWithLogitsLoss()
+            criterion_perf = nn.BCELoss()
         else:
             raise ValueError(f"Unsupported loss: {loss_name}")
+        criterion_cost = nn.MSELoss()
 
         def make_optimizer(params):
             if opt_name == "adam":
@@ -79,7 +77,7 @@ class MIRT(BaseRouter):
 
                     opt_perf.zero_grad(set_to_none=True)  
                     pred, theta, a, b = self.model_performance(llm_input, xb)
-                    loss = criterion(pred, yb_model)
+                    loss = criterion_perf(pred, yb_model)
 
                     loss.backward()
                     opt_perf.step()
@@ -103,7 +101,7 @@ class MIRT(BaseRouter):
 
                     opt_cost.zero_grad(set_to_none=True)
                     pred, theta, a, b = self.model_cost(llm_input, xb)
-                    loss = criterion(pred, yb_model)
+                    loss = criterion_cost(pred, yb_model)
 
                     loss.backward()
                     opt_cost.step()
@@ -115,7 +113,11 @@ class MIRT(BaseRouter):
         self.model_cost.eval()
 
     def predict(self, test_embedding):
-        X = test_embedding.detach().cpu().numpy().astype(np.float32)
+        X = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         tx = torch.from_numpy(X).to(self.device)
         B = tx.shape[0]
 

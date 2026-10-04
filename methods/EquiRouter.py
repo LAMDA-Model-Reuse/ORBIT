@@ -152,10 +152,7 @@ class EquiRouter(BaseRouter):
         )
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model_cost.to(self.device)
         self.model_perf.to(self.device)

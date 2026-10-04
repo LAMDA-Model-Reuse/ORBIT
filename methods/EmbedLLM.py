@@ -31,10 +31,7 @@ class EmbedLLM(BaseRouter):
         super().__init__(args)
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         # MF latent dimension (paper-style compact model embedding dim)
         self.embed_dim = int(self.args.get("embed_dim", 256))
@@ -46,7 +43,9 @@ class EmbedLLM(BaseRouter):
         self.query_proj = None          # g(x): R^D -> R^d
         self.model_embed = None         # z_m: Embedding(M, d)
         self.model_bias = None          # b_m: (M,)
-        self.cost_head = None           # optional: R^d -> R^1 per model
+        self.cost_query_proj = None     # cost analogue of g(x)
+        self.cost_model_embed = None    # cost analogue of z_m
+        self.cost_bias = None
 
     def _lazy_init(self, in_dim: int, num_models: int):
         if self.query_proj is not None:
@@ -57,9 +56,12 @@ class EmbedLLM(BaseRouter):
         self.model_embed = nn.Embedding(num_models, self.embed_dim).to(self.device)
         self.model_bias = nn.Parameter(torch.zeros(num_models, device=self.device))
 
-        self.cost_head = nn.Linear(self.embed_dim, 1, bias=True).to(self.device)
+        self.cost_query_proj = nn.Linear(in_dim, self.embed_dim, bias=True).to(self.device)
+        self.cost_model_embed = nn.Embedding(num_models, self.embed_dim).to(self.device)
+        self.cost_bias = nn.Parameter(torch.zeros(num_models, device=self.device))
 
         nn.init.normal_(self.model_embed.weight, mean=0.0, std=0.02)
+        nn.init.normal_(self.cost_model_embed.weight, mean=0.0, std=0.02)
 
     def train(self):
         X, y_perf, y_cost = self._prepare_training_data()   # X: (N,D), y_perf: (N,M), y_cost: (N,M)
@@ -87,7 +89,9 @@ class EmbedLLM(BaseRouter):
             list(self.query_proj.parameters())
             + list(self.model_embed.parameters())
             + [self.model_bias]
-            + list(self.cost_head.parameters())
+            + list(self.cost_query_proj.parameters())
+            + list(self.cost_model_embed.parameters())
+            + [self.cost_bias]
         )
         optimizer = torch.optim.Adam(params, lr=lr)
 
@@ -126,9 +130,13 @@ class EmbedLLM(BaseRouter):
 
                 loss_perf = bce(logits, yb_perf)
 
-                # cost prediction: per-model scalar from z_m (broadcast to batch)
-                pred_cost_m = self.cost_head(z).squeeze(1)   # (M,)
-                pred_cost = pred_cost_m.unsqueeze(0).expand_as(yb_cost)  # (B,M)
+                # Reuse the query/model factorization for query-dependent cost.
+                q_cost = self.cost_query_proj(xb)
+                z_cost = self.cost_model_embed(model_ids)
+                if self.alpha > 0:
+                    q_cost = q_cost + self.alpha * torch.randn_like(q_cost)
+                    z_cost = z_cost + self.alpha * torch.randn_like(z_cost)
+                pred_cost = q_cost @ z_cost.t() + self.cost_bias.unsqueeze(0)
                 loss_cost = mse(pred_cost, yb_cost)
 
                 loss = loss_perf + cost_w * loss_cost
@@ -160,7 +168,8 @@ class EmbedLLM(BaseRouter):
 
         self.query_proj.eval()
         self.model_embed.eval()
-        self.cost_head.eval()
+        self.cost_query_proj.eval()
+        self.cost_model_embed.eval()
 
         model_ids = torch.arange(M, device=self.device)
 
@@ -169,7 +178,8 @@ class EmbedLLM(BaseRouter):
         logits = q @ z.t() + self.model_bias.unsqueeze(0)  # (N,M)
         perf_prob = torch.sigmoid(logits)           # (N,M)
 
-        pred_cost_m = self.cost_head(z).squeeze(1)  # (M,)
-        pred_cost = pred_cost_m.unsqueeze(0).repeat(N, 1)  # (N,M)
+        q_cost = self.cost_query_proj(tx)
+        z_cost = self.cost_model_embed(model_ids)
+        pred_cost = q_cost @ z_cost.t() + self.cost_bias.unsqueeze(0)
 
         return perf_prob.cpu().numpy(), pred_cost.cpu().numpy()

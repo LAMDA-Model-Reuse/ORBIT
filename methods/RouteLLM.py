@@ -52,6 +52,22 @@ class PairConfig:
     eps: float = 1e-12
 
 
+def _resolve_pair_config(cfg: PairConfig, y_perf: np.ndarray) -> PairConfig:
+    means = np.nanmean(y_perf, axis=0)
+    if not np.isfinite(means).all():
+        missing = np.flatnonzero(~np.isfinite(means)).tolist()
+        raise ValueError(f"RouteLLM has no finite performance labels for models {missing}.")
+    strong = int(np.argmax(means)) if cfg.strong_model_idx is None else int(cfg.strong_model_idx)
+    weak = int(np.argmin(means)) if cfg.weak_model_idx is None else int(cfg.weak_model_idx)
+    if strong == weak:
+        raise ValueError("RouteLLM strong and weak model indices must be different.")
+    if not (0 <= strong < y_perf.shape[1] and 0 <= weak < y_perf.shape[1]):
+        raise ValueError(
+            f"RouteLLM model pair ({strong}, {weak}) is outside [0, {y_perf.shape[1]})."
+        )
+    return PairConfig(strong, weak, cfg.tie_policy, cfg.eps)
+
+
 def _build_pairwise_pref(y_perf: np.ndarray,cfg: PairConfig) -> Tuple[np.ndarray, np.ndarray]:
     """
     Construct pairwise preference labels from oracle per-model performance.
@@ -124,7 +140,7 @@ class RouteLLM_SWRanking(BaseRouter):
 
     Output:
     - pair_scores: (B, 2) where [:,0]=P(weak), [:,1]=P(strong)
-    - exp_cost: (B,) expected cost under probabilistic routing
+    - cost_pred: (B, K) query-dependent costs from the shared fallback MLP
     """
 
     def __init__(self, args: Dict[str, Any]) -> None:
@@ -148,25 +164,13 @@ class RouteLLM_SWRanking(BaseRouter):
         self._y_pref: Optional[np.ndarray] = None       # (N_eff,)
         self._keep: Optional[np.ndarray] = None         # (N_eff,)
         self._maxsim_train: Optional[np.ndarray] = None # (N,) precomputed max_{q'' != q'} cos(q', q'')
-        self._avg_cost_s: float = 0.0
-        self._avg_cost_w: float = 0.0
 
     def train(self) -> None:
         X, y_perf, y_cost = self._prepare_training_data()
         X = _as_float32(X)
         y_perf = _as_float32(y_perf)
         y_cost = _as_float32(y_cost)
-        mean_per_model = np.nanmean(y_perf, axis=0)
-        strong_idx = int(np.nanargmax(mean_per_model))
-        weak_idx = int(np.nanargmin(mean_per_model))
-
-        if self.cfg.strong_model_idx is None or self.cfg.weak_model_idx is None:
-            object.__setattr__(self, "cfg", PairConfig(
-                strong_model_idx=strong_idx,
-                weak_model_idx=weak_idx,
-                tie_policy=self.cfg.tie_policy,
-                eps=self.cfg.eps,
-            ))
+        self.cfg = _resolve_pair_config(self.cfg, y_perf)
 
         logging.info(f"[RouteLLM_SWRanking.train] inferred (strong, weak)=({self.cfg.strong_model_idx}, {self.cfg.weak_model_idx})")
         
@@ -177,6 +181,8 @@ class RouteLLM_SWRanking(BaseRouter):
 
         # build preference labels from oracle performance
         y_pref, keep = _build_pairwise_pref(y_perf, self.cfg)
+        if keep.size == 0:
+            raise ValueError("RouteLLM_SWRanking has no non-tied preference labels.")
 
         # normalize embeddings
         Xn = _l2_normalize_rows(X, eps=self.cfg.eps)
@@ -185,16 +191,16 @@ class RouteLLM_SWRanking(BaseRouter):
         self._y_pref = y_pref
         self._keep = keep
 
-        # average costs for the selected strong/weak models
-        s, w = self.cfg.strong_model_idx, self.cfg.weak_model_idx
-        self._avg_cost_s = float(np.mean(y_cost[:, s]))
-        self._avg_cost_w = float(np.mean(y_cost[:, w]))
+        self._fit_shared_cost_predictor(X, y_cost)
 
         # Precompute max_{q'' != q'} cos(q', q'') exactly on the FULL training set (paper Eq. 9).
         # sims_train: (N,N). We exclude self by setting diagonal to -inf.
         sims_train = Xn @ Xn.T  # cosine similarities
-        np.fill_diagonal(sims_train, -np.inf)
-        maxsim = np.max(sims_train, axis=1).astype(np.float32)  # (N,)
+        if Xn.shape[0] == 1:
+            maxsim = np.ones(1, dtype=np.float32)
+        else:
+            np.fill_diagonal(sims_train, -np.inf)
+            maxsim = np.max(sims_train, axis=1).astype(np.float32)  # (N,)
         self._maxsim_train = maxsim
 
         logging.info(
@@ -206,7 +212,11 @@ class RouteLLM_SWRanking(BaseRouter):
         if self._Xn is None or self._y_pref is None or self._keep is None or self._maxsim_train is None:
             raise RuntimeError("Call train() before predict().")
 
-        q = test_embedding.detach().cpu().numpy().astype(np.float32)
+        q = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         if q.ndim != 2:
             raise ValueError(f"test_embedding must be (B,D), got {q.shape}")
 
@@ -254,9 +264,7 @@ class RouteLLM_SWRanking(BaseRouter):
         perf_pred[:, w] = (1.0 - p_strong).astype(np.float32)
         perf_pred[:, s] = p_strong.astype(np.float32)
 
-        cost_pred = np.full((B, K), np.nan, dtype=np.float32)
-        cost_pred[:, w] = self._avg_cost_w
-        cost_pred[:, s] = self._avg_cost_s
+        cost_pred = self._predict_shared_cost(q)
 
         return perf_pred, cost_pred
 
@@ -318,7 +326,7 @@ class RouteLLM_MF(BaseRouter):
 
     Output:
     - pair_scores: (B,2) = [P(weak), P(strong)]
-    - exp_cost: (B,) expected cost under probabilistic routing
+    - cost_pred: (B, K) query-dependent costs from the shared fallback MLP
     """
 
     def __init__(self, args: Dict[str, Any]) -> None:
@@ -338,31 +346,16 @@ class RouteLLM_MF(BaseRouter):
         self.weight_decay: float = float(train_cfg.get("weight_decay", 0.0))
 
         dev_arg = args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model: Optional[_MFScorer] = None
-        self._avg_cost_s: float = 0.0
-        self._avg_cost_w: float = 0.0
 
     def train(self) -> None:
         X, y_perf, y_cost = self._prepare_training_data()
         X = _as_float32(X)
         y_perf = _as_float32(y_perf)
         y_cost = _as_float32(y_cost)
-        mean_per_model = np.nanmean(y_perf, axis=0)
-        strong_idx = int(np.nanargmax(mean_per_model))
-        weak_idx = int(np.nanargmin(mean_per_model))
-
-        if self.cfg.strong_model_idx is None or self.cfg.weak_model_idx is None:
-            object.__setattr__(self, "cfg", PairConfig(
-                strong_model_idx=strong_idx,
-                weak_model_idx=weak_idx,
-                tie_policy=self.cfg.tie_policy,
-                eps=self.cfg.eps,
-            ))
+        self.cfg = _resolve_pair_config(self.cfg, y_perf)
 
         s, w = self.cfg.strong_model_idx, self.cfg.weak_model_idx
         logging.info(f"[RouteLLM_MF.train] inferred (strong, weak)=({s}, {w})")
@@ -370,10 +363,10 @@ class RouteLLM_MF(BaseRouter):
         K = y_perf.shape[1]
 
         y_pref, keep = _build_pairwise_pref(y_perf, self.cfg)
+        if keep.size == 0:
+            raise ValueError("RouteLLM_MF has no non-tied preference labels.")
 
-        # costs
-        self._avg_cost_s = float(np.mean(y_cost[:, s]))
-        self._avg_cost_w = float(np.mean(y_cost[:, w]))
+        self._fit_shared_cost_predictor(X, y_cost)
 
         # model
         self.model = _MFScorer(in_dim=E, dm=self.dm, num_models=K).to(self.device)
@@ -426,7 +419,7 @@ class RouteLLM_MF(BaseRouter):
         if self.model is None:
             raise RuntimeError("Call train() before predict().")
 
-        q = test_embedding.to(self.device, dtype=torch.float32)
+        q = torch.as_tensor(test_embedding, dtype=torch.float32, device=self.device)
         if q.ndim != 2:
             raise ValueError(f"test_embedding must be (B,E), got {tuple(q.shape)}")
 
@@ -447,9 +440,7 @@ class RouteLLM_MF(BaseRouter):
         perf_pred[:, w] = (1.0 - p_strong).astype(np.float32)
         perf_pred[:, s] = p_strong.astype(np.float32)
 
-        cost_pred = np.full((B, K), np.nan, dtype=np.float32)
-        cost_pred[:, w] = self._avg_cost_w
-        cost_pred[:, s] = self._avg_cost_s
+        cost_pred = self._predict_shared_cost(q)
 
         return perf_pred, cost_pred
 
@@ -494,13 +485,8 @@ class RouteLLM_BERT(BaseRouter):
         self.max_length: int = int(args.get("max_length", 256))
 
         dev_arg = args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
-        self._avg_cost_s: float = 0.0
-        self._avg_cost_w: float = 0.0
 
         # Lazy import so that environments without transformers fail loudly only when used.
         try:
@@ -516,36 +502,25 @@ class RouteLLM_BERT(BaseRouter):
         self.classifier = nn.Linear(self.encoder.config.hidden_size, 1).to(self.device)
 
     def train(self) -> None:
-        # Expect texts (list[str]) instead of embeddings
-        _, y_perf, y_cost = self._prepare_training_data()
+        cost_features, y_perf, y_cost = self._prepare_training_data()
         modality = self.args["modality"].split("+")
         if "image" in modality:
             raise RuntimeError("RouteLLM_BERT cannot handle image modality; requires raw text queries.")
-        texts = self.test_df['prompt'].astype(str).tolist()
+        texts = self.train_df['prompt'].astype(str).tolist()
 
         y_perf = _as_float32(np.asarray(y_perf))
         y_cost = _as_float32(np.asarray(y_cost))
-        mean_per_model = np.nanmean(y_perf, axis=0)
-        strong_idx = int(np.nanargmax(mean_per_model))
-        weak_idx = int(np.nanargmin(mean_per_model))
-
-        if self.cfg.strong_model_idx is None or self.cfg.weak_model_idx is None:
-            object.__setattr__(self, "cfg", PairConfig(
-                strong_model_idx=strong_idx,
-                weak_model_idx=weak_idx,
-                tie_policy=self.cfg.tie_policy,
-                eps=self.cfg.eps,
-            ))
+        self.cfg = _resolve_pair_config(self.cfg, y_perf)
 
         s, w = self.cfg.strong_model_idx, self.cfg.weak_model_idx
-        logging.info(f"[RouteLLM_MF.train] inferred (strong, weak)=({s}, {w})")
+        logging.info(f"[RouteLLM_BERT.train] inferred (strong, weak)=({s}, {w})")
 
         y_pref, keep = _build_pairwise_pref(y_perf, self.cfg)
+        if keep.size == 0:
+            raise ValueError("RouteLLM_BERT has no non-tied preference labels.")
         texts = [texts[i] for i in keep]
 
-        s, w = self.cfg.strong_model_idx, self.cfg.weak_model_idx
-        self._avg_cost_s = float(np.mean(y_cost[:, s]))
-        self._avg_cost_w = float(np.mean(y_cost[:, w]))
+        self._fit_shared_cost_predictor(cost_features, y_cost)
 
         optimizer = optim.AdamW(
             list(self.encoder.parameters()) + list(self.classifier.parameters()),
@@ -611,6 +586,7 @@ class RouteLLM_BERT(BaseRouter):
         logits = self.classifier(cls).squeeze(1)
         p_strong = torch.sigmoid(logits).detach().cpu().numpy().astype(np.float32)
 
+        B = len(test_texts)
         K = len(self.model_list)
         s, w = self.cfg.strong_model_idx, self.cfg.weak_model_idx
 
@@ -618,8 +594,14 @@ class RouteLLM_BERT(BaseRouter):
         perf_pred[:, w] = (1.0 - p_strong).astype(np.float32)
         perf_pred[:, s] = p_strong.astype(np.float32)
 
-        cost_pred = np.full((B, K), np.nan, dtype=np.float32)
-        cost_pred[:, w] = self._avg_cost_w
-        cost_pred[:, s] = self._avg_cost_s
+        cost_embeddings = self.embedder.run_embed(texts=list(test_texts), images=None)
+        cost_pred = self._predict_shared_cost(cost_embeddings)
 
         return perf_pred, cost_pred
+
+    def evaluate(self) -> None:
+        if "image" in self.args["modality"].split("+"):
+            raise RuntimeError("RouteLLM_BERT cannot handle image modality; requires raw text queries.")
+        texts = self.test_df["prompt"].astype(str).tolist()
+        perf_pred, cost_pred = self.predict(texts)
+        self._evaluate_predictions(perf_pred, cost_pred)

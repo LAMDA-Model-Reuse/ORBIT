@@ -25,50 +25,59 @@ class Eagle(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
         self.num_models = len(self.model_list)
         self.global_scores = {m: 1500.0 for m in self.model_list}
         self.history_embs = []
         self.history_perf = []
+        self.history_cost = []
+        self.global_cost = None
         self.k = self.args["k_neighbors"]
         self.P = self.args["global_weight"]
         self.K_factor = self.args["K_factor"]
-        self.costrank = []
     
     def train(self):
         X, y_perf, y_cost = self._prepare_training_data()
-        avg_cost = np.mean(y_cost, axis=0)
-        self.costrank = list(np.argsort(avg_cost))
-
         self.history_embs = X
         self.history_perf = y_perf
+        self.history_cost = y_cost
+        self.global_cost = np.nanmean(y_cost, axis=0).astype(np.float32)
 
         for m in self.model_list:
             self.global_scores[m] = 1500.0
 
-        N, M = y_perf.shape
-        pairwise_feedback = []
-        for i in range(N):
-            winners = np.where(y_perf[i] > 0)[0]
-            losers = np.where(y_perf[i] <= 0)[0]
-            for w in winners:
-                for l in losers:
-                    pairwise_feedback.append((w, l))
-                
-        logging.info(f"[methods.Eagle.py] Processing {len(pairwise_feedback)} pairwise comparisons")
+        comparisons = 0
+        ratings = np.full(self.num_models, 1500.0, dtype=np.float64)
+        for outcomes in y_perf:
+            ratings, count = self._update_elo(ratings, outcomes)
+            comparisons += count
+        self.global_scores = {
+            model: float(ratings[index]) for index, model in enumerate(self.model_list)
+        }
+        logging.info("[methods.Eagle.py] Processed %d pairwise comparisons", comparisons)
 
-        for winner_id, loser_id in pairwise_feedback:
-            winner = self.model_list[winner_id]
-            loser = self.model_list[loser_id]
-            R_w = self.global_scores[winner]
-            R_l = self.global_scores[loser]
-            E_w = 1 / (1 + 10 ** ((R_l - R_w) / 400))
-            E_l = 1 - E_w
-            self.global_scores[winner] += self.K_factor * (1 - E_w)
-            self.global_scores[loser] += self.K_factor * (0 - E_l)
+    def _update_elo(self, ratings, outcomes):
+        ratings = np.asarray(ratings, dtype=np.float64).copy()
+        outcomes = np.asarray(outcomes, dtype=np.float64)
+        count = 0
+        for left in range(self.num_models):
+            if not np.isfinite(outcomes[left]):
+                continue
+            for right in range(left + 1, self.num_models):
+                if not np.isfinite(outcomes[right]):
+                    continue
+                expected_left = 1.0 / (1.0 + 10.0 ** ((ratings[right] - ratings[left]) / 400.0))
+                if outcomes[left] > outcomes[right]:
+                    actual_left = 1.0
+                elif outcomes[left] < outcomes[right]:
+                    actual_left = 0.0
+                else:
+                    actual_left = 0.5
+                delta = self.K_factor * (actual_left - expected_left)
+                ratings[left] += delta
+                ratings[right] -= delta
+                count += 1
+        return ratings, count
 
     def _to_tensor(self, x) -> torch.Tensor:
         if isinstance(x, torch.Tensor):
@@ -86,18 +95,36 @@ class Eagle(BaseRouter):
         query_embs = self._to_tensor(query_embs).to(self.device)
 
         hist_embs = self._to_tensor(self.history_embs).to(self.device)
-        hist_perf = torch.tensor(self.history_perf, dtype=torch.float32, device=self.device)
+        hist_perf = np.asarray(self.history_perf, dtype=np.float32)
+        hist_cost = torch.as_tensor(self.history_cost, dtype=torch.float32, device=self.device)
 
         local_scores = []
+        local_costs = []
         for q_emb in query_embs:
             sim = torch.matmul(hist_embs, q_emb) / (
                 torch.norm(hist_embs, dim=1) * torch.norm(q_emb) + 1e-8
             )
-            topk_idx = torch.topk(sim, self.k).indices
-            local_score = hist_perf[topk_idx].mean(dim=0)
-            local_scores.append(local_score)
+            k = min(int(self.k), int(hist_embs.shape[0]))
+            values, topk_idx = torch.topk(sim, k)
+            ratings = np.full(self.num_models, 1500.0, dtype=np.float64)
+            for history_index in topk_idx.detach().cpu().numpy():
+                ratings, _ = self._update_elo(ratings, hist_perf[history_index])
+            local_scores.append(torch.as_tensor(ratings, dtype=torch.float32, device=self.device))
 
-        return torch.stack(local_scores)  
+            weights = torch.softmax(values, dim=0).unsqueeze(1)
+            neighbor_cost = hist_cost[topk_idx]
+            finite = torch.isfinite(neighbor_cost)
+            effective_weights = weights * finite
+            denominator = effective_weights.sum(dim=0)
+            weighted_cost = (
+                effective_weights * torch.nan_to_num(neighbor_cost)
+            ).sum(dim=0) / denominator.clamp_min(1e-12)
+            fallback = torch.as_tensor(
+                self.global_cost, dtype=torch.float32, device=self.device
+            )
+            local_costs.append(torch.where(denominator > 0, weighted_cost, fallback))
+
+        return torch.stack(local_scores), torch.stack(local_costs)
 
 
     def predict(self, test_embeddings):
@@ -116,39 +143,8 @@ class Eagle(BaseRouter):
         )
         N = test_embeddings.shape[0]
         global_scores_mat = global_scores_arr.unsqueeze(0).repeat(N, 1)
-        local_scores_mat = self._compute_local_scores(test_embeddings) 
+        local_scores_mat, local_costs = self._compute_local_scores(test_embeddings)
         final_scores = self.P * global_scores_mat + (1 - self.P) * local_scores_mat
-        return final_scores.detach().cpu().numpy()
-
-    
-    def evaluate(self):
-        modality = list(self.args["modality"].split("+"))
-        if "text" in modality: texts = self.test_df['prompt'].astype(str).tolist()
-        else:                  texts = None
-        if "image" in modality: images = self.test_df['image_path'].tolist()
-        else:                   images = None
-        test_embeddings = self.embedder.run_embed(texts=texts,images=images)
-
-        final_scores = self.predict(test_embeddings)
-
-        all_points = []
-        M = len(self.model_list)
-        perf_mat = self.test_df[[f"model_{mid}_performance" for mid in range(M)]].to_numpy(dtype=np.float32)
-        cost_mat = self.test_df[[f"model_{mid}_cost" for mid in range(M)]].to_numpy(dtype=np.float32)
-        n_samples = perf_mat.shape[0]
-        for idx in range(len(self.model_list)):
-            best_idx = self.costrank[:idx+1] 
-            
-
-            selected_scores = final_scores[:, best_idx]     
-            best_in_subset = selected_scores.argmax(axis=1)  
-            chosen_models = np.array(best_idx, dtype=int)[best_in_subset] 
-
-            rows = np.arange(n_samples)
-            avg_perf = float(perf_mat[rows, chosen_models].mean())
-            avg_cost = float(cost_mat[rows, chosen_models].mean())
-
-            all_points.append({"cost": avg_cost, "performance": avg_perf})
-
-
-        self.cal_metrics(all_points)
+        global_cost = torch.as_tensor(self.global_cost, dtype=torch.float32, device=self.device)
+        cost_pred = self.P * global_cost.unsqueeze(0) + (1 - self.P) * local_costs
+        return final_scores.detach().cpu().numpy(), cost_pred.detach().cpu().numpy()

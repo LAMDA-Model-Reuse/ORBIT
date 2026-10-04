@@ -29,10 +29,7 @@ class MLPRouter(BaseRouter):
         self.model_cost = init_model(args, input_dim=in_dim, out_dim=out_dim) 
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model_performance.to(self.device)
         self.model_cost.to(self.device)
@@ -96,7 +93,11 @@ class MLPRouter(BaseRouter):
         self.model_cost.eval()
 
     def predict(self, test_embedding):
-        X = test_embedding.detach().cpu().numpy().astype(np.float32)
+        X = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         tx = torch.from_numpy(X).to(self.device)
 
         with torch.no_grad():

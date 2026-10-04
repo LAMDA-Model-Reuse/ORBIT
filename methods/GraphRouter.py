@@ -47,10 +47,7 @@ class GraphRouter(BaseRouter):
         self.model = init_model(args, input_dim=in_dim, out_dim=2) #performance 和 cost
 
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.model.to(self.device)
         self._get_model_description()

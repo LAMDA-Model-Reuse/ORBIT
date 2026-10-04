@@ -89,11 +89,7 @@ class TRouter(BaseRouter):
         super().__init__(args)
         cfg = args["training"]
         device = cfg.get("device", args.get("device", "auto"))
-        self.device = torch.device(
-            "cuda" if str(device).lower() == "auto" and torch.cuda.is_available()
-            else "cpu" if str(device).lower() == "auto"
-            else device
-        )
+        self.device = self._resolve_device(device)
         self.epochs = int(cfg["epochs"])
         self.batch_size = int(cfg["batch_size"])
         self.lr = float(cfg["lr"])

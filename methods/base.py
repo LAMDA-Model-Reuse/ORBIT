@@ -5,23 +5,64 @@ import time
 import numpy as np
 import torch
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from torch.utils.data import TensorDataset, DataLoader
 import logging
+import random
 from utils.metrics import (
     build_tradeoff_points,
     extract_pareto_front,
     minimum_cost_policy_point,
     normalized_auc,
 )
+from utils.cost import SharedCostPredictor
 
 class BaseRouter(ABC):
+    @staticmethod
+    def _resolve_device(device_arg):
+        """Resolve configured devices without crashing on unavailable CUDA indices."""
+        if device_arg is None or (isinstance(device_arg, str) and device_arg.lower() == "auto"):
+            return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        configured_cuda_index = None
+        if isinstance(device_arg, str) and device_arg.lower().startswith("cuda:"):
+            try:
+                configured_cuda_index = int(device_arg.split(":", 1)[1])
+            except ValueError as exc:
+                raise ValueError(f"Invalid CUDA device: {device_arg}") from exc
+        requested = torch.device(device_arg)
+        if requested.type != "cuda":
+            return requested
+        if not torch.cuda.is_available():
+            logging.warning("CUDA device %s requested but CUDA is unavailable; using CPU.", requested)
+            return torch.device("cpu")
+        requested_index = configured_cuda_index if configured_cuda_index is not None else requested.index
+        if requested_index is not None and (
+            requested_index < 0 or requested_index >= torch.cuda.device_count()
+        ):
+            logging.warning(
+                "CUDA device %s requested but only %d device(s) are visible; using cuda:0.",
+                requested,
+                torch.cuda.device_count(),
+            )
+            return torch.device("cuda:0")
+        return requested
+
     def __init__(self,args):
-        self.args = args
-        self.train_df,self.test_df,self.model_list = download_dataset(args)
+        self.args = deepcopy(args)
+        self.train_df,self.test_df,self.model_list = download_dataset(self.args)
         self.model = None
-        if "embeddings" in args:
-            self.embedder = Embedder(args)
+        self.cost_predictor = None
+        self._training_cost_bounds = None
+        configured_device = self.args.get(
+            "device", self.args.get("training", {}).get("device", "auto")
+        )
+        self.device = self._resolve_device(configured_device)
+        if "embeddings" in self.args:
+            embedding_device = self.args["embeddings"].get("device", configured_device)
+            self.args["embeddings"]["device"] = str(self._resolve_device(embedding_device))
+            self.embedder = Embedder(self.args)
         self.seed = self.args["seed"]
+        random.seed(self.seed)
         torch.manual_seed(self.seed)
         np.random.seed(self.seed)
         if torch.cuda.is_available():
@@ -66,6 +107,12 @@ class BaseRouter(ABC):
 
         perf_pred,cost_pred = self.predict(test_embs)
 
+        self._evaluate_predictions(perf_pred, cost_pred)
+
+    def _evaluate_predictions(self, perf_pred, cost_pred):
+        """Evaluate an already-computed pair of performance/cost matrices."""
+        cost_pred = self._clip_predicted_costs(cost_pred)
+
         M = len(self.model_list)
         perf_cols_all = [f"model_{mid}_performance" for mid in range(M)]
         cost_cols_all = [f"model_{mid}_cost" for mid in range(M)]
@@ -77,6 +124,33 @@ class BaseRouter(ABC):
         )
         self.cal_rci(best_idx, log_once=True)
         self.cal_metrics(all_points)
+
+    def _clip_predicted_costs(self, cost_pred):
+        """Keep finite learned costs within each model's observed training range."""
+        costs = np.asarray(cost_pred, dtype=np.float32)
+        if self._training_cost_bounds is None:
+            return costs
+        lower, upper = self._training_cost_bounds
+        if costs.ndim != 2 or costs.shape[1] != lower.shape[0]:
+            raise ValueError(
+                f"Predicted costs must have shape (N, {lower.shape[0]}), got {costs.shape}."
+            )
+        return np.where(np.isfinite(costs), np.clip(costs, lower, upper), costs)
+
+    def _fit_shared_cost_predictor(self, X, y_cost):
+        """Fit the common MLP fallback used by routers without native cost logic."""
+        config = dict(self.args.get("cost_prediction", {}))
+        config.setdefault("lr", 1e-3)
+        config.setdefault("batch_size", 256)
+        config.setdefault("epochs", 50)
+        device = getattr(self, "device", torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+        self.cost_predictor = SharedCostPredictor(config, seed=self.seed, device=device)
+        self.cost_predictor.fit(X, y_cost)
+
+    def _predict_shared_cost(self, test_embedding):
+        if self.cost_predictor is None:
+            raise RuntimeError("Shared cost predictor has not been trained.")
+        return self.cost_predictor.predict(test_embedding)
 
     @staticmethod
     def _build_tradeoff_points(perf_pred, cost_pred, perf_mat, cost_mat, max_budgets=100):
@@ -255,7 +329,7 @@ class BaseRouter(ABC):
         X = self.embedder.run_embed(texts=texts, images=images)
 
         if isinstance(X, torch.Tensor):
-            X = X.cpu().numpy().astype(np.float32)
+            X = X.detach().cpu().numpy().astype(np.float32)
         else:
             X = np.asarray(X, dtype=np.float32)
         perf_cols = [f"model_{mid}_performance" for mid in range(len(self.model_list))]
@@ -263,6 +337,14 @@ class BaseRouter(ABC):
 
         y_perf = self.train_df[perf_cols].to_numpy(dtype=np.float32)
         y_cost = self.train_df[cost_cols].to_numpy(dtype=np.float32)
+        finite_counts = np.isfinite(y_cost).sum(axis=0)
+        if np.any(finite_counts == 0):
+            missing = np.flatnonzero(finite_counts == 0).tolist()
+            raise ValueError(f"No finite training cost is available for model indices {missing}.")
+        self._training_cost_bounds = (
+            np.nanmin(y_cost, axis=0).astype(np.float32),
+            np.nanmax(y_cost, axis=0).astype(np.float32),
+        )
         return X, y_perf, y_cost
     
     def _build_dataloader(self, X: np.ndarray, Y: np.ndarray, batch_size: int, shuffle: bool = True):

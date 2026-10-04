@@ -18,16 +18,15 @@ class kNNRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
         dev_arg = self.args.get("device")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
         
         self.k = self.args["k"]
         self.eps = self.args["eps"]
         self._train_X = None
         self._train_y_perf = None
         self._train_y_cost = None
+        self._global_perf = None
+        self._global_cost = None
 
     def train(self):
         """Prepare kNN index (cache training embeddings and labels)."""
@@ -35,6 +34,10 @@ class kNNRouter(BaseRouter):
         self._train_X = torch.from_numpy(X_train.astype(np.float32)).to(self.device)
         self._train_y_perf = torch.from_numpy(y_perf.astype(np.float32)).to(self.device)
         self._train_y_cost = torch.from_numpy(y_cost.astype(np.float32)).to(self.device)
+        self._global_perf = torch.nanmean(self._train_y_perf, dim=0)
+        self._global_cost = torch.nanmean(self._train_y_cost, dim=0)
+        if not torch.isfinite(self._global_perf).all() or not torch.isfinite(self._global_cost).all():
+            raise ValueError("kNNRouter requires at least one finite performance and cost per model.")
         
     def predict(self, test_embedding):
         if self._train_X is None:
@@ -44,17 +47,24 @@ class kNNRouter(BaseRouter):
         y_perf = self._train_y_perf
         y_cost = self._train_y_cost
 
-        X = test_embedding.detach().cpu().numpy().astype(np.float32)
+        X = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         tx = torch.from_numpy(X).to(self.device)
         dists = torch.cdist(tx, X_train)
-        values, indices = torch.topk(dists, self.k, dim=1, largest=False, sorted=True)
+        k = min(int(self.k), int(X_train.shape[0]))
+        if k <= 0:
+            raise ValueError("kNNRouter requires at least one training sample.")
+        values, indices = torch.topk(dists, k, dim=1, largest=False, sorted=True)
         B = dists.size(0)
 
         zero_mask = values <= 1e-12
         any_zero = zero_mask.any(dim=1, keepdim=True) 
 
         inv = 1.0 / (values + self.eps)
-        weights = torch.where(any_zero.expand(-1, self.k), zero_mask.float(), inv)  # (B, k)
+        weights = torch.where(any_zero.expand(-1, k), zero_mask.float(), inv)  # (B, k)
 
         weights = weights / (weights.sum(dim=1, keepdim=True) + 1e-12)  # (B, k)
 
@@ -65,8 +75,18 @@ class kNNRouter(BaseRouter):
         y_cost_exp = y_cost.unsqueeze(0).expand(B, -1, -1)  # (B, N, M)
         neighbors_cost = torch.gather(y_cost_exp, 1, idx_exp)         # (B, k, M)
 
-        w = weights.unsqueeze(-1)  # (B, k, 1)
-        perf_pred = (w * neighbors_perf).sum(dim=1)  # (B, M)
-        cost_pred = (w * neighbors_cost).sum(dim=1)  # (B, M)
+        def masked_average(values, fallback):
+            finite = torch.isfinite(values)
+            effective_weights = weights.unsqueeze(-1) * finite
+            denominator = effective_weights.sum(dim=1)
+            numerator = (effective_weights * torch.nan_to_num(values)).sum(dim=1)
+            return torch.where(
+                denominator > 0,
+                numerator / denominator.clamp_min(1e-12),
+                fallback.unsqueeze(0).expand(B, -1),
+            )
+
+        perf_pred = masked_average(neighbors_perf, self._global_perf)
+        cost_pred = masked_average(neighbors_cost, self._global_cost)
 
         return perf_pred.cpu().numpy(), cost_pred.cpu().numpy()

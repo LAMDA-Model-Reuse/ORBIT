@@ -70,10 +70,7 @@ class OmniRouter(BaseRouter):
 
         # -------- device --------
         dev_arg = args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         # -------- training hyperparams --------
         train_cfg = args.get("training", {})
@@ -159,7 +156,7 @@ class OmniRouter(BaseRouter):
         sims = qnorm @ T.T  # (B, N)
 
         # indices: (B, k) for top-k similarities (unordered within top-k is ok for mean)
-        idx = np.argpartition(-sims, kth=np.arange(k), axis=1)[:, :k]
+        idx = np.argpartition(-sims, kth=k - 1, axis=1)[:, :k]
 
         # Vectorized mean over k neighbors
         # sel_*: (B, k, M)
@@ -247,6 +244,7 @@ class OmniRouter(BaseRouter):
         if self.model is None:
             raise RuntimeError("Call train() before predict().")
 
+        test_embedding = torch.as_tensor(test_embedding, dtype=torch.float32)
         if test_embedding.ndim != 2:
             raise ValueError(f"test_embedding must be (B,D), got shape={tuple(test_embedding.shape)}")
 

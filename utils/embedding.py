@@ -96,15 +96,23 @@ class Embedder:
         if self.training:
             if self.out_dim is None:
                 raise ValueError("embeddings.out_dim must be set when training=True.")
+            active_modalities = int(self.text_embedder is not None) + int(self.image_embedder is not None)
+            if active_modalities == 0:
+                raise ValueError("At least one embedding model is required when training=True.")
+            if self.out_dim % active_modalities != 0:
+                raise ValueError(
+                    "embeddings.out_dim must be divisible by the number of active modalities."
+                )
+            projected_dim = self.out_dim // active_modalities
             if self.text_embedder is not None:
                 assert self.text_dim is not None
                 self.text_proj = nn.Parameter(
-                    torch.randn(self.text_dim, self.out_dim) * (1.0 / np.sqrt(self.text_dim))
+                    torch.randn(self.text_dim, projected_dim) * (1.0 / np.sqrt(self.text_dim))
                 )
             if self.image_embedder is not None:
                 assert self.image_dim is not None
                 self.image_proj = nn.Parameter(
-                    torch.randn(self.image_dim, self.out_dim) * (1.0 / np.sqrt(self.image_dim))
+                    torch.randn(self.image_dim, projected_dim) * (1.0 / np.sqrt(self.image_dim))
                 )
 
     def get_trainable_parameters(self) -> List[nn.Parameter]:

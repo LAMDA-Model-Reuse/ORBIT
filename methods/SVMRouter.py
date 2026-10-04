@@ -8,10 +8,7 @@ class SVMRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
         dev_arg = self.args.get("device", "auto")
-        if isinstance(dev_arg, str) and dev_arg.lower() == "auto":
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device(dev_arg)
+        self.device = self._resolve_device(dev_arg)
 
         self.kernel = self.args["kernel"]
         self.C = self.args["C"]
@@ -42,7 +39,11 @@ class SVMRouter(BaseRouter):
             self.cost_models.append(svr_c)
 
     def predict(self, test_embedding):
-        X_np = test_embedding.detach().cpu().numpy().astype(np.float32)
+        X_np = (
+            test_embedding.detach().cpu().numpy().astype(np.float32)
+            if isinstance(test_embedding, torch.Tensor)
+            else np.asarray(test_embedding, dtype=np.float32)
+        )
         Xs = self.scaler.transform(X_np)
 
         B = Xs.shape[0]
