@@ -23,3 +23,5 @@ from methods.ModelSAT import ModelSAT
 from methods.ProfileRouter import ProfileRouter
 from methods.CarrotRouter import CarrotRouter
 from methods.EARAMRouter import EARAMRouter
+from methods.RouteFM import RouteFMRouter
+from methods.SaveRouter import SaveRouter

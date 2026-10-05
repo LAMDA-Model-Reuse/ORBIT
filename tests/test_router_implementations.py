@@ -162,10 +162,12 @@ class MethodRegressionTest(unittest.TestCase):
         torch.testing.assert_close(selected[1], logits[1, 3])
 
     def test_registry_contains_only_importable_routers(self):
-        self.assertEqual(len(ROUTER_REGISTRY), 28)
+        self.assertEqual(len(ROUTER_REGISTRY), 30)
         self.assertIn("ProfileRouter", ROUTER_REGISTRY)
         self.assertIn("CarrotRouter", ROUTER_REGISTRY)
         self.assertIn("EARAMRouter", ROUTER_REGISTRY)
+        self.assertIn("RouteFM", ROUTER_REGISTRY)
+        self.assertIn("SaveRouter", ROUTER_REGISTRY)
 
 
 if __name__ == "__main__":

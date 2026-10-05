@@ -1,0 +1,13 @@
+{
+  "method": "SaveRouter",
+  "saverouter": {
+    "k": 4,
+    "acquisition_beta": 0.35,
+    "acquisition_prior_strength": 10.0,
+    "prior_alpha": 1.0,
+    "prior_beta": 1.0,
+    "seed_stride": 1009,
+    "prior_ridge_alpha": 10.0,
+    "min_model_observations": 8
+  }
+}

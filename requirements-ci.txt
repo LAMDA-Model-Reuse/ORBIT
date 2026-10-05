@@ -6,6 +6,8 @@ transformers>=4.45,<4.58
 datasets>=2.20,<4.5
 huggingface-hub>=0.24,<0.36
 git+https://github.com/openai/CLIP.git
+routefm-router @ git+https://github.com/LAMDA-Model-Reuse/RouteFM.git@3e23c7d903f7d7e1b943d0c867fadfdb3eb23eb1
+saverouter @ git+https://github.com/LAMDA-Model-Reuse/SaveRouter.git@95532ccce659377d2aa1a651c9908ec631c385b5
 numpy>=2.0,<2.4
 pandas>=2.2,<2.4
 scipy>=1.13,<1.17

@@ -16,6 +16,8 @@ accelerate>=0.30,<2.0
 huggingface-hub>=0.24,<0.36
 sentence-transformers>=2.6,<6.0
 git+https://github.com/openai/CLIP.git
+routefm-router @ git+https://github.com/LAMDA-Model-Reuse/RouteFM.git@3e23c7d903f7d7e1b943d0c867fadfdb3eb23eb1
+saverouter @ git+https://github.com/LAMDA-Model-Reuse/SaveRouter.git@95532ccce659377d2aa1a651c9908ec631c385b5
 
 # ----------------------------
 # Data processing

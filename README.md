@@ -58,6 +58,7 @@ Useful links:
 
 ## What's New
 
+- **2026-10**: Added **RouteFM**, the frozen in-context foundation router that transfers to new candidate pools through behavioral context, and **SAVERouter**, which adaptively acquires fixed-K sparse feedback and accounts for supervision expenditure. [[RouteFM Paper]](https://arxiv.org/abs/2609.37362) [[RouteFM Code]](https://github.com/LAMDA-Model-Reuse/RouteFM) [[SAVERouter Paper]](https://arxiv.org/abs/2609.37402) [[SAVERouter Code]](https://github.com/LAMDA-Model-Reuse/SaveRouter)
 - **2026-08**: ORBIT has been accepted by the *Frontiers of Computer Science* (FCS) special column **[Code & Data](https://journal.hep.com.cn/fcs/EN/subject/showCollection.do?subjectId=1710741206314)**. [[Paper]](https://doi.org/10.1007/s11704-026-61310-5)
 - **2026-08**: Added InferenceDynamics.
 - **2026-08**: Added the LLMRouterBench Performance-Cost benchmark with 12 models across 10 tasks, using ORBIT's standardized split and globally scaled per-query costs.
@@ -67,7 +68,7 @@ Useful links:
 
 ## Methods Reproduced
 
-ORBIT reproduces **28 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
+ORBIT reproduces **30 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
 
 - **Avengers**: A training-free recipe that clusters queries and routes by cluster-wise capability profiles with sampling/voting. [[Paper]](https://arxiv.org/abs/2505.19797)
 - **Avengers-Pro**: A test-time routing framework that traces a Pareto frontier via clustering and a tunable performance-efficiency objective. [[Paper]](https://arxiv.org/abs/2508.12631)
@@ -97,6 +98,8 @@ ORBIT reproduces **28 representative LLM routing methods** across training-free,
 - **ProfileRouter**: Implements RouteProfile's training-free Emb-GNN profile construction and cosine-similarity SimRouter using public model descriptions, family metadata, and optional reported benchmark scores. [[Paper]](https://arxiv.org/abs/2605.00180)
 - **CarrotRouter**: Uses CARROT's KNN plug-in estimators for query-level performance and cost, then applies its original cost-aware rate-optimal scalarization. [[Paper]](https://arxiv.org/abs/2502.03261)
 - **EARAMRouter**: Trains independent provider-side success predictors and allocates queries through EA-RAM's largest-positive-surplus reverse auction with runner-up externality payments. [[Paper]](https://arxiv.org/abs/2608.12719)
+- **RouteFM**: Uses the official frozen foundation router and anonymous per-candidate behavioral context to predict target-query quality and relative cost without target-domain parameter updates. ORBIT defaults to the released BGE text checkpoint. [[Paper]](https://arxiv.org/abs/2609.37362) [[Code]](https://github.com/LAMDA-Model-Reuse/RouteFM)
+- **SAVERouter**: Adaptively reveals exactly K model outcomes per training query, then combines hierarchical group-model shrinkage with query-level residual refinement and native sparse cost estimates. [[Paper]](https://arxiv.org/abs/2609.37402) [[Code]](https://github.com/LAMDA-Model-Reuse/SaveRouter)
 
 ---
 
@@ -119,7 +122,8 @@ ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to 
 Every score-based learned router supplies a query-by-model cost matrix without using test labels.
 Methods with a native cost mechanism reuse it: for example, cluster statistics for Avengers,
 neighbor retrieval for Eagle, cluster features for UniRoute, and profile indexes for
-InferenceDynamics. Methods whose native score cannot represent cost (HybridLLM, RouterDC,
+InferenceDynamics. RouteFM uses its released relative-cost head, while SAVERouter estimates
+costs from its sparse group/model observations. Methods whose native score cannot represent cost (HybridLLM, RouterDC,
 RouteLLM, ModelSAT, ProfileRouter, and EA-RAM's offline execution-cost bids) use the same
 multi-output MLP trained only on training-query embeddings
 and costs. Its optional settings live under `cost_prediction` (`hidden_sizes`, `dropout`,
@@ -181,10 +185,18 @@ python main.py --dataset Routerbench --method AvengersPro
 python main.py --dataset MMRBench --method EquiRouter
 python main.py --dataset Mixinstruct --method oracle
 python main.py --dataset LLMRouterBench --method knn
+python main.py --dataset Routerbench --method RouteFM
+python main.py --dataset Routerbench --method SaveRouter
 ```
 
 Dataset and method names are matched case-insensitively. Device selection defaults to
 `auto`; use `--device cpu`, `--device cuda`, or `--device cuda:N` to override it.
+
+RouteFM uses the official immutable frozen-router release. Its default BGE adapter expects
+`BAAI/bge-base-en-v1.5` at `./bge-base-en-v1.5`; the RouteFM router checkpoint itself is
+downloaded and checksum-verified by the official package, or can be supplied through
+`routefm.checkpoint` in `configs/routers/RouteFM.json`. SAVERouter uses the paper's per-benchmark
+profiles and acquires only the configured fixed-K feedback before fitting.
 
 ---
 
