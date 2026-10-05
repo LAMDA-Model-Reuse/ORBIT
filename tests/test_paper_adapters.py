@@ -11,6 +11,8 @@ import torch
 from methods.CarrotRouter import CarrotRouter
 from methods.EARAMRouter import EARAMRouter
 from methods.ProfileRouter import ProfileRouter
+from methods.RouteFM import RouteFMRouter
+from methods.SaveRouter import SaveRouter
 
 
 class _FakeEmbedder:
@@ -223,6 +225,99 @@ class PaperAdapterSmokeTest(unittest.TestCase):
             [[0.9, 0.6]], [[0.4, 0.1]], value=0.1
         )
         np.testing.assert_array_equal(null_winner, [-1])
+
+    def test_routefm_official_episode_adapter_smoke(self):
+        from routefm.models import RouteFM, RouteFMConfig
+
+        official_model = RouteFM(
+            RouteFMConfig(
+                query_dim=4,
+                hidden_dim=8,
+                projection_dim=8,
+                ffn_dim=16,
+                heads=2,
+                profile_layers=1,
+                readout_layers=1,
+                pool_layers=1,
+                capability_tokens=2,
+                quality_bins=5,
+                observation_features=2,
+                observation_schema="score_cost",
+                dropout=0.0,
+                use_pool_transformer=False,
+                architecture="profile_context",
+                local_context_layers=1,
+            )
+        ).eval()
+        args = self._args("RouteFM")
+        args["routefm"] = {
+            "encoder": "bge",
+            "context_size": 3,
+            "target_batch_size": 2,
+        }
+        dataset_patch, embedder_patch = self._patches()
+        with dataset_patch, embedder_patch, patch.object(
+            RouteFMRouter,
+            "_load_official_router",
+            return_value=official_model,
+        ):
+            router = RouteFMRouter(args)
+            router.train()
+            features = router.embedder.run_embed(
+                texts=self.test_df["prompt"].tolist(), images=None
+            )
+            performance, cost = router.predict(features)
+            with patch.object(router, "cal_rci") as rci, patch.object(
+                router, "cal_metrics"
+            ) as metrics:
+                router.evaluate()
+            rci.assert_called_once()
+            metrics.assert_called_once()
+        self.assertEqual(router.context_query.shape, (3, 3, 4))
+        self.assertEqual(router.context_features.shape, (3, 3, 2))
+        self.assertTrue(router.context_mask.all())
+        self.assertEqual(performance.shape, (4, 3))
+        self.assertEqual(cost.shape, (4, 3))
+        self.assertTrue(np.isfinite(performance).all())
+        self.assertTrue(np.isfinite(cost).all())
+        self.assertTrue((cost >= 0).all())
+
+    def test_saverouter_sparse_supervision_adapter_smoke(self):
+        args = self._args("SaveRouter")
+        args["saverouter"] = {
+            "k": 2,
+            "group_strategy": "auto",
+            "n_groups": None,
+            "include_dense_context": False,
+            "prior_strength": 40.0,
+            "prior_ridge_alpha": 10.0,
+            "residual_ridge_alpha": 20.0,
+            "residual_gamma": 2.0,
+            "min_model_observations": 2,
+        }
+        dataset_patch, embedder_patch = self._patches()
+        with dataset_patch, embedder_patch:
+            router = SaveRouter(args)
+            router.train()
+            features = router.embedder.run_embed(
+                texts=self.test_df["prompt"].tolist(), images=None
+            )
+            performance, cost = router.predict(features)
+            with patch.object(router, "cal_rci") as rci, patch.object(
+                router, "cal_metrics"
+            ) as metrics:
+                router.evaluate()
+            rci.assert_called_once()
+            metrics.assert_called_once()
+        self.assertEqual(router.supervision.n_observations, len(self.train_df) * 2)
+        np.testing.assert_array_equal(
+            router.supervision.observation_counts,
+            np.full(len(self.train_df), 2),
+        )
+        self.assertEqual(performance.shape, (4, 3))
+        self.assertEqual(cost.shape, (4, 3))
+        self.assertTrue(np.isfinite(performance).all())
+        self.assertTrue(np.isfinite(cost).all())
 
 
 if __name__ == "__main__":

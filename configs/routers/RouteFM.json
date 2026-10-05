@@ -1,0 +1,20 @@
+{
+  "method": "RouteFM",
+  "modality": "text",
+  "embeddings": {
+    "text_model": "BAAI/bge-base-en-v1.5",
+    "image_model": null,
+    "text_model_dir": "./bge-base-en-v1.5",
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 768
+  },
+  "routefm": {
+    "encoder": "bge",
+    "checkpoint": null,
+    "cache_dir": null,
+    "context_size": 8,
+    "target_batch_size": 128
+  }
+}

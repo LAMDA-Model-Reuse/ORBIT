@@ -312,6 +312,37 @@ def CreateLongformerBase4096(
     return embed_fn, dim
 
 
+def CreateBGEBaseEnV15(
+    model_dir: str = "./bge-base-en-v1.5", device: str = "cpu"
+):
+    """Create RouteFM's official normalized BGE CLS encoder."""
+    if not os.path.exists(model_dir):
+        raise FileNotFoundError(
+            f"[ERROR] Local BGE directory not found: {model_dir}\n"
+            "Download BAAI/bge-base-en-v1.5 and set embeddings.text_model_dir."
+        )
+    tokenizer = AutoTokenizer.from_pretrained(model_dir)
+    model = AutoModel.from_pretrained(model_dir).to(device).eval()
+    dim = 768
+
+    @torch.no_grad()
+    def embed_fn(texts):
+        if isinstance(texts, str):
+            texts = [texts]
+        tokens = tokenizer(
+            list(texts), padding=True, truncation=True, max_length=512,
+            return_tensors="pt",
+        )
+        tokens = {key: value.to(device) for key, value in tokens.items()}
+        cls = model(**tokens).last_hidden_state[:, 0].float()
+        values = torch.nn.functional.normalize(cls, dim=-1)
+        if values.shape[1] != dim or not torch.isfinite(values).all():
+            raise ValueError("BGE encoder must produce finite normalized 768-D vectors.")
+        return values
+
+    return embed_fn, dim
+
+
 def CreateQwen3_Embedding_8B(
     model_dir: str = "./Qwen3-Embedding-8B", device: str = "cpu"
 ):
@@ -571,6 +602,13 @@ def _build_longformer(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./longformer-base-4096")
     device = args["embeddings"].get("device", "cpu")
     return CreateLongformerBase4096(model_dir=model_dir, device=device)
+
+
+@TEXT_EMBEDDERS.register("BAAI/bge-base-en-v1.5")
+def _build_bge_base_en_v15(args: Dict[str, Any]):
+    model_dir = args["embeddings"].get("text_model_dir", "./bge-base-en-v1.5")
+    device = args["embeddings"].get("device", "cpu")
+    return CreateBGEBaseEnV15(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("ViT-B/16")

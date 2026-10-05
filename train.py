@@ -9,7 +9,7 @@ from methods import (
     Eagle, EmbedLLM, kNNRouter, SVMRouter, RouteLLM_SWRanking, RouteLLM_MF, RouteLLM_BERT,
     OmniRouter, EquiRouter, RMClassification, RMSoftmax, RMInterval, OracleRouter,
     TRouter, UniRoute, InferenceDynamics, ModelSAT, ProfileRouter, CarrotRouter,
-    EARAMRouter
+    EARAMRouter, RouteFMRouter, SaveRouter
 )
 
 # ----------------------------
@@ -44,6 +44,8 @@ ROUTER_REGISTRY: Dict[str, Type] = {
     "ProfileRouter": ProfileRouter,
     "CarrotRouter": CarrotRouter,
     "EARAMRouter": EARAMRouter,
+    "RouteFM": RouteFMRouter,
+    "SaveRouter": SaveRouter,
 }
 
 
