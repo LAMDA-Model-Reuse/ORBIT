@@ -280,6 +280,38 @@ def CreateOpenLLM_MiniLM_L6_V2(model_dir: str = "./all-MiniLM-L6-v2", device: st
     return embed_fn, dim
 
 
+def CreateLongformerBase4096(
+    model_dir: str = "./longformer-base-4096", device: str = "cuda:0"
+):
+    """Create the mean-pooled Longformer encoder used by RouteProfile."""
+    if not os.path.exists(model_dir):
+        raise FileNotFoundError(
+            f"[ERROR] Local Longformer directory not found: {model_dir}\n"
+            "Download allenai/longformer-base-4096 and set embeddings.text_model_dir."
+        )
+    tokenizer = AutoTokenizer.from_pretrained(model_dir)
+    model = AutoModel.from_pretrained(model_dir).to(device)
+    model.eval()
+    dim = int(model.config.hidden_size)
+
+    @torch.no_grad()
+    def embed_fn(texts):
+        if isinstance(texts, str):
+            texts = [texts]
+        inputs = tokenizer(
+            list(texts),
+            padding=True,
+            truncation=True,
+            max_length=4096,
+            return_tensors="pt",
+        ).to(device)
+        hidden = model(**inputs).last_hidden_state
+        mask = inputs["attention_mask"].unsqueeze(-1).expand_as(hidden).float()
+        return (hidden * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1.0)
+
+    return embed_fn, dim
+
+
 def CreateQwen3_Embedding_8B(model_dir: str = "./Qwen3-Embedding-8B"):
     """
     Load Qwen3-Embedding-8B from local directory.
@@ -524,6 +556,13 @@ def _build_minilm(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./all-MiniLM-L6-v2")
     device = args["embeddings"].get("device", "cuda:0")
     return CreateOpenLLM_MiniLM_L6_V2(model_dir=model_dir, device=device)
+
+
+@TEXT_EMBEDDERS.register("allenai/longformer-base-4096")
+def _build_longformer(args: Dict[str, Any]):
+    model_dir = args["embeddings"].get("text_model_dir", "./longformer-base-4096")
+    device = args["embeddings"].get("device", "cuda:0")
+    return CreateLongformerBase4096(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("ViT-B/16")

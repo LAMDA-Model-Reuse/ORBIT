@@ -137,6 +137,23 @@ class MethodRegressionTest(unittest.TestCase):
         )
         np.testing.assert_allclose(clipped, [[0.1, 0.6], [0.2, 0.8]])
 
+    def test_rci_counts_null_auction_allocations_as_failures(self):
+        router = _ConcreteBase.__new__(_ConcreteBase)
+        router.model_list = ["cheap", "strong"]
+        import pandas as pd
+
+        router.test_df = pd.DataFrame(
+            {
+                "model_0_performance": [0.0, 1.0],
+                "model_1_performance": [1.0, 0.0],
+                "model_0_cost": [0.1, 0.1],
+                "model_1_cost": [0.9, 0.9],
+            }
+        )
+        mean, per_sample = router.cal_rci(np.asarray([-1, 0]), log_once=False)
+        np.testing.assert_array_equal(per_sample, [1, 0])
+        self.assertEqual(mean, 0.5)
+
     def test_modelsat_selects_last_non_padding_position(self):
         logits = torch.arange(2 * 4 * 3, dtype=torch.float32).reshape(2, 4, 3)
         mask = torch.tensor([[1, 1, 0, 0], [0, 1, 1, 1]])
@@ -145,10 +162,10 @@ class MethodRegressionTest(unittest.TestCase):
         torch.testing.assert_close(selected[1], logits[1, 3])
 
     def test_registry_contains_only_importable_routers(self):
-        self.assertEqual(len(ROUTER_REGISTRY), 25)
-        self.assertNotIn("ProfileRouter", ROUTER_REGISTRY)
-        self.assertNotIn("CarrotRouter", ROUTER_REGISTRY)
-        self.assertNotIn("EARAMRouter", ROUTER_REGISTRY)
+        self.assertEqual(len(ROUTER_REGISTRY), 28)
+        self.assertIn("ProfileRouter", ROUTER_REGISTRY)
+        self.assertIn("CarrotRouter", ROUTER_REGISTRY)
+        self.assertIn("EARAMRouter", ROUTER_REGISTRY)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,24 @@
+{
+  "method": "ProfileRouter",
+  "modality": "text",
+  "profile": {
+    "aggregation_hops": 4,
+    "normalization": "sym"
+  },
+  "embeddings": {
+    "text_model": "allenai/longformer-base-4096",
+    "image_model": null,
+    "text_model_dir": "./longformer-base-4096",
+    "batch_size": 8,
+    "normalize": true,
+    "training": false,
+    "out_dim": 768
+  },
+  "cost_prediction": {
+    "hidden_sizes": [128, 64],
+    "epochs": 50,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0
+  }
+}

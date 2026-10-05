@@ -235,18 +235,22 @@ class BaseRouter(ABC):
         cost_mat = self.test_df[cost_cols].to_numpy()
 
         rows = np.arange(N)
+        valid_choice = (predict_idx >= 0) & (predict_idx < M)
+        safe_predict_idx = np.clip(predict_idx, 0, max(M - 1, 0))
 
         # Determine "most expensive" model(s) globally by average cost over test set.
         # (Alternative: by max cost per-sample; but global is more stable.)
         avg_costs = cost_mat.mean(axis=0)  # (M,)
         max_avg_cost = avg_costs.max()
         most_expensive_mask = avg_costs == max_avg_cost  # (M,) boolean
-        chosen_is_most_expensive = most_expensive_mask[predict_idx]  # (N,)
+        chosen_is_most_expensive = (
+            most_expensive_mask[safe_predict_idx] & valid_choice
+        )  # (N,)
 
         # Best set per sample (ties allowed)
         best_perf = perf_mat.max(axis=1)                       # (N,)
         is_best = perf_mat == best_perf[:, None]               # (N, M)
-        chosen_is_best = is_best[rows, predict_idx]            # (N,)
+        chosen_is_best = is_best[rows, safe_predict_idx] & valid_choice  # (N,)
 
         # "Only most expensive is best" per sample:
         # i.e., all best models are within the most-expensive set, and at least one best exists (always true).
