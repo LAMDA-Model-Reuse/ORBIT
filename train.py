@@ -8,7 +8,8 @@ from methods import (
     MLPRouter, Avengers, AvengersPro, MIRT, NIRT, GraphRouter, RouterDC, HybridLLM,
     Eagle, EmbedLLM, kNNRouter, SVMRouter, RouteLLM_SWRanking, RouteLLM_MF, RouteLLM_BERT,
     OmniRouter, EquiRouter, RMClassification, RMSoftmax, RMInterval, OracleRouter,
-    TRouter, UniRoute, InferenceDynamics, ModelSAT
+    TRouter, UniRoute, InferenceDynamics, ModelSAT, ProfileRouter, CarrotRouter,
+    EARAMRouter
 )
 
 # ----------------------------
@@ -40,6 +41,9 @@ ROUTER_REGISTRY: Dict[str, Type] = {
     "UniRoute": UniRoute,
     "InferenceDynamics": InferenceDynamics,
     "ModelSAT": ModelSAT,
+    "ProfileRouter": ProfileRouter,
+    "CarrotRouter": CarrotRouter,
+    "EARAMRouter": EARAMRouter,
 }
 
 

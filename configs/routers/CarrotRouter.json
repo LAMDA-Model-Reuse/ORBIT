@@ -1,0 +1,7 @@
+{
+  "method": "CarrotRouter",
+  "modality": "text",
+  "n_neighbors": 40,
+  "metric": "cosine",
+  "mu_steps": 101
+}

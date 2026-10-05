@@ -1,0 +1,24 @@
+{
+  "method": "EARAMRouter",
+  "modality": "text",
+  "train_expost_evaluator": true,
+  "local_information_weight": 0.0,
+  "local_neighbors": 10,
+  "auction": {
+    "num_values": 101
+  },
+  "training": {
+    "hidden_dim": 128,
+    "epochs": 100,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0
+  },
+  "cost_prediction": {
+    "hidden_sizes": [128, 64],
+    "epochs": 50,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0
+  }
+}

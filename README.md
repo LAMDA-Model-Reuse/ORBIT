@@ -67,7 +67,7 @@ Useful links:
 
 ## Methods Reproduced
 
-ORBIT reproduces **25 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
+ORBIT reproduces **28 representative LLM routing methods** across training-free, retrieval-based, and learned routers under a unified pipeline and standardized budgeted evaluation.
 
 - **Avengers**: A training-free recipe that clusters queries and routes by cluster-wise capability profiles with sampling/voting. [[Paper]](https://arxiv.org/abs/2505.19797)
 - **Avengers-Pro**: A test-time routing framework that traces a Pareto frontier via clustering and a tunable performance-efficiency objective. [[Paper]](https://arxiv.org/abs/2508.12631)
@@ -94,6 +94,9 @@ ORBIT reproduces **25 representative LLM routing methods** across training-free,
 - **TRouter**: Learns task-aware query and model representations for performance-cost routing. [[Paper]](https://arxiv.org/abs/2604.09377)
 - **UniRoute**: Represents model capabilities through cluster-level prediction errors and learns a query-to-cluster router. [[Paper]](https://openreview.net/forum?id=ka82fvJ5f1)
 - **InferenceDynamics**: Builds parameter-free model indexes from ranked capability and knowledge profiles for structured model-query matching. [[Paper]](https://arxiv.org/abs/2505.16303)
+- **ProfileRouter**: Implements RouteProfile's training-free Emb-GNN profile construction and cosine-similarity SimRouter using public model descriptions, family metadata, and optional reported benchmark scores. [[Paper]](https://arxiv.org/abs/2605.00180)
+- **CarrotRouter**: Uses CARROT's KNN plug-in estimators for query-level performance and cost, then applies its original cost-aware rate-optimal scalarization. [[Paper]](https://arxiv.org/abs/2502.03261)
+- **EARAMRouter**: Trains independent provider-side success predictors and allocates queries through EA-RAM's largest-positive-surplus reverse auction with runner-up externality payments. [[Paper]](https://arxiv.org/abs/2608.12719)
 
 ---
 
@@ -117,7 +120,8 @@ Every score-based learned router supplies a query-by-model cost matrix without u
 Methods with a native cost mechanism reuse it: for example, cluster statistics for Avengers,
 neighbor retrieval for Eagle, cluster features for UniRoute, and profile indexes for
 InferenceDynamics. Methods whose native score cannot represent cost (HybridLLM, RouterDC,
-RouteLLM, and ModelSAT) use the same multi-output MLP trained only on training-query embeddings
+RouteLLM, ModelSAT, ProfileRouter, and EA-RAM's offline execution-cost bids) use the same
+multi-output MLP trained only on training-query embeddings
 and costs. Its optional settings live under `cost_prediction` (`hidden_sizes`, `dropout`,
 `epochs`, `batch_size`, `lr`, and `weight_decay`). Regret-minimization routers instead learn the
 performance-cost utility directly as a function of lambda; Oracle intentionally uses realized
