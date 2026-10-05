@@ -1,7 +1,11 @@
 import os
 import logging
 import json
+import shutil
+import stat
 import tarfile
+import zipfile
+from pathlib import Path, PurePosixPath
 from typing import Any, Optional, Tuple,Dict,Type
 import re
 import pandas as pd
@@ -10,6 +14,74 @@ from datasets import load_dataset
 import pickle
 import requests
 from huggingface_hub import hf_hub_download, snapshot_download
+
+
+def _safe_archive_target(target_dir: str, member_name: str) -> Path:
+    """Resolve an archive member without allowing it to escape target_dir."""
+    normalized = member_name.replace("\\", "/")
+    member_path = PurePosixPath(normalized)
+    if (
+        not normalized
+        or member_path.is_absolute()
+        or ".." in member_path.parts
+        or re.match(r"^[A-Za-z]:", normalized)
+    ):
+        raise ValueError(f"Unsafe archive member path: {member_name!r}")
+
+    root = Path(target_dir).resolve()
+    destination = root.joinpath(*member_path.parts).resolve()
+    try:
+        destination.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"Archive member escapes target directory: {member_name!r}") from exc
+    return destination
+
+
+def safe_extract_tar(archive: tarfile.TarFile, target_dir: str) -> None:
+    """Extract regular files/directories only, after validating every member."""
+    members = archive.getmembers()
+    destinations = []
+    for member in members:
+        destination = _safe_archive_target(target_dir, member.name)
+        if not (member.isfile() or member.isdir()):
+            raise ValueError(
+                f"Unsupported TAR member type for {member.name!r}; "
+                "links and special files are not allowed."
+            )
+        destinations.append((member, destination))
+
+    Path(target_dir).mkdir(parents=True, exist_ok=True)
+    for member, destination in destinations:
+        if member.isdir():
+            destination.mkdir(parents=True, exist_ok=True)
+            continue
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        source = archive.extractfile(member)
+        if source is None:
+            raise ValueError(f"Cannot read TAR member: {member.name!r}")
+        with source, destination.open("wb") as output:
+            shutil.copyfileobj(source, output)
+
+
+def safe_extract_zip(archive: zipfile.ZipFile, target_dir: str) -> None:
+    """Extract ZIP members only after validating paths and rejecting symlinks."""
+    members = archive.infolist()
+    destinations = []
+    for member in members:
+        destination = _safe_archive_target(target_dir, member.filename)
+        unix_mode = member.external_attr >> 16
+        if stat.S_ISLNK(unix_mode):
+            raise ValueError(f"ZIP symlink members are not allowed: {member.filename!r}")
+        destinations.append((member, destination))
+
+    Path(target_dir).mkdir(parents=True, exist_ok=True)
+    for member, destination in destinations:
+        if member.is_dir():
+            destination.mkdir(parents=True, exist_ok=True)
+            continue
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with archive.open(member) as source, destination.open("wb") as output:
+            shutil.copyfileobj(source, output)
 
 class BaseDatasetLoader:
     """
@@ -470,7 +542,7 @@ class MMRBenchLoader(BaseDatasetLoader):
             raise FileNotFoundError("MMR-Bench.csv not found after download.")
 
         with tarfile.open(tar_path, "r:gz") as tf:
-            tf.extractall(self.target_path)
+            safe_extract_tar(tf, self.target_path)
 
         try:
             os.remove(tar_path)
@@ -605,9 +677,6 @@ class RouterEvalLoader(BaseDatasetLoader):
         Download `router_dataset.zip`, unzip to `router_dataset/`,
         move its contents to `self.target_path`, then delete the zip and folder.
         """
-        import zipfile
-        import shutil
-
         os.makedirs(self.target_path, exist_ok=True)
 
         zip_path = os.path.join(self.target_path, "router_dataset.zip")
@@ -637,7 +706,7 @@ class RouterEvalLoader(BaseDatasetLoader):
 
         # 2) unzip
         with zipfile.ZipFile(zip_path, "r") as zf:
-            zf.extractall(self.target_path)
+            safe_extract_zip(zf, self.target_path)
 
         if not os.path.isdir(extracted_dir):
             raise FileNotFoundError("router_dataset/ not found after unzip.")
@@ -675,7 +744,7 @@ class RouterEvalLoader(BaseDatasetLoader):
                 "group_name": "Group_A",
                 "files": results["group_a"]["files"],
                 "total_common_models": results["group_a"]["total_common"],
-                "common_models": sorted(results["group_a"]["common_models"]),
+                "common_models": results["group_a"]["common_models"],
             }
 
         if results["group_b"]["total_common"] > 0:
@@ -683,7 +752,7 @@ class RouterEvalLoader(BaseDatasetLoader):
                 "group_name": "Group_B",
                 "files": results["group_b"]["files"],
                 "total_common_models": results["group_b"]["total_common"],
-                "common_models": sorted(results["group_b"]["common_models"]),
+                "common_models": results["group_b"]["common_models"],
             }
 
         logging.info("[Routereval] Step 2: Extracting performance data...")
@@ -691,11 +760,14 @@ class RouterEvalLoader(BaseDatasetLoader):
         data_df_a = pd.DataFrame()
         data_df_b = pd.DataFrame()
 
-        models_a = results["group_a"]["common_models"]
-        models_b = results["group_b"]["common_models"]
+        models_a = group_a_data.get("common_models", [])
+        models_b = group_b_data.get("common_models", [])
 
         if results["group_a"]["total_common"] > 0:
             data_df_a = self._extract_performance_cost_data(group_a_data)
+            if data_df_a is None or data_df_a.empty:
+                raise ValueError("RouterEval Group A did not produce any aligned samples.")
+            self._validate_model_columns(data_df_a, models_a)
             logging.info("[Routereval] Group A: %d models, %d samples", len(models_a), len(data_df_a))
 
         if results["group_b"]["total_common"] > 0:
@@ -708,6 +780,27 @@ class RouterEvalLoader(BaseDatasetLoader):
         # data_df_b = self.normalize_cost_dataframe(data_df_b)
         
         return models_a, data_df_a
+
+    @staticmethod
+    def _validate_model_columns(dataframe: pd.DataFrame, model_list) -> None:
+        expected_performance = {
+            f"model_{index}_performance" for index in range(len(model_list))
+        }
+        expected_cost = {f"model_{index}_cost" for index in range(len(model_list))}
+        actual_performance = {
+            column for column in dataframe.columns
+            if re.fullmatch(r"model_\d+_performance", column)
+        }
+        actual_cost = {
+            column for column in dataframe.columns
+            if re.fullmatch(r"model_\d+_cost", column)
+        }
+        if actual_performance != expected_performance or actual_cost != expected_cost:
+            raise ValueError(
+                "RouterEval model columns do not match the canonical model list: "
+                f"models={len(model_list)}, performance_columns={len(actual_performance)}, "
+                f"cost_columns={len(actual_cost)}."
+            )
 
     def split_out(self, dataset: Any) -> Any:
         ds = dataset
@@ -825,12 +918,12 @@ class RouterEvalLoader(BaseDatasetLoader):
         return {
             "group_a": {
                 "files": group_a_files,
-                "common_models": list(group_a_common),
+                "common_models": sorted(group_a_common),
                 "total_common": len(group_a_common),
             },
             "group_b": {
                 "files": group_b_files,
-                "common_models": list(group_b_common),
+                "common_models": sorted(group_b_common),
                 "total_common": len(group_b_common),
             },
             "file_models": file_models_with_cost,
@@ -841,7 +934,9 @@ class RouterEvalLoader(BaseDatasetLoader):
         group_info = df
 
         dataset_files = group_info.get("files", [])
-        common_models = sorted(list(set(group_info.get("common_models", []))))
+        common_models = list(group_info.get("common_models", []))
+        if len(common_models) != len(set(common_models)):
+            raise ValueError("RouterEval common model list contains duplicate model names.")
         n_common = len(common_models)
 
         model_to_common_idx = {m: i for i, m in enumerate(common_models)}
@@ -1081,16 +1176,8 @@ class LLMRouterBenchLoader(BaseDatasetLoader):
 
     @staticmethod
     def _safe_extract(archive_path: str, destination: str) -> None:
-        destination_real = os.path.realpath(destination)
         with tarfile.open(archive_path, "r:gz") as archive:
-            members = archive.getmembers()
-            for member in members:
-                if member.issym() or member.islnk():
-                    raise ValueError(f"Archive contains an unsupported link: {member.name}")
-                target = os.path.realpath(os.path.join(destination, member.name))
-                if os.path.commonpath([destination_real, target]) != destination_real:
-                    raise ValueError(f"Unsafe archive member path: {member.name}")
-            archive.extractall(destination, members=members)
+            safe_extract_tar(archive, destination)
 
     def _find_bench_root(self) -> Optional[str]:
         expected_datasets = {dataset for dataset, _ in self.dataset_splits}
@@ -1498,4 +1585,3 @@ def download_dataset(args: Any) -> Tuple[pd.DataFrame, pd.DataFrame, Optional[An
 
     loader = LoaderCls(target_path=target_path, args=args)
     return loader.run()
-

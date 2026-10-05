@@ -7,9 +7,6 @@ from sklearn.preprocessing import StandardScaler
 class SVMRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.kernel = self.args["kernel"]
         self.C = self.args["C"]
         self.epsilon = self.args["epsilon"]

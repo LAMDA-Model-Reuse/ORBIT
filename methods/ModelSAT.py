@@ -28,9 +28,6 @@ class ModelSAT(BaseRouter):
     def __init__(self, args: Dict[str, Any]):
         super().__init__(args)
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         model_cfg = self.args.get("model", {})
         base_model = model_cfg.get("base_model", "Qwen/Qwen3-4B-Instruct-2507")
         use_lora = model_cfg.get("use_lora", True)

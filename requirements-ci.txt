@@ -1,0 +1,22 @@
+# Dependencies needed by the import and unit-test surface. The workflow installs
+# CPU-only PyTorch wheels separately. Inference runtimes such as vLLM and Triton
+# are intentionally excluded.
+torch-geometric>=2.6,<2.8
+transformers>=4.45,<4.58
+datasets>=2.20,<4.5
+huggingface-hub>=0.24,<0.36
+git+https://github.com/openai/CLIP.git
+numpy>=2.0,<2.4
+pandas>=2.2,<2.4
+scipy>=1.13,<1.17
+scikit-learn>=1.5,<1.7
+numba>=0.59,<0.62
+llvmlite>=0.42,<0.45
+pynndescent>=0.5.12,<0.5.14
+umap-learn>=0.5.7,<0.6
+hdbscan>=0.8.37,<0.9
+peft>=0.11,<0.19
+openai>=1.30,<3.0
+requests>=2.31,<3
+Pillow>=10,<13
+-r data_generator/requirements.txt

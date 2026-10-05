@@ -2,9 +2,9 @@
    "_comment":"Please note that these parameters are fundamental parameters determined by the benchmark;changing them arbitrarily will result in errors!",
    "modality":"text+image",
    "voting":"weighted",
-   "description_path":"./configs/description/mmrbench.json",
+   "description_path":"./configs/description/mmbench.json",
    "seed":42,
-   "device": "cuda:3",
+   "device": "auto",
    "dataset": {
     "name": "MMRBench",
     "dataset_dir": "./data/mmrbench",

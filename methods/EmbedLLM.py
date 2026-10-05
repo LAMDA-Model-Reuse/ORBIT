@@ -30,9 +30,6 @@ class EmbedLLM(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         # MF latent dimension (paper-style compact model embedding dim)
         self.embed_dim = int(self.args.get("embed_dim", 256))
 

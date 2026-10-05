@@ -5,8 +5,7 @@
 ### Step 1: Install Dependencies
 
 ```bash
-cd data_generator
-pip install -r requirements.txt
+pip install -r data_generator/requirements.txt
 ```
 
 ### Step 2: Configure API Keys
@@ -16,7 +15,7 @@ Choose one of the following options:
 **Option A: Use an environment file (recommended)**
 
 ```bash
-cp .env.example .env
+cp data_generator/.env.example .env
 # Edit .env and fill in your API keys
 ```
 
@@ -29,13 +28,13 @@ cp .env.example .env
 ### Step 3: Verify Installation
 
 ```bash
-python -c "from generator import LLMDataGenerator; print('OK')"
+python -c "from data_generator import LLMDataGenerator; print('OK')"
 ```
 
 ### Step 4: Run Your First Example
 
 ```bash
-python examples/01_quick_start.py
+python -m data_generator.examples.01_quick_start
 ```
 
 ---
@@ -45,9 +44,9 @@ python examples/01_quick_start.py
 ### Single Query
 
 ```python
-from generator import LLMDataGenerator
+from data_generator import LLMDataGenerator
 
-generator = LLMDataGenerator()
+generator = LLMDataGenerator(config_path="data_generator/config.yaml")
 response = generator.generate_single(
     query="Your question",
     model_name="gpt-3.5-turbo"
@@ -57,13 +56,13 @@ response = generator.generate_single(
 ### Batch Processing
 
 ```bash
-python examples/03_batch_processing.py
+python -m data_generator.examples.03_batch_processing
 ```
 
 ### Data Analysis
 
 ```bash
-python examples/05_data_analysis.py
+python -m data_generator.examples.05_data_analysis
 ```
 
 ---
@@ -127,4 +126,4 @@ A: Add a new entry under `models` in `config.yaml`.
 A: By default: `data/responses.jsonl`.
 
 **Q: How do I export to CSV?**
-A: Run `python examples/05_data_analysis.py`.
+A: Run `python -m data_generator.examples.05_data_analysis` from the repository root.

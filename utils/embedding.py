@@ -312,7 +312,9 @@ def CreateLongformerBase4096(
     return embed_fn, dim
 
 
-def CreateQwen3_Embedding_8B(model_dir: str = "./Qwen3-Embedding-8B"):
+def CreateQwen3_Embedding_8B(
+    model_dir: str = "./Qwen3-Embedding-8B", device: str = "cpu"
+):
     """
     Load Qwen3-Embedding-8B from local directory.
     Return: (embed_fn, dim), where embed_fn(texts) -> tensor of shape (N, dim)
@@ -332,10 +334,11 @@ def CreateQwen3_Embedding_8B(model_dir: str = "./Qwen3-Embedding-8B"):
             "After downloading, set 'model_dir' to the path of the downloaded model."
         )
 
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+    device_t = torch.device(device)
+    dtype = torch.float16 if device_t.type == "cuda" else torch.float32
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
-    model = AutoModel.from_pretrained(model_name, torch_dtype=dtype, device_map="auto")
+    model = AutoModel.from_pretrained(model_name, torch_dtype=dtype).to(device_t)
     model.eval()
 
     dim = 4096
@@ -367,7 +370,9 @@ def CreateQwen3_Embedding_8B(model_dir: str = "./Qwen3-Embedding-8B"):
     return embed_fn, dim
 
 
-def CreateQwen3_Embedding_0_6B(model_dir: str = "./Qwen3-Embedding-0.6B"):
+def CreateQwen3_Embedding_0_6B(
+    model_dir: str = "./Qwen3-Embedding-0.6B", device: str = "cpu"
+):
     """
     Load Qwen3-Embedding-0.6B from local directory.
     Return: (embed_fn, dim), where embed_fn(texts) -> tensor (N, dim)
@@ -387,10 +392,11 @@ def CreateQwen3_Embedding_0_6B(model_dir: str = "./Qwen3-Embedding-0.6B"):
             "After downloading, set 'model_dir' to the path of the downloaded model."
         )
 
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+    device_t = torch.device(device)
+    dtype = torch.float16 if device_t.type == "cuda" else torch.float32
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
-    model = AutoModel.from_pretrained(model_name, torch_dtype=dtype, device_map="auto")
+    model = AutoModel.from_pretrained(model_name, torch_dtype=dtype).to(device_t)
     model.eval()
 
     dim = 1024
@@ -542,39 +548,41 @@ def CreateCLIP_ViT_B_16_image(model_name: str = "ViT-B/16", device: str = "cuda:
 @TEXT_EMBEDDERS.register("Qwen3-Embedding-8B")
 def _build_qwen3_8b(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./Qwen3-Embedding-8B")
-    return CreateQwen3_Embedding_8B(model_dir=model_dir)
+    device = args["embeddings"].get("device", "cpu")
+    return CreateQwen3_Embedding_8B(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("Qwen/Qwen3-Embedding-0.6B")
 def _build_qwen3_06b(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./Qwen3-Embedding-0.6B")
-    return CreateQwen3_Embedding_0_6B(model_dir=model_dir)
+    device = args["embeddings"].get("device", "cpu")
+    return CreateQwen3_Embedding_0_6B(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("all-MiniLM-L6-v2")
 def _build_minilm(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./all-MiniLM-L6-v2")
-    device = args["embeddings"].get("device", "cuda:0")
+    device = args["embeddings"].get("device", "cpu")
     return CreateOpenLLM_MiniLM_L6_V2(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("allenai/longformer-base-4096")
 def _build_longformer(args: Dict[str, Any]):
     model_dir = args["embeddings"].get("text_model_dir", "./longformer-base-4096")
-    device = args["embeddings"].get("device", "cuda:0")
+    device = args["embeddings"].get("device", "cpu")
     return CreateLongformerBase4096(model_dir=model_dir, device=device)
 
 
 @TEXT_EMBEDDERS.register("ViT-B/16")
 def _build_clip_text(args: Dict[str, Any]):
-    device = args["embeddings"].get("device", "cuda:0")
+    device = args["embeddings"].get("device", "cpu")
     use_fp16 = bool(args["embeddings"].get("use_fp16", False))
     return CreateCLIP_ViT_B_16_text(model_name="ViT-B/16", device=device, use_fp16=use_fp16)
 
 
 @IMAGE_EMBEDDERS.register("ViT-B/16")
 def _build_clip_image(args: Dict[str, Any]):
-    device = args["embeddings"].get("device", "cuda:0")
+    device = args["embeddings"].get("device", "cpu")
     use_fp16 = bool(args["embeddings"].get("use_fp16", False))
     return CreateCLIP_ViT_B_16_image(model_name="ViT-B/16", device=device, use_fp16=use_fp16)
 

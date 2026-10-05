@@ -19,8 +19,7 @@ pip install bitsandbytes
 ### 2) Run the Example
 
 ```bash
-cd data_generator/examples
-python local_model_example.py
+python -m data_generator.examples.02_local_model
 ```
 
 ------
@@ -30,7 +29,7 @@ python local_model_example.py
 ### Basic Usage
 
 ```python
-from local_generator import LocalLLMGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
 # Option 1: Use a HuggingFace model ID (loads from cache or downloads automatically)
 generator = LocalLLMGenerator(
@@ -272,7 +271,7 @@ generator = LocalLLMGenerator(
 ## Complete Example
 
 ```python
-from local_generator import LocalLLMGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
 # Initialize
 generator = LocalLLMGenerator(
@@ -360,7 +359,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # use GPU 0
 Or via CLI:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python local_model_example.py
+CUDA_VISIBLE_DEVICES=0 python -m data_generator.examples.02_local_model
 ```
 
 ### Q: How does this compare to vLLM?
@@ -418,7 +417,7 @@ pip install bitsandbytes
 See the full example script:
 
 ```bash
-python examples/local_model_example.py
+python -m data_generator.examples.02_local_model
 ```
 
 It includes:

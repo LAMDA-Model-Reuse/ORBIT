@@ -12,7 +12,6 @@
     "epochs": 10,
     "batch_size": 1024,
     "optimizer": "adam",
-    "loss": "mse",
-    "device": "auto"
+    "loss": "mse"
   }
 }

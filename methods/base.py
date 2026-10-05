@@ -40,11 +40,11 @@ class BaseRouter(ABC):
             requested_index < 0 or requested_index >= torch.cuda.device_count()
         ):
             logging.warning(
-                "CUDA device %s requested but only %d device(s) are visible; using cuda:0.",
+                "CUDA device %s requested but only %d device(s) are visible; using CPU.",
                 requested,
                 torch.cuda.device_count(),
             )
-            return torch.device("cuda:0")
+            return torch.device("cpu")
         return requested
 
     def __init__(self,args):
@@ -57,9 +57,12 @@ class BaseRouter(ABC):
             "device", self.args.get("training", {}).get("device", "auto")
         )
         self.device = self._resolve_device(configured_device)
+        resolved_device = str(self.device)
+        self.args["device"] = resolved_device
+        if "training" in self.args:
+            self.args["training"]["device"] = resolved_device
         if "embeddings" in self.args:
-            embedding_device = self.args["embeddings"].get("device", configured_device)
-            self.args["embeddings"]["device"] = str(self._resolve_device(embedding_device))
+            self.args["embeddings"]["device"] = resolved_device
             self.embedder = Embedder(self.args)
         self.seed = self.args["seed"]
         random.seed(self.seed)
@@ -362,11 +365,40 @@ class BaseRouter(ABC):
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if isinstance(data, dict):
-            data = [data]
-        texts = []
+            if "model_name" in data or "model" in data:
+                data = [data]
+            else:
+                data = [
+                    {"model_name": model_name, "description": description}
+                    for model_name, description in data.items()
+                ]
+        if not isinstance(data, list):
+            raise ValueError(f"Model descriptions must be a JSON list or object: {path}")
+
+        descriptions_by_name = {}
         for item in data:
-            txt = item.get("description")
-            texts.append(txt)
+            if not isinstance(item, dict):
+                raise ValueError(f"Invalid model description entry in {path}: {item!r}")
+            model_name = item.get("model_name", item.get("model"))
+            if model_name is None or str(model_name).strip() == "":
+                raise ValueError(f"Model description entry has no model_name in {path}: {item!r}")
+            model_name = str(model_name)
+            if model_name in descriptions_by_name:
+                raise ValueError(f"Duplicate model description for {model_name!r} in {path}")
+            description = item.get("description")
+            if not isinstance(description, str) or not description.strip():
+                raise ValueError(f"Model {model_name!r} has no usable description in {path}")
+            descriptions_by_name[model_name] = description.strip()
+
+        missing = [name for name in self.model_list if str(name) not in descriptions_by_name]
+        if missing:
+            preview = ", ".join(repr(name) for name in missing[:10])
+            suffix = " ..." if len(missing) > 10 else ""
+            raise ValueError(
+                f"Model descriptions in {path} are missing {len(missing)} model(s): "
+                f"{preview}{suffix}"
+            )
+        texts = [descriptions_by_name[str(name)] for name in self.model_list]
         modality = self.args["modality"].split("+")
         desc_text = self.embedder.run_embed(texts=texts, images=None)  # (K, Dt)
         if "image" in modality:

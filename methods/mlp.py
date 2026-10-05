@@ -28,9 +28,6 @@ class MLPRouter(BaseRouter):
         self.model_performance = init_model(args, input_dim=in_dim, out_dim=out_dim)
         self.model_cost = init_model(args, input_dim=in_dim, out_dim=out_dim) 
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.model_performance.to(self.device)
         self.model_cost.to(self.device)
         

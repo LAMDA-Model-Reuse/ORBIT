@@ -3,7 +3,7 @@
    "modality":"text",
    "voting":"weighted",
    "seed":42,
-   "device": "cuda:0",
+   "device": "auto",
    "description_path":"./configs/description/mixinstruct.json",
    "dataset": {
     "name": "Mixinstruct",

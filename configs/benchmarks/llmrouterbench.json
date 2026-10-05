@@ -4,7 +4,7 @@
   "voting": "weighted",
   "seed": 42,
   "description_path": "./configs/description/llmrouterbench.json",
-  "device": "cuda:0",
+  "device": "auto",
   "dataset": {
     "name": "LLMRouterBench",
     "dataset_dir": "./data/llmrouterbench",

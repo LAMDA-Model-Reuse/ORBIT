@@ -8,13 +8,7 @@ Best for:
 - You already have a local model (or want to use the HF cache)
 - You want to run fully offline
 """
-import sys
-import os
-
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from local_generator import LocalLLMGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
 
 def example_basic():

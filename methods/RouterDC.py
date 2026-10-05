@@ -22,8 +22,6 @@ class RouterDC(BaseRouter):
         args["embeddings"] = dict(args["embeddings"])
         args["embeddings"]["training"] = True
         super().__init__(args)
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
         self.llm_num = len(self.model_list)
         self.out_dim = args["embeddings"]["out_dim"]
         self.llm_embedding = nn.Parameter(

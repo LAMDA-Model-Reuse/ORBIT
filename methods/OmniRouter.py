@@ -68,10 +68,6 @@ class OmniRouter(BaseRouter):
     def __init__(self, args: Dict[str, Any]) -> None:
         super().__init__(args)
 
-        # -------- device --------
-        dev_arg = args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         # -------- training hyperparams --------
         train_cfg = args.get("training", {})
         self.lr: float = float(train_cfg["lr"])

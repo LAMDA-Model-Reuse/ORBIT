@@ -5,5 +5,5 @@
   "temperature": 0.07,
   "task_loss_weight": 1.0,
   "task_description_path": "./configs/description/tasks/{dataset}.json",
-  "training": {"lr": 0.001, "epochs": 20, "batch_size": 256, "device": "auto"}
+  "training": {"lr": 0.001, "epochs": 20, "batch_size": 256}
 }

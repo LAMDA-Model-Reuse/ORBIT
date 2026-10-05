@@ -1,11 +1,11 @@
 # LLM unified interface
-litellm>=1.60.0  # Updated to support new HuggingFace endpoints
+litellm>=1.60.0,<2.0  # Updated to support new HuggingFace endpoints
 
 # Configuration management
 pyyaml==6.0.1
 
 # Data validation and serialization
-pydantic==2.10.5
+pydantic>=2.12,<3.0
 
 # Utilities
 python-dotenv==1.0.1

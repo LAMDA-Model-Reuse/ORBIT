@@ -23,8 +23,7 @@ It supports online providers such as OpenAI, Anthropic, Google, HuggingFace-host
 ### 1. Install dependencies
 
 ```bash
-cd data_generator
-pip install -r requirements.txt
+pip install -r data_generator/requirements.txt
 ```
 
 ### 2. Choose your setup
@@ -32,16 +31,16 @@ pip install -r requirements.txt
 Use online APIs:
 
 ```bash
-cp .env.example .env
+cp data_generator/.env.example .env
 # Edit .env and fill in your API keys
-python examples/01_quick_start.py
+python -m data_generator.examples.01_quick_start
 ```
 
 Use local HuggingFace models:
 
 ```bash
 pip install transformers torch accelerate
-python examples/02_local_model.py
+python -m data_generator.examples.02_local_model
 ```
 
 ---
@@ -49,9 +48,9 @@ python examples/02_local_model.py
 ## Basic Usage
 
 ```python
-from generator import LLMDataGenerator
+from data_generator import LLMDataGenerator
 
-generator = LLMDataGenerator(config_path="config.yaml")
+generator = LLMDataGenerator(config_path="data_generator/config.yaml")
 
 response = generator.generate_single(
     query="What is machine learning?",
@@ -67,7 +66,7 @@ print(f"Latency: {response.timing_info.duration_seconds:.2f}s")
 ### Local Model Usage
 
 ```python
-from local_generator import LocalLLMGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
 generator = LocalLLMGenerator(
     model_path="meta-llama/Meta-Llama-3.2-1B-Instruct",
