@@ -74,9 +74,6 @@ class _RMBase(BaseRouter):
     def __init__(self, args: Dict[str, Any]):
         super().__init__(args)
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.in_dim = int(args["embeddings"]["out_dim"])
         self.num_models = len(self.model_list)
 

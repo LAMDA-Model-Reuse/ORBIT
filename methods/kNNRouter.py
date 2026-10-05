@@ -17,9 +17,6 @@ from methods.base import BaseRouter
 class kNNRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
-        dev_arg = self.args.get("device")
-        self.device = self._resolve_device(dev_arg)
-        
         self.k = self.args["k"]
         self.eps = self.args["eps"]
         self._train_X = None

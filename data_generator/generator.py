@@ -7,14 +7,14 @@ from datetime import datetime
 import litellm
 from tqdm import tqdm
 
-from models import (
+from .models import (
     LLMResponse,
     TokenUsage,
     TimingInfo,
     ModelInfo,
     GeneratorConfig
 )
-from utils import (
+from .utils import (
     load_config,
     ensure_dir,
     save_jsonl,

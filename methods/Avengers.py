@@ -19,8 +19,6 @@ class Avengers(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
         self.model = init_model(args)
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
         self.model.to(self.device)
         self.score_perf = {}
         self.score_cost = {}

@@ -46,9 +46,6 @@ class GraphRouter(BaseRouter):
 
         self.model = init_model(args, input_dim=in_dim, out_dim=2) #performance 和 cost
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.model.to(self.device)
         self._get_model_description()
         self.form_data = FormData(self.device)

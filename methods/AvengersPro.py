@@ -24,8 +24,6 @@ class AvengersPro(BaseRouter):
             raise ValueError("multi_cluster must be positive.")
         self.score_perf = {}
         self.score_cost = {}
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
         self.model.to(self.device)
 
     def train(self):

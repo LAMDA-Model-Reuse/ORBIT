@@ -4,7 +4,7 @@
    "voting":"weighted",
    "seed":42,
    "description_path":"./configs/description/Routerbench.json",
-   "device": "cuda:0",
+   "device": "auto",
    "dataset": {
     "name": "Routerbench",
     "dataset_dir": "./data/routerbench",

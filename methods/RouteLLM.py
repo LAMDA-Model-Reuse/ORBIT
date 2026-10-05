@@ -345,9 +345,6 @@ class RouteLLM_MF(BaseRouter):
         self.batch_size: int = int(train_cfg.get("batch_size", args.get("batch_size", 128)))
         self.weight_decay: float = float(train_cfg.get("weight_decay", 0.0))
 
-        dev_arg = args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.model: Optional[_MFScorer] = None
 
     def train(self) -> None:
@@ -483,10 +480,6 @@ class RouteLLM_BERT(BaseRouter):
         self.batch_size: int = int(train_cfg.get("batch_size", 16))
         self.weight_decay: float = float(train_cfg.get("weight_decay", 0.01))
         self.max_length: int = int(args.get("max_length", 256))
-
-        dev_arg = args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
 
         # Lazy import so that environments without transformers fail loudly only when used.
         try:

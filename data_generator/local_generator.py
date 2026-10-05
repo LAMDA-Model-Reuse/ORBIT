@@ -13,13 +13,13 @@ from transformers import (
     PreTrainedTokenizer
 )
 
-from models import (
+from .models import (
     LLMResponse,
     TokenUsage,
     TimingInfo,
     ModelInfo
 )
-from utils import (
+from .utils import (
     generate_query_id,
     get_timestamp,
     ensure_dir,

@@ -15,7 +15,6 @@
     "epochs": 10,
     "batch_size": 512,
     "optimizer": "adam",
-    "loss": "bce",
-    "device": "auto"
+    "loss": "bce"
   }
 }

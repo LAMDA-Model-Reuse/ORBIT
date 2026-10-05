@@ -19,11 +19,9 @@ All examples are designed to be **self-contained** and can be run independently.
 ## How to Run
 
 ```bash
-cd examples
-
-# Run any example
-python 01_quick_start.py
-python 02_local_model.py
+# Run from the repository root
+python -m data_generator.examples.01_quick_start
+python -m data_generator.examples.02_local_model
 # ... and so on
 ```
 

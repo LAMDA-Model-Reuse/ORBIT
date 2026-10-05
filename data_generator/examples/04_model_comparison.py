@@ -6,14 +6,13 @@ Best for:
 - Evaluating which model to choose
 - Comparing model performance across dimensions
 """
-import sys
-import os
+from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from data_generator import LLMDataGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
-from generator import LLMDataGenerator
-from local_generator import LocalLLMGenerator
+
+CONFIG_PATH = Path(__file__).resolve().parents[1] / "config.yaml"
 
 
 def example_compare_api_models():
@@ -23,7 +22,7 @@ def example_compare_api_models():
     print("Example 04a: Compare online API models")
     print("="*80)
 
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
 
     query = "Explain quantum computing in simple terms."
 

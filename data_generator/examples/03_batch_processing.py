@@ -5,14 +5,14 @@ This example shows how to process many queries in batches to build a large-scale
 Best for:
 - Collecting large amounts of LLM responses for research or training
 """
-import sys
 import os
+from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from data_generator import LLMDataGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
-from generator import LLMDataGenerator
-from local_generator import LocalLLMGenerator
+
+CONFIG_PATH = Path(__file__).resolve().parents[1] / "config.yaml"
 
 
 def example_batch_with_api():
@@ -22,7 +22,7 @@ def example_batch_with_api():
     print("Example 03a: Batch processing (online API)")
     print("="*80)
 
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
 
     # Prepare a list of queries
     queries = [

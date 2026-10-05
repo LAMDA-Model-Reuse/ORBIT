@@ -24,8 +24,6 @@ class Eagle(BaseRouter):
     """
     def __init__(self, args):
         super().__init__(args)
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
         self.num_models = len(self.model_list)
         self.global_scores = {m: 1500.0 for m in self.model_list}
         self.history_embs = []

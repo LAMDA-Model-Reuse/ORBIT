@@ -87,9 +87,7 @@ class TRouterModel(nn.Module):
 class TRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
-        cfg = args["training"]
-        device = cfg.get("device", args.get("device", "auto"))
-        self.device = self._resolve_device(device)
+        cfg = self.args["training"]
         self.epochs = int(cfg["epochs"])
         self.batch_size = int(cfg["batch_size"])
         self.lr = float(cfg["lr"])
@@ -106,7 +104,7 @@ class TRouter(BaseRouter):
             | set(self.test_df["eval_name"].astype(str))
         )
         self.task_to_id = {name: idx for idx, name in enumerate(self.task_names)}
-        descriptions = self._load_task_descriptions(args.get("task_description_path"))
+        descriptions = self._load_task_descriptions(self.args.get("task_description_path"))
         task_embeddings = self.embedder.run_embed(texts=descriptions, images=None)
         # Task profiles remain textual for multimodal benchmarks. Match the
         # concatenated query feature space with an explicit zero image channel.

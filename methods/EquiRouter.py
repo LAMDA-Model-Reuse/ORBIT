@@ -151,9 +151,6 @@ class EquiRouter(BaseRouter):
             dropout=dropout,
         )
 
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.model_cost.to(self.device)
         self.model_perf.to(self.device)
 

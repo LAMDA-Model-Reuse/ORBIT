@@ -183,6 +183,9 @@ python main.py --dataset Mixinstruct --method oracle
 python main.py --dataset LLMRouterBench --method knn
 ```
 
+Dataset and method names are matched case-insensitively. Device selection defaults to
+`auto`; use `--device cpu`, `--device cuda`, or `--device cuda:N` to override it.
+
 ---
 
 ## Benchmark Suite
@@ -192,12 +195,12 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 | Benchmark          | Modality   | #Models | Notes                                                        |
 | ------------------ | ---------- | ------: | ------------------------------------------------------------ |
 | **RouterBench**    | Text       |      11 | Small text-only pool for controlled budgeted routing evaluation. |
-| **RouterEval**     | Text       |     289 | Large text-only pool for scalability and robustness analysis. |
-| **MMR-Bench**      | Multimodal |       9 | Multimodal routing with visual inputs.                       |
+| **RouterEval**     | Text       | Dynamic | Large text-only pool determined by the common models in the downloaded release. |
+| **MMR-Bench**      | Multimodal |      10 | Multimodal routing with visual inputs.                       |
 | **MixInstruct**    | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
 | **LLMRouterBench** | Text       |      12 | Performance-cost routing over ten tasks with per-query model costs. |
 
-> Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT extracts 289 common models from Group A's six files and aligns their performance records on the largest shared query set across tasks.
+> Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT deterministically sorts the common models from Group A's six files and aligns performance and cost columns to that canonical order. The bundled metadata currently contains 239 model descriptions; description-based routers validate coverage by model name and report any missing entries instead of silently misaligning them.
 
 > Note: The LLMRouterBench loader uses the Performance-Cost subset and ORBIT's standard 20/80 in-domain split. It aligns 12 models over 12,446 queries, preserves released costs for auditing, repairs usable zero-cost records from token usage or model-task medians, and globally scales effective costs to `[0, 1]`. Failed zero-usage calls retain zero performance and zero cost.
 

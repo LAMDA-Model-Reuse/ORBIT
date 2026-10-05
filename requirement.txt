@@ -49,3 +49,8 @@ peft>=0.11,<0.19
 # API client (optional)
 # ----------------------------
 openai>=1.30,<3.0
+
+# ----------------------------
+# Data generation utility
+# ----------------------------
+-r data_generator/requirements.txt

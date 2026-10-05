@@ -23,9 +23,6 @@ class HybridLLM(BaseRouter):
         in_dim = args["embeddings"]["out_dim"]
 
         self.model = init_model(args, input_dim=in_dim, out_dim=out_dim)
-        dev_arg = self.args.get("device", "auto")
-        self.device = self._resolve_device(dev_arg)
-
         self.model.to(self.device)
 
         self.router_mode = args.get("router_mode")

@@ -4,13 +4,12 @@ Example 01: Quick Start - The Simplest Introductory Example
 This is the simplest usage example demonstrating how to generate responses using an online API.
 Suitable for: First-time users who want to quickly test features.
 """
-import os
-import sys
+from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from data_generator import LLMDataGenerator
 
-from generator import LLMDataGenerator
+
+CONFIG_PATH = Path(__file__).resolve().parents[1] / "config.yaml"
 
 
 def main():
@@ -23,7 +22,7 @@ def main():
     print("If not configured, please run: cp .env.example .env")
     print("Then edit the .env file and enter your API key\n")
 
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=True)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=True)
 
     query = "What is the capital of France?"
 

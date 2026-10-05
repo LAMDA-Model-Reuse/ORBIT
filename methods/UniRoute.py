@@ -46,9 +46,7 @@ class LearnedClusterMap(nn.Module):
 class UniRoute(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
-        cfg = args["training"]
-        device = cfg.get("device", args.get("device", "auto"))
-        self.device = self._resolve_device(device)
+        cfg = self.args["training"]
         self.epochs, self.batch_size = int(cfg["epochs"]), int(cfg["batch_size"])
         self.lr = float(cfg["lr"])
         self.num_clusters = int(args.get("num_clusters", 10))

@@ -7,16 +7,15 @@ Best for:
 - Generating summary reports
 - Exporting data for further processing
 """
-import sys
-import os
 import json
 from collections import defaultdict
+from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from data_generator import LLMDataGenerator
+from data_generator.local_generator import LocalLLMGenerator
 
-from generator import LLMDataGenerator
-from local_generator import LocalLLMGenerator
+
+CONFIG_PATH = Path(__file__).resolve().parents[1] / "config.yaml"
 
 
 def example_basic_statistics():
@@ -27,7 +26,7 @@ def example_basic_statistics():
     print("="*80)
 
     # Load data
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
 
     # Get statistics
     stats = generator.get_statistics()
@@ -65,7 +64,7 @@ def example_detailed_analysis():
     print("="*80)
 
     # Load all responses
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
     responses = generator.load_responses()
 
     if not responses:
@@ -117,7 +116,7 @@ def example_export_to_csv():
     import pandas as pd
 
     # Load data
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
     responses = generator.load_responses()
 
     if not responses:
@@ -163,7 +162,7 @@ def example_filter_and_export():
     print("Example 05d: Filter and export")
     print("="*80)
 
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
     responses = generator.load_responses()
 
     if not responses:
@@ -203,7 +202,7 @@ def example_response_length_distribution():
     print("Example 05e: Response length distribution")
     print("="*80)
 
-    generator = LLMDataGenerator(config_path="../config.yaml", verbose=False)
+    generator = LLMDataGenerator(config_path=str(CONFIG_PATH), verbose=False)
     responses = generator.load_responses()
 
     if not responses:

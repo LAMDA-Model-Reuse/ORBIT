@@ -49,7 +49,7 @@ models:
 ### Usage
 
 ```python
-from generator import LLMDataGenerator
+from data_generator import LLMDataGenerator
 
 generator = LLMDataGenerator(config_path="config.yaml")
 response = generator.generate_single(
@@ -284,10 +284,9 @@ python -m vllm.entrypoints.openai.api_server \
 
 1. Pick an option (vLLM recommended)
 2. Start the local server
-3. Add your model to `config.yaml`
-4. Run `examples/01_quick_start.py` to verify everything works
+3. Add your model to `data_generator/config.yaml`
+4. Run the quick-start example to verify everything works
 
 ```bash
-cd data_generator/examples
-python quick_start.py
+python -m data_generator.examples.01_quick_start
 ```
