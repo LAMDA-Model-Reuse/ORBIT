@@ -58,6 +58,7 @@ Useful links:
 
 ## What's New
 
+- **2026-10**: Added adapters for **xRouteBench**, **MMR-Bench V2**, and **R2-Bench**, allowing existing routers to evaluate newer released outcomes through the same ORBIT pipeline. R2's model-budget pairs are ordinary routing candidates; release-specific cost and input limitations are documented in [the adapter guide](docs/new_benchmarks.md).
 - **2026-10**: Added **RouteFM**, the frozen in-context foundation router that transfers to new candidate pools through behavioral context, and **SAVERouter**, which adaptively acquires fixed-K sparse feedback and accounts for supervision expenditure. [[RouteFM Paper]](https://arxiv.org/abs/2609.37362) [[RouteFM Code]](https://github.com/LAMDA-Model-Reuse/RouteFM) [[SAVERouter Paper]](https://arxiv.org/abs/2609.37402) [[SAVERouter Code]](https://github.com/LAMDA-Model-Reuse/SaveRouter)
 - **2026-08**: ORBIT has been accepted by the *Frontiers of Computer Science* (FCS) special column **[Code & Data](https://journal.hep.com.cn/fcs/EN/subject/showCollection.do?subjectId=1710741206314)**. [[Paper]](https://doi.org/10.1007/s11704-026-61310-5)
 - **2026-08**: Added InferenceDynamics.
@@ -187,6 +188,9 @@ python main.py --dataset Mixinstruct --method oracle
 python main.py --dataset LLMRouterBench --method knn
 python main.py --dataset Routerbench --method RouteFM
 python main.py --dataset Routerbench --method SaveRouter
+python main.py --dataset XRouteBench --method knn
+python main.py --dataset MMRBenchV2 --method GraphRouter
+python main.py --dataset R2Bench --method CarrotRouter
 ```
 
 Dataset and method names are matched case-insensitively. Device selection defaults to
@@ -211,10 +215,20 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 | **MMR-Bench**      | Multimodal |      10 | Multimodal routing with visual inputs.                       |
 | **MixInstruct**    | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
 | **LLMRouterBench** | Text       |      12 | Performance-cost routing over ten tasks with per-query model costs. |
+| **xRouteBench** | Text / text-view | 18 | Official train/test outcomes with recorded token usage and frozen pricing. |
+| **MMR-Bench V2** | Multimodal | 44 | Versioned 18-task release; common successful support and output-only reference costs. |
+| **R2-Bench** | Text | 157 actions | 10 physical models with released nominal output-budget settings. |
 
 > Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT deterministically sorts the common models from Group A's six files and aligns performance and cost columns to that canonical order. The bundled metadata currently contains 239 model descriptions; description-based routers validate coverage by model name and report any missing entries instead of silently misaligning them.
 
 > Note: The LLMRouterBench loader uses the Performance-Cost subset and ORBIT's standard 20/80 in-domain split. It aligns 12 models over 12,446 queries, preserves released costs for auditing, repairs usable zero-cost records from token usage or model-task medians, and globally scales effective costs to `[0, 1]`. Failed zero-usage calls retain zero performance and zero cost.
+
+> New adapters preserve the existing router/metric framework, freeze source revisions,
+> align candidate descriptions by name, reject invalid identities, and record coverage
+> and cost protocols. MMR-Bench V2 requires upstream image assets. Full R2-Bench is
+> approximately 25 GB; its costs are output-only references, not full bills, and
+> Best Single/RCI are evaluated over model-budget actions. See [configuration,
+> limitations and smoke instructions](docs/new_benchmarks.md) before running.
 
 ---
 

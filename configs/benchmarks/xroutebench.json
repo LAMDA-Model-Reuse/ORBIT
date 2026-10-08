@@ -1,0 +1,27 @@
+{
+  "_comment": "Frozen public release adapted to ORBIT; see docs/new_benchmarks.md for cost scope and protocol.",
+  "modality": "text",
+  "voting": "weighted",
+  "seed": 42,
+  "description_path": "./configs/description/xroutebench.json",
+  "device": "auto",
+  "dataset": {
+    "name": "XRouteBench",
+    "dataset_dir": "./data/xroutebench",
+    "cost_scaling": "train-max",
+    "scenario": "llmrouter_generic",
+    "revision": "ea4b6e1b29d9a734f55f0a637baf326bad6aa681",
+    "missing_policy": "error",
+    "split": {
+      "mode": "official"
+    }
+  },
+  "embeddings": {
+    "text_model": "all-MiniLM-L6-v2",
+    "image_model": null,
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 384
+  }
+}

@@ -1,0 +1,310 @@
+[
+  {
+    "id": 0,
+    "model_name": "claude-opus-4-7",
+    "family": "Claude",
+    "description": "claude-opus-4-7 is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Claude. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 1,
+    "model_name": "GeminiFlash2-5",
+    "family": "Gemini",
+    "description": "GeminiFlash2-5 is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Gemini. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 2,
+    "model_name": "GeminiPro2-5",
+    "family": "Gemini",
+    "description": "GeminiPro2-5 is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Gemini. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 3,
+    "model_name": "Gemma3-4B",
+    "family": "Gemma",
+    "description": "Gemma3-4B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Gemma. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 4,
+    "model_name": "Gemma4-12B-it",
+    "family": "Gemma",
+    "description": "Gemma4-12B-it is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Gemma. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 5,
+    "model_name": "GLM-4.1V-9B-Thinking",
+    "family": "GLM",
+    "description": "GLM-4.1V-9B-Thinking is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is GLM. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 6,
+    "model_name": "gpt-5-2025-08-07",
+    "family": "GPT",
+    "description": "gpt-5-2025-08-07 is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is GPT. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 7,
+    "model_name": "gpt-5.5-0424-global",
+    "family": "GPT",
+    "description": "gpt-5.5-0424-global is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is GPT. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 8,
+    "model_name": "InternVL3-14B-Instruct",
+    "family": "InternVL3",
+    "description": "InternVL3-14B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 9,
+    "model_name": "InternVL3-2B-Instruct",
+    "family": "InternVL3",
+    "description": "InternVL3-2B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 10,
+    "model_name": "InternVL3-78B",
+    "family": "InternVL3",
+    "description": "InternVL3-78B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 11,
+    "model_name": "InternVL3-8B-Instruct",
+    "family": "InternVL3",
+    "description": "InternVL3-8B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 12,
+    "model_name": "InternVL3_5-14B-Instruct",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-14B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 13,
+    "model_name": "InternVL3_5-2B-Instruct",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-2B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 14,
+    "model_name": "InternVL3_5-30B-A3B",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-30B-A3B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 15,
+    "model_name": "InternVL3_5-4B-Instruct",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-4B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 16,
+    "model_name": "InternVL3_5-8B-Instruct",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-8B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 17,
+    "model_name": "InternVL3_5-GPT-OSS-20B-A4B-Preview",
+    "family": "InternVL3.5",
+    "description": "InternVL3_5-GPT-OSS-20B-A4B-Preview is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is InternVL3.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 18,
+    "model_name": "Keye-VL-2.0-30B-A3B",
+    "family": "Keye",
+    "description": "Keye-VL-2.0-30B-A3B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Keye. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 19,
+    "model_name": "MiMo-VL-7B-RL",
+    "family": "Other",
+    "description": "MiMo-VL-7B-RL is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 20,
+    "model_name": "MiniCPM-V-4.6",
+    "family": "MiniCPM",
+    "description": "MiniCPM-V-4.6 is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is MiniCPM. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 21,
+    "model_name": "Ovis2-16B",
+    "family": "Ovis2",
+    "description": "Ovis2-16B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 22,
+    "model_name": "Ovis2-1B",
+    "family": "Ovis2",
+    "description": "Ovis2-1B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 23,
+    "model_name": "Ovis2-2B",
+    "family": "Ovis2",
+    "description": "Ovis2-2B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 24,
+    "model_name": "Ovis2-34B",
+    "family": "Ovis2",
+    "description": "Ovis2-34B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 25,
+    "model_name": "Ovis2-4B",
+    "family": "Ovis2",
+    "description": "Ovis2-4B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 26,
+    "model_name": "Ovis2-8B",
+    "family": "Ovis2",
+    "description": "Ovis2-8B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 27,
+    "model_name": "Ovis2.5-2B",
+    "family": "Ovis2.5",
+    "description": "Ovis2.5-2B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 28,
+    "model_name": "Ovis2.5-9B",
+    "family": "Ovis2.5",
+    "description": "Ovis2.5-9B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2.5. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 29,
+    "model_name": "Ovis2.6-30B-A3B",
+    "family": "Ovis2.6",
+    "description": "Ovis2.6-30B-A3B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Ovis2.6. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 30,
+    "model_name": "Qwen2.5-VL-32B-Instruct",
+    "family": "Qwen2.5-VL",
+    "description": "Qwen2.5-VL-32B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen2.5-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 31,
+    "model_name": "Qwen2.5-VL-3B-Instruct",
+    "family": "Qwen2.5-VL",
+    "description": "Qwen2.5-VL-3B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen2.5-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 32,
+    "model_name": "Qwen2.5-VL-72B-Instruct",
+    "family": "Qwen2.5-VL",
+    "description": "Qwen2.5-VL-72B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen2.5-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 33,
+    "model_name": "Qwen2.5-VL-7B-Instruct",
+    "family": "Qwen2.5-VL",
+    "description": "Qwen2.5-VL-7B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen2.5-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 34,
+    "model_name": "Qwen3-VL-2B-Instruct",
+    "family": "Qwen3-VL",
+    "description": "Qwen3-VL-2B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen3-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 35,
+    "model_name": "Qwen3-VL-30B-A3B-Instruct",
+    "family": "Qwen3-VL",
+    "description": "Qwen3-VL-30B-A3B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen3-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 36,
+    "model_name": "Qwen3-VL-32B-Instruct",
+    "family": "Qwen3-VL",
+    "description": "Qwen3-VL-32B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen3-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 37,
+    "model_name": "Qwen3-VL-4B-Instruct",
+    "family": "Qwen3-VL",
+    "description": "Qwen3-VL-4B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen3-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 38,
+    "model_name": "Qwen3-VL-8B-Instruct",
+    "family": "Qwen3-VL",
+    "description": "Qwen3-VL-8B-Instruct is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Qwen3-VL. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 39,
+    "model_name": "Qwen3.5-27B",
+    "family": "Other",
+    "description": "Qwen3.5-27B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 40,
+    "model_name": "Qwen3.5-9B",
+    "family": "Other",
+    "description": "Qwen3.5-9B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 41,
+    "model_name": "Qwen3.6-27B",
+    "family": "Other",
+    "description": "Qwen3.6-27B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 42,
+    "model_name": "Qwen3.6-35B-A3B",
+    "family": "Other",
+    "description": "Qwen3.6-35B-A3B is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  },
+  {
+    "id": 43,
+    "model_name": "qwen3.8-max-preview",
+    "family": "Other",
+    "description": "qwen3.8-max-preview is an image-and-text multimodal candidate in MMR-Bench V2. Its released family label is Other. The benchmark identifier is preserved verbatim; it is not assumed to be a current API endpoint.",
+    "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml"
+  }
+]

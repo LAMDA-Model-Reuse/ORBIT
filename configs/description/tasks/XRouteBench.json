@@ -1,0 +1,15 @@
+{
+  "aime_2020_2024": "Solve AIME mathematics problems from 2020 through 2024.",
+  "arc_challenge": "Answer challenging multiple-choice science questions.",
+  "boolq": "Answer yes/no questions using the provided passage.",
+  "commonsense_qa": "Answer multiple-choice questions requiring commonsense knowledge.",
+  "gsm8k": "Solve grade-school mathematical word problems.",
+  "hellaswag": "Choose a plausible continuation using commonsense reasoning.",
+  "human_eval": "Complete a Python programming task according to its specification.",
+  "math": "Solve mathematical reasoning problems.",
+  "mbpp": "Write Python programs that satisfy the problem specification and tests.",
+  "mmlu": "Answer multiple-choice questions across academic subjects.",
+  "mmlu_pro": "Answer challenging multiple-choice questions across academic subjects.",
+  "openbook_qa": "Answer multiple-choice science questions using facts and reasoning.",
+  "squad": "Answer questions using the provided passage."
+}

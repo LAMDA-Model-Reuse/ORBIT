@@ -53,18 +53,29 @@ class PairConfig:
 
 
 def _resolve_pair_config(cfg: PairConfig, y_perf: np.ndarray) -> PairConfig:
+    y_perf = np.asarray(y_perf)
+    if y_perf.ndim != 2 or y_perf.shape[0] == 0 or y_perf.shape[1] < 2:
+        raise ValueError("RouteLLM requires non-empty (N, K) performance labels with at least two models.")
     means = np.nanmean(y_perf, axis=0)
     if not np.isfinite(means).all():
         missing = np.flatnonzero(~np.isfinite(means)).tolist()
         raise ValueError(f"RouteLLM has no finite performance labels for models {missing}.")
-    strong = int(np.argmax(means)) if cfg.strong_model_idx is None else int(cfg.strong_model_idx)
-    weak = int(np.argmin(means)) if cfg.weak_model_idx is None else int(cfg.weak_model_idx)
+    strong = None if cfg.strong_model_idx is None else int(cfg.strong_model_idx)
+    weak = None if cfg.weak_model_idx is None else int(cfg.weak_model_idx)
+    for name, index in (("strong", strong), ("weak", weak)):
+        if index is not None and not 0 <= index < y_perf.shape[1]:
+            raise ValueError(f"RouteLLM {name} model index {index} is outside [0, {y_perf.shape[1]}).")
+    candidates = np.arange(y_perf.shape[1])
+    # Never replace an explicit endpoint. Infer the other endpoint from the
+    # remaining candidates, using canonical index order to break mean-score ties.
+    if strong is None:
+        available = candidates if weak is None else candidates[candidates != weak]
+        strong = int(available[np.argmax(means[available])])
+    if weak is None:
+        available = candidates[candidates != strong]
+        weak = int(available[np.argmin(means[available])])
     if strong == weak:
         raise ValueError("RouteLLM strong and weak model indices must be different.")
-    if not (0 <= strong < y_perf.shape[1] and 0 <= weak < y_perf.shape[1]):
-        raise ValueError(
-            f"RouteLLM model pair ({strong}, {weak}) is outside [0, {y_perf.shape[1]})."
-        )
     return PairConfig(strong, weak, cfg.tie_policy, cfg.eps)
 
 

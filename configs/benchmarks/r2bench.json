@@ -1,0 +1,32 @@
+{
+  "_comment": "Frozen public release adapted to ORBIT; see docs/new_benchmarks.md for cost scope and protocol.",
+  "modality": "text",
+  "voting": "weighted",
+  "seed": 42,
+  "description_path": "./configs/description/r2bench.json",
+  "device": "auto",
+  "dataset": {
+    "name": "R2Bench",
+    "dataset_dir": "./data/r2bench",
+    "cost_scaling": "train-max",
+    "revision": "1b6234647a21705da4c220f339e44fbe72c69bb2",
+    "cost_mode": "output-usd",
+    "missing_policy": "drop-query",
+    "include_responses": false,
+    "split": {
+      "mode": "in-domain",
+      "ratios": {
+        "train": 0.2,
+        "test": 0.8
+      }
+    }
+  },
+  "embeddings": {
+    "text_model": "all-MiniLM-L6-v2",
+    "image_model": null,
+    "batch_size": 32,
+    "normalize": true,
+    "training": false,
+    "out_dim": 384
+  }
+}

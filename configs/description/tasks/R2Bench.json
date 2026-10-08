@@ -1,0 +1,3 @@
+{
+  "r2bench": "Answer the released R2-Bench queries. The CSV release does not provide task-type labels; this is a single task group, not an inferred taxonomy."
+}
