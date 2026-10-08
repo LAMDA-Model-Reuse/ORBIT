@@ -137,11 +137,8 @@ class PaperAdapterSmokeTest(unittest.TestCase):
                 texts=self.test_df["prompt"].tolist(), images=None
             )
             performance, cost = router.predict(test_features)
-            with patch.object(router, "cal_rci") as rci, patch.object(
-                router, "cal_metrics"
-            ) as metrics:
+            with patch.object(router, "cal_metrics") as metrics:
                 router.evaluate()
-            rci.assert_called_once()
             metrics.assert_called_once()
         self.assertEqual(performance.shape, (4, 3))
         self.assertEqual(cost.shape, (4, 3))
@@ -162,11 +159,8 @@ class PaperAdapterSmokeTest(unittest.TestCase):
                 texts=self.test_df["prompt"].tolist(), images=None
             )
             performance, cost = router.predict(features)
-            with patch.object(router, "cal_rci") as rci, patch.object(
-                router, "cal_metrics"
-            ) as metrics:
+            with patch.object(router, "cal_metrics") as metrics:
                 router.evaluate()
-            rci.assert_called_once()
             metrics.assert_called_once()
         self.assertEqual(performance.shape, (4, 3))
         self.assertEqual(cost.shape, (4, 3))
@@ -199,11 +193,8 @@ class PaperAdapterSmokeTest(unittest.TestCase):
             evaluator_probability = router.predict_expost_acceptance(
                 ["query a", "query b"], ["answer a", "answer b"]
             )
-            with patch.object(router, "cal_rci") as rci, patch.object(
-                router, "cal_metrics"
-            ) as metrics:
+            with patch.object(router, "cal_metrics") as metrics:
                 router.evaluate()
-            rci.assert_called_once()
             metrics.assert_called_once()
         self.assertEqual(probability.shape, (4, 3))
         self.assertEqual(cost.shape, (4, 3))
@@ -267,11 +258,8 @@ class PaperAdapterSmokeTest(unittest.TestCase):
                 texts=self.test_df["prompt"].tolist(), images=None
             )
             performance, cost = router.predict(features)
-            with patch.object(router, "cal_rci") as rci, patch.object(
-                router, "cal_metrics"
-            ) as metrics:
+            with patch.object(router, "cal_metrics") as metrics:
                 router.evaluate()
-            rci.assert_called_once()
             metrics.assert_called_once()
         self.assertEqual(router.context_query.shape, (3, 3, 4))
         self.assertEqual(router.context_features.shape, (3, 3, 2))
@@ -303,11 +291,8 @@ class PaperAdapterSmokeTest(unittest.TestCase):
                 texts=self.test_df["prompt"].tolist(), images=None
             )
             performance, cost = router.predict(features)
-            with patch.object(router, "cal_rci") as rci, patch.object(
-                router, "cal_metrics"
-            ) as metrics:
+            with patch.object(router, "cal_metrics") as metrics:
                 router.evaluate()
-            rci.assert_called_once()
             metrics.assert_called_once()
         self.assertEqual(router.supervision.n_observations, len(self.train_df) * 2)
         np.testing.assert_array_equal(

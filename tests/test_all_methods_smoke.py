@@ -1,7 +1,7 @@
 """All-registered-method matrix with actual offline metric/result output.
 
 Large pretrained encoders are replaced at the input/checkpoint boundary only.
-Router training, prediction, allocation, RCI, nAUC and JSON writing are real.
+Router training, prediction, allocation, nAUC and JSON writing are real.
 """
 
 import logging

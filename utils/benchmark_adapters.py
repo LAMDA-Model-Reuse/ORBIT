@@ -536,7 +536,7 @@ class R2BenchAdapter(FrozenBenchmarkAdapter):
             "cost_scope": "actual recorded output tokens times frozen reference output price; input and hidden reasoning costs unavailable" if mode == "output-usd" else "recorded output token count only; not a monetary cost",
             "price_sources": self.registry["price_sources"],
             "input_representation": "original_prompt only; nominal budget is an action attribute, not a query feature",
-            "candidate_semantics": "model-budget action; Best Single and RCI refer to fixed actions, not physical models",
+            "candidate_semantics": "model-budget action; Best Single refers to fixed actions, not physical models",
             "prompt_alignment": "key plus identical content after removing CR/LF only; prefer the released variant with most line breaks",
             "linebreak_variant_queries": len(linebreak_variants),
             "linebreak_variant_ids_sha256": hashlib.sha256("\n".join(sorted(linebreak_variants)).encode()).hexdigest(),

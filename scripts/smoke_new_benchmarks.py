@@ -128,7 +128,7 @@ def main():
                         expected = (len(router.test_df), len(router.model_list))
                         if performance.shape != expected or costs.shape != expected or not np.isfinite(performance).all() or not np.isfinite(costs).all():
                             raise AssertionError(f"Invalid smoke predictions: {name}/{method}")
-                    router.evaluate()  # actual shared nAUC/RCI/JSON path, unpatched
+                    router.evaluate()  # actual shared nAUC/JSON path, unpatched
                     print(json.dumps({"benchmark": name, "method": method, "train": len(router.train_df),
                                       "test": len(router.test_df), "candidates": len(router.model_list),
                                       "status": "PASS", "representation": "smoke-hash text only"}))

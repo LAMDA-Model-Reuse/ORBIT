@@ -122,10 +122,9 @@ class BaseRouter(ABC):
         perf_mat = self.test_df[perf_cols_all].to_numpy(dtype=np.float32)  # (N, M)
         cost_mat = self.test_df[cost_cols_all].to_numpy(dtype=np.float32)  # (N, M)
 
-        all_points, best_idx = self._build_tradeoff_points(
+        all_points, _ = self._build_tradeoff_points(
             perf_pred, cost_pred, perf_mat, cost_mat
         )
-        self.cal_rci(best_idx, log_once=True)
         self.cal_metrics(all_points)
 
     def _clip_predicted_costs(self, cost_pred):
@@ -209,76 +208,6 @@ class BaseRouter(ABC):
             json.dump(pareto_points, f, indent=4)
 
         logging.info(f"[method.base.py] Saved Pareto frontier points to {json_path}\n")
-    
-    def cal_rci(self, predict_idx, log_once: bool = True):
-        """
-        RCI (0/1 per sample):
-        - 0 if chosen model is best AND not most expensive
-        - 0 if only the most expensive model(s) are best AND chosen is among them
-        - 1 otherwise
-
-        Returns:
-        rci_mean: float, mean of per-sample rci in [0, 1] (lower is better)
-        rci_per_sample: np.ndarray shape (N,), values in {0,1}
-        """
-        predict_idx = np.asarray(predict_idx, dtype=int)
-        N = int(predict_idx.shape[0])
-        M = int(len(self.model_list))
-
-        if N == 0:
-            if log_once:
-                logging.info("[method.base.py] RCI: 0.0 (empty input)")
-            return 0.0, np.zeros((0,), dtype=np.int32)
-
-        perf_cols = [f"model_{mid}_performance" for mid in range(M)]
-        cost_cols = [f"model_{mid}_cost" for mid in range(M)]
-
-        # (N, M)
-        perf_mat = self.test_df[perf_cols].to_numpy()
-        cost_mat = self.test_df[cost_cols].to_numpy()
-
-        rows = np.arange(N)
-        valid_choice = (predict_idx >= 0) & (predict_idx < M)
-        safe_predict_idx = np.clip(predict_idx, 0, max(M - 1, 0))
-
-        # Determine "most expensive" model(s) globally by average cost over test set.
-        # (Alternative: by max cost per-sample; but global is more stable.)
-        avg_costs = cost_mat.mean(axis=0)  # (M,)
-        max_avg_cost = avg_costs.max()
-        most_expensive_mask = avg_costs == max_avg_cost  # (M,) boolean
-        chosen_is_most_expensive = (
-            most_expensive_mask[safe_predict_idx] & valid_choice
-        )  # (N,)
-
-        # Best set per sample (ties allowed)
-        best_perf = perf_mat.max(axis=1)                       # (N,)
-        is_best = perf_mat == best_perf[:, None]               # (N, M)
-        chosen_is_best = is_best[rows, safe_predict_idx] & valid_choice  # (N,)
-
-        # "Only most expensive is best" per sample:
-        # i.e., all best models are within the most-expensive set, and at least one best exists (always true).
-        best_is_subset_of_most_expensive = (is_best & (~most_expensive_mask[None, :])).sum(axis=1) == 0  # (N,)
-
-        # Apply your rule:
-        # 0 if (chosen best and not most expensive) OR (only most expensive best and chosen best (=> chosen is expensive))
-        ok_case_1 = chosen_is_best & (~chosen_is_most_expensive)
-        ok_case_2 = best_is_subset_of_most_expensive & chosen_is_best
-        ok = ok_case_1 | ok_case_2
-
-        rci_per_sample = (~ok).astype(np.int32)
-        rci_mean = float(rci_per_sample.mean())
-
-        if log_once:
-            logging.info(
-                "[method.base.py] RCI: %.6f | N=%d | ok(non-exp best)=%.4f | ok(only-exp-best)=%.4f | most_expensive_ids=%s",
-                rci_mean,
-                N,
-                float(ok_case_1.mean()),
-                float(ok_case_2.mean()),
-                np.where(most_expensive_mask)[0].tolist(),
-            )
-
-        return rci_mean, rci_per_sample
     
     def _find_min_cost_for_target(self, pareto_points, target_accuracy):
         valid_points = [point for point in pareto_points if point["performance"] >= target_accuracy]

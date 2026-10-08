@@ -27,7 +27,7 @@ LLM routing methods are rapidly emerging, but existing implementations are often
 ORBIT standardizes the end-to-end routing workflow into a unified research stack:
 
 - **Unified pipeline and router interface**: dataset loading -> embedding extraction -> router training/inference -> standardized evaluation, all driven by consistent JSON configs.
-- **Budget-aware evaluation**: sweep budgets to trace performance-cost trade-offs and report curve-level metrics such as **nAUC**, **Peak Score**, **QNC**, and **RCI**.
+- **Budget-aware evaluation**: sweep budgets to trace performance-cost trade-offs and report curve-level metrics such as **nAUC**, **Peak Score**, and **QNC**.
 - **Extensible benchmark and method suite**: built-in support for unimodal and multimodal routing benchmarks, reproduced routing methods, and clean interfaces for adding datasets, embedding encoders, and routers.
 
 ORBIT currently supports large-scale routing evaluation with up to **8.65M** benchmark instances and is designed to accelerate reproducible research on budget-aware LLM routing systems.
@@ -106,17 +106,13 @@ ORBIT reproduces **30 representative LLM routing methods** across training-free,
 
 ## Evaluation Metrics
 
-ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to obtain a **performance-cost trade-off curve**. It reports standardized metrics for fair comparison and diagnostic analysis.
+ORBIT evaluates LLM routing under **budgeted inference** by sweeping budgets to obtain a **performance-cost trade-off curve**. It reports standardized metrics for comparing routing quality and cost-efficiency.
 
 ### Trade-off metrics
 
 - **nAUC (normalized Area Under Curve)**: integrates the Pareto performance envelope over one benchmark-wide realized-cost interval, from the mean per-query minimum model cost to the mean per-query maximum model cost. Every router uses the same real minimum-cost policy as the left anchor, and the final feasible policy is carried to the upper bound. The area is divided by the shared cost interval, so router scores are directly comparable within a benchmark. Higher is better.
 - **Peak Score**: reports the best achievable utility within the evaluated budget range. Higher is better.
 - **QNC (Quality Neutral Cost)**: measures cost-efficiency under quality-neutral comparison. Lower is better.
-
-### Diagnostic metrics
-
-- **RCI (Routing Collapse Index)**: diagnoses collapse and other failure modes beyond average utility.
 
 ### Cost prediction protocol
 
@@ -227,7 +223,7 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 > align candidate descriptions by name, reject invalid identities, and record coverage
 > and cost protocols. MMR-Bench V2 requires upstream image assets. Full R2-Bench is
 > approximately 25 GB; its costs are output-only references, not full bills, and
-> Best Single/RCI are evaluated over model-budget actions. See [configuration,
+> Best Single is evaluated over model-budget actions. See [configuration,
 > limitations and smoke instructions](docs/new_benchmarks.md) before running.
 
 ---
