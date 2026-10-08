@@ -180,16 +180,11 @@ class _RMBase(BaseRouter):
 
         lambda_pool = np.linspace(0.0, float(self.args["lambda_max"]), int(self.args["num_lambdas"])).astype(np.float32)
 
-        last_choice = None
         for lambda_val in lambda_pool:
             choice = self.predict(test_embs, lambda_val=lambda_val)  # (N,)
-            last_choice = choice
             selected_perf = perf_mat[row_idx, choice]
             selected_costs = cost_mat[row_idx, choice]
             all_points.append({"cost": float(np.mean(selected_costs)), "performance": float(np.mean(selected_perf))})
-
-        if last_choice is not None:
-            self.cal_rci(last_choice)
 
         self.cal_metrics(all_points)
 

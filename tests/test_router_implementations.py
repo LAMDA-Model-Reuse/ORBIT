@@ -1,10 +1,12 @@
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import torch
 
 from methods.Eagle import Eagle
 from methods.EmbedLLM import EmbedLLM
+from methods.EARAMRouter import EARAMRouter
 from methods.ModelSAT import ModelSAT
 from methods.RouteLLM import PairConfig, _build_pairwise_pref, _resolve_pair_config
 from methods.UniRoute import UniRoute
@@ -179,9 +181,11 @@ class MethodRegressionTest(unittest.TestCase):
         )
         np.testing.assert_allclose(clipped, [[0.1, 0.6], [0.2, 0.8]])
 
-    def test_rci_counts_null_auction_allocations_as_failures(self):
-        router = _ConcreteBase.__new__(_ConcreteBase)
+    def test_null_auction_allocations_have_zero_performance_and_cost(self):
+        router = EARAMRouter.__new__(EARAMRouter)
         router.model_list = ["cheap", "strong"]
+        router._training_cost_bounds = None
+        router.configured_values = [0.0, 1.0]
         import pandas as pd
 
         router.test_df = pd.DataFrame(
@@ -192,9 +196,15 @@ class MethodRegressionTest(unittest.TestCase):
                 "model_1_cost": [0.9, 0.9],
             }
         )
-        mean, per_sample = router.cal_rci(np.asarray([-1, 0]), log_once=False)
-        np.testing.assert_array_equal(per_sample, [1, 0])
-        self.assertEqual(mean, 0.5)
+        probability = np.asarray([[0.0, 0.0], [0.9, 0.9]], dtype=np.float32)
+        cost = np.asarray([[0.1, 0.9], [0.1, 0.9]], dtype=np.float32)
+        with patch.object(router, "cal_metrics") as metrics:
+            router._evaluate_predictions(probability, cost)
+        metrics.assert_called_once()
+        points = metrics.call_args.args[0]
+        self.assertEqual(points[0], {"cost": 0.0, "performance": 0.0})
+        self.assertAlmostEqual(points[1]["cost"], 0.05)
+        self.assertEqual(points[1]["performance"], 0.5)
 
     def test_modelsat_selects_last_non_padding_position(self):
         logits = torch.arange(2 * 4 * 3, dtype=torch.float32).reshape(2, 4, 3)

@@ -354,7 +354,6 @@ class EARAMRouter(BaseRouter):
         rows = np.arange(len(probability))
 
         points = []
-        final_winners = None
         for value in self._value_grid(probability, cost_pred):
             winners, _, _ = self.auction_outcome(probability, cost_pred, value)
             active = winners >= 0
@@ -370,7 +369,5 @@ class EARAMRouter(BaseRouter):
                     "performance": float(selected_performance.mean()),
                 }
             )
-            final_winners = winners
 
-        self.cal_rci(final_winners, log_once=True)
         self.cal_metrics(points)

@@ -119,11 +119,8 @@ class CarrotRouter(BaseRouter):
         rows = np.arange(len(perf_pred))
 
         points = []
-        quality_choices = None
         for mu in np.linspace(0.0, 1.0, self.mu_steps):
             choices = np.argmax(self.utility(perf_pred, cost_pred, mu), axis=1)
-            if quality_choices is None:
-                quality_choices = choices.copy()
             points.append(
                 {
                     "cost": float(np.mean(realized_cost[rows, choices])),
@@ -131,5 +128,4 @@ class CarrotRouter(BaseRouter):
                 }
             )
 
-        self.cal_rci(quality_choices, log_once=True)
         self.cal_metrics(points)

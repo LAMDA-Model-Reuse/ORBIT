@@ -255,8 +255,9 @@ def _run(base, method, directory, checkpoints, routefm_checkpoint, multimodal, p
             matches = re.findall(r"nAUC: ([0-9.eE+-]+)", text)
             if not matches or not all(0 <= float(value) <= 1 for value in matches):
                 raise AssertionError("Missing/non-finite/out-of-range nAUC")
-            if not re.search(r"RCI: [0-9.]+", text):
-                raise AssertionError("Missing RCI evaluation")
+            peaks = re.findall(r"Maximum accuracy: ([0-9.eE+-]+)", text)
+            if not peaks or not all(np.isfinite(float(value)) for value in peaks):
+                raise AssertionError("Missing/non-finite Peak Score")
             result = {"benchmark": name, "method": method, "modality": args["modality"], "status": "PASS",
                       "train": len(router.train_df), "test": len(router.test_df), "candidates": len(router.model_list),
                       "nAUC": float(matches[-1]), "seconds": round(time.monotonic() - started, 3),

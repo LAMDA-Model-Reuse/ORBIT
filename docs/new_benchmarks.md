@@ -173,7 +173,7 @@ Qwen/Qwen3-0.6B@budget=100
 All existing routers can learn/score these columns as usual. Choose an identical
 action pool for every compared method. This is **discrete action routing**;
 it neither implements R2-Router nor adds continuous-budget interpolation.
-Best Single, RCI and the existing oracle are computed over candidate **actions**,
+Best Single and the existing oracle are computed over candidate **actions**,
 not collapsed physical models. The sidecar maps every candidate to its physical
 model and nominal budget.
 
@@ -240,7 +240,7 @@ and not an exhaustive run of all methods on all full datasets.
 `tests/test_all_methods_smoke.py` adds a CPU-only matrix covering every registered
 method on all three source-schema fixtures, plus all 24 compatible multimodal
 methods on MMR image fixtures. It calls real training, prediction, allocation,
-RCI, nAUC and JSON output code; none of these are mocked. CI discovers this test
+nAUC, Peak Score and JSON output code; none of these are mocked. CI discovers this test
 through the existing unittest entry point.
 
 For a persistent report with per-method logs and curves:
@@ -259,7 +259,7 @@ python scripts/smoke_all_methods.py --real-data \
 
 Report directories must be new or empty to preserve earlier evidence. The report
 records substitutions, sample/model counts, checkpoint hashes, nAUC and output
-paths. Each method must produce a finite curve and log both nAUC and RCI. Pair
+paths. Each method must produce a finite curve and log both nAUC and Peak Score. Pair
 routers' intentionally disabled `-inf` scores are accepted only outside the
 selected pair. Native cost regressions are checked before and after ORBIT's
 existing training-range clipping guard; negative raw values are recorded, not
