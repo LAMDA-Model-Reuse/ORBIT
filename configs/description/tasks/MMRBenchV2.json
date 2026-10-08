@@ -1,0 +1,20 @@
+{
+  "BLINK": "Answer questions requiring visual perception and reasoning over images.",
+  "CharXiv_reasoning_val": "Reason about information in scientific charts.",
+  "ChartQAPro": "Answer questions about charts.",
+  "ERQA": "Answer questions requiring reasoning about the visible environment.",
+  "HallusionBench": "Answer image-grounded questions without hallucinating unsupported details.",
+  "InfoVQA_VAL": "Answer questions using information in infographics.",
+  "LogicVista": "Solve visual reasoning and logic questions.",
+  "MMMU_Pro_10c": "Answer ten-choice multimodal questions across academic subjects.",
+  "MMStar": "Answer image-grounded questions requiring perception and reasoning.",
+  "MathVerse_MINI_Vision_Only": "Solve mathematics problems presented visually.",
+  "MathVision": "Solve mathematical problems involving visual information.",
+  "MathVista_MINI": "Solve visual mathematics and reasoning questions.",
+  "OCRBench": "Read and reason about text in images.",
+  "RealWorldQA": "Answer questions grounded in real-world images.",
+  "SEEDBench2_Plus": "Answer multimodal comprehension questions.",
+  "SimpleVQA": "Answer factual questions grounded in images.",
+  "VStarBench": "Answer questions requiring detailed visual search.",
+  "WeMath": "Solve multimodal mathematics problems."
+}

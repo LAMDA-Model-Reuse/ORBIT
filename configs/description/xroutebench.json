@@ -1,0 +1,110 @@
+[
+  {
+    "id": 0,
+    "model_name": "qwen2.5-7b-instruct",
+    "description": "Qwen2.5-7B-Instruct represents an upgraded version of the Qwen model series, featuring significantly enhanced multilingual capabilities across diverse language tasks. This improved model is competitively priced at $0.20 per million input tokens and $0.20 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 1,
+    "model_name": "gemma-2-9b-it",
+    "description": "Gemma-2-9B-IT is Google's 9-billion parameter instruction-tuned model from the Gemma 2 family, optimized for helpful and safe conversational interactions. This efficient model delivers strong performance at an exceptionally low price of $0.10 per million input tokens and $0.10 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 2,
+    "model_name": "llama-3-8b-instruct-lite",
+    "description": "Meta-Llama-3-8B-Instruct-Lite is Meta's 8-billion parameter model with INT4 quantization for lightweight and fast inference. This efficient model delivers strong instruction-following capabilities at an ultra-low price of $0.10 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 3,
+    "model_name": "qwen2.5-7b-instruct-turbo",
+    "description": "Qwen2.5-7B-Instruct-Turbo is Alibaba's 7-billion parameter model with turbo-optimized inference on Together AI, delivering fast and reliable multilingual performance. This model is priced at $0.30 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 4,
+    "model_name": "mistral-7b-instruct-v0.3",
+    "description": "Mistral-7B-Instruct-v0.3 is a fast and efficient 7-billion parameter model specifically designed for instruction-following tasks. This streamlined model provides quick response times and reliable performance at cost-effective pricing of $0.20 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 5,
+    "model_name": "qwen3-next-80b-a3b-instruct",
+    "description": "Qwen3-Next-80B-A3B-Instruct is Alibaba's 80-billion parameter model with only 3-billion active parameters, achieving excellent efficiency through sparse activation. This model delivers strong performance at $0.15 per million input tokens and $1.50 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 6,
+    "model_name": "llama3-70b-instruct",
+    "description": "Llama3-70B-Instruct represents Meta's powerful 70-billion parameter model, maintaining robust capabilities and performance characteristics across a wide range of language tasks. This model provides comprehensive language understanding and generation at $0.90 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 7,
+    "model_name": "mixtral-8x7b-instruct-v0.1",
+    "description": "Mixtral-8x7B-Instruct-v0.1 is a 46.7-billion parameter Mixture of Experts (MoE) model composed of eight 7-billion parameter expert models, specifically optimized for creative text generation. This innovative architecture provides high-quality outputs while maintaining efficiency, available at $0.60 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 8,
+    "model_name": "mixtral-8x22b-instruct-v0.1",
+    "description": "Mixtral-8x22B-Instruct-v0.1 is a 140.6-billion parameter Mixture of Experts model comprising eight 22-billion parameter expert components. This large-scale MoE architecture delivers exceptional performance across diverse tasks while maintaining computational efficiency, priced at $1.20 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 9,
+    "model_name": "gpt-oss-20b",
+    "description": "GPT-OSS-20B is OpenAI's open-source 20-billion parameter model offering strong language capabilities at remarkably low cost. This model provides excellent value for general-purpose tasks, priced at $0.05 per million input tokens and $0.20 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 10,
+    "model_name": "mistral-small-3-24b-instruct",
+    "description": "Mistral-Small-3-24B-Instruct is Mistral AI's 24-billion parameter model designed for efficient instruction following with a balance of capability and speed. This mid-sized model handles a wide range of tasks reliably, priced at $0.10 per million input tokens and $0.30 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 11,
+    "model_name": "llama-4-maverick",
+    "description": "Llama-4-Maverick is Meta's cutting-edge Mixture of Experts model with 17-billion parameter experts across 128 expert slots, delivering frontier-level performance. This innovative architecture supports a massive 1M token context window, priced at $0.27 per million input tokens and $0.85 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 12,
+    "model_name": "rnj-1-instruct",
+    "description": "RNJ-1-Instruct is Essential AI's efficient instruction-tuned model delivering strong reasoning and language capabilities. This model offers exceptional value at an ultra-low price of $0.15 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 13,
+    "model_name": "gpt-oss-120b",
+    "description": "GPT-OSS-120B is OpenAI's open-source 120-billion parameter model delivering high-end performance across demanding language tasks. This large-scale model provides near-frontier capabilities at a competitive price of $0.15 per million input tokens and $0.60 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 14,
+    "model_name": "qwen3-coder-next",
+    "description": "Qwen3-Coder-Next is Alibaba's advanced code-specialized model optimized for programming tasks, code generation, and technical reasoning. This model delivers high-quality outputs at $0.50 per million input tokens and $1.20 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 15,
+    "model_name": "deepseek-v3.1",
+    "description": "DeepSeek-V3.1 is a 671-billion parameter Mixture of Experts model delivering state-of-the-art performance across coding, math, and reasoning tasks. This powerful model provides exceptional capabilities at $0.60 per million input tokens and $1.70 per million output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 16,
+    "model_name": "llama-3.3-70b-instruct-turbo",
+    "description": "Llama-3.3-70B-Instruct-Turbo is Meta's 70-billion parameter model with turbo-optimized inference, providing fast and high-quality responses for complex tasks. This model supports a 131K token context window, priced at $0.88 per million input and output tokens.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  },
+  {
+    "id": 17,
+    "model_name": "cogito-v2-1-671b",
+    "description": "Cogito-V2.1-671B is Deep Cogito's 671-billion parameter model delivering powerful reasoning and language understanding comparable to frontier models. This large-scale model provides exceptional performance at $1.25 per million input and output tokens, offering a cost-effective alternative for complex reasoning tasks.",
+    "source": "https://huggingface.co/datasets/ulab-ai/xRouteBench/tree/ea4b6e1b29d9a734f55f0a637baf326bad6aa681"
+  }
+]

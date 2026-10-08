@@ -1,0 +1,1258 @@
+[
+  {
+    "id": 0,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=10",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 1,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=20",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 2,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=30",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 3,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=40",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 4,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=50",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 5,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=80",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 6,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=100",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 7,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=150",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 8,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=200",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 9,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=300",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 10,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=500",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 11,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=800",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 12,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=1200",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 13,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=2000",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 14,
+    "model_name": "Qwen/Qwen2.5-Math-1.5B-Instruct@budget=4000",
+    "physical_model": "Qwen/Qwen2.5-Math-1.5B-Instruct",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-1.5B-Instruct, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 15,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=10",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 16,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=20",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 17,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=30",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 18,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=40",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 19,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=50",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 20,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=80",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 21,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=100",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 22,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=150",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 23,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=200",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 24,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=300",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 25,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=500",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 26,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=800",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 27,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=1200",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 28,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=2000",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 29,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=4000",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 30,
+    "model_name": "Qwen/Qwen2.5-Math-7B-Instruct@budget=8000",
+    "physical_model": "Qwen/Qwen2.5-Math-7B-Instruct",
+    "nominal_budget": 8000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen2.5-Math-7B-Instruct, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 31,
+    "model_name": "Qwen/Qwen3-0.6B@budget=10",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 32,
+    "model_name": "Qwen/Qwen3-0.6B@budget=20",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 33,
+    "model_name": "Qwen/Qwen3-0.6B@budget=30",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 34,
+    "model_name": "Qwen/Qwen3-0.6B@budget=40",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 35,
+    "model_name": "Qwen/Qwen3-0.6B@budget=50",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 36,
+    "model_name": "Qwen/Qwen3-0.6B@budget=80",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 37,
+    "model_name": "Qwen/Qwen3-0.6B@budget=100",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 38,
+    "model_name": "Qwen/Qwen3-0.6B@budget=150",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 39,
+    "model_name": "Qwen/Qwen3-0.6B@budget=200",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 40,
+    "model_name": "Qwen/Qwen3-0.6B@budget=300",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 41,
+    "model_name": "Qwen/Qwen3-0.6B@budget=500",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 42,
+    "model_name": "Qwen/Qwen3-0.6B@budget=800",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 43,
+    "model_name": "Qwen/Qwen3-0.6B@budget=1200",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 44,
+    "model_name": "Qwen/Qwen3-0.6B@budget=2000",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 45,
+    "model_name": "Qwen/Qwen3-0.6B@budget=4000",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 46,
+    "model_name": "Qwen/Qwen3-0.6B@budget=8000",
+    "physical_model": "Qwen/Qwen3-0.6B",
+    "nominal_budget": 8000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-0.6B, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 47,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=10",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 48,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=20",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 49,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=30",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 50,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=40",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 51,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=50",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 52,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=80",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 53,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=100",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 54,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=150",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 55,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=200",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 56,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=300",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 57,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=500",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 58,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=800",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 59,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=1200",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 60,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=2000",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 61,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=4000",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 62,
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507@budget=8000",
+    "physical_model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "nominal_budget": 8000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-235B-A22B-Instruct-2507, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 63,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=10",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 64,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=20",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 65,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=30",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 66,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=40",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 67,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=50",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 68,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=80",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 69,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=100",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 70,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=150",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 71,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=200",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 72,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=300",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 73,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=500",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 74,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=800",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 75,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=1200",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 76,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=2000",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 77,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=4000",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 78,
+    "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507@budget=8000",
+    "physical_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "nominal_budget": 8000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-30B-A3B-Instruct-2507, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 79,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=10",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 10,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 80,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=20",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 20,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 81,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=30",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 30,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 82,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=40",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 40,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 83,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=50",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 50,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 84,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=80",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 80,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 85,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=100",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 100,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 86,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=150",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 150,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 87,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=200",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 88,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=300",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 300,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 89,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=500",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 500,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 90,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=800",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 800,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 91,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=1200",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 1200,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 92,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=2000",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 2000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 93,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=4000",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 4000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 94,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct@budget=8000",
+    "physical_model": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "nominal_budget": 8000,
+    "family": "Qwen",
+    "description": "Routing action: Qwen/Qwen3-Next-80B-A3B-Instruct, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 95,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=10",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 10,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 96,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=20",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 20,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 97,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=30",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 30,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 98,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=40",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 40,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 99,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=50",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 50,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 100,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=80",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 80,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 101,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=100",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 100,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 102,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=150",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 150,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 103,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=200",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 200,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 104,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=300",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 300,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 105,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=500",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 500,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 106,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=800",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 800,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 107,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=1200",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 1200,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 108,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=2000",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 2000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 109,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=4000",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 4000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 110,
+    "model_name": "meta-llama/Llama-3.1-70B-Instruct@budget=8000",
+    "physical_model": "meta-llama/Llama-3.1-70B-Instruct",
+    "nominal_budget": 8000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.1-70B-Instruct, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 111,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=10",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 10,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 112,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=20",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 20,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 113,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=30",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 30,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 114,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=40",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 40,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 115,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=50",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 50,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 116,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=80",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 80,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 117,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=100",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 100,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 118,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=150",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 150,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 119,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=200",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 200,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 120,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=300",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 300,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 121,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=500",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 500,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 122,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=800",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 800,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 123,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=1200",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 1200,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 124,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=2000",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 2000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 125,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=4000",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 4000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 126,
+    "model_name": "meta-llama/Llama-3.2-3B-Instruct@budget=8000",
+    "physical_model": "meta-llama/Llama-3.2-3B-Instruct",
+    "nominal_budget": 8000,
+    "family": "meta-llama",
+    "description": "Routing action: meta-llama/Llama-3.2-3B-Instruct, with nominal output-budget label 8000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 127,
+    "model_name": "zai-org/GLM-4.5-Air@budget=10",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 10,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 128,
+    "model_name": "zai-org/GLM-4.5-Air@budget=20",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 20,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 129,
+    "model_name": "zai-org/GLM-4.5-Air@budget=30",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 30,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 130,
+    "model_name": "zai-org/GLM-4.5-Air@budget=40",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 40,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 131,
+    "model_name": "zai-org/GLM-4.5-Air@budget=50",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 50,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 132,
+    "model_name": "zai-org/GLM-4.5-Air@budget=80",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 80,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 133,
+    "model_name": "zai-org/GLM-4.5-Air@budget=100",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 100,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 134,
+    "model_name": "zai-org/GLM-4.5-Air@budget=150",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 150,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 135,
+    "model_name": "zai-org/GLM-4.5-Air@budget=200",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 200,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 136,
+    "model_name": "zai-org/GLM-4.5-Air@budget=300",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 300,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 137,
+    "model_name": "zai-org/GLM-4.5-Air@budget=500",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 500,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 138,
+    "model_name": "zai-org/GLM-4.5-Air@budget=800",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 800,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 139,
+    "model_name": "zai-org/GLM-4.5-Air@budget=1200",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 1200,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 140,
+    "model_name": "zai-org/GLM-4.5-Air@budget=2000",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 2000,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 141,
+    "model_name": "zai-org/GLM-4.5-Air@budget=4000",
+    "physical_model": "zai-org/GLM-4.5-Air",
+    "nominal_budget": 4000,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.5-Air, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 142,
+    "model_name": "zai-org/GLM-4.6@budget=10",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 10,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 10 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 143,
+    "model_name": "zai-org/GLM-4.6@budget=20",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 20,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 20 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 144,
+    "model_name": "zai-org/GLM-4.6@budget=30",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 30,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 30 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 145,
+    "model_name": "zai-org/GLM-4.6@budget=40",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 40,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 40 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 146,
+    "model_name": "zai-org/GLM-4.6@budget=50",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 50,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 50 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 147,
+    "model_name": "zai-org/GLM-4.6@budget=80",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 80,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 80 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 148,
+    "model_name": "zai-org/GLM-4.6@budget=100",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 100,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 100 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 149,
+    "model_name": "zai-org/GLM-4.6@budget=150",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 150,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 150 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 150,
+    "model_name": "zai-org/GLM-4.6@budget=200",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 200,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 151,
+    "model_name": "zai-org/GLM-4.6@budget=300",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 300,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 300 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 152,
+    "model_name": "zai-org/GLM-4.6@budget=500",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 500,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 500 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 153,
+    "model_name": "zai-org/GLM-4.6@budget=800",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 800,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 800 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 154,
+    "model_name": "zai-org/GLM-4.6@budget=1200",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 1200,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 1200 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 155,
+    "model_name": "zai-org/GLM-4.6@budget=2000",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 2000,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 2000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  },
+  {
+    "id": 156,
+    "model_name": "zai-org/GLM-4.6@budget=4000",
+    "physical_model": "zai-org/GLM-4.6",
+    "nominal_budget": 4000,
+    "family": "zai-org",
+    "description": "Routing action: zai-org/GLM-4.6, with nominal output-budget label 4000 in R2-Bench. This budget label identifies the released constrained-generation setting, not a guaranteed actual token count. The router sees the original query; quality and cost are specific to this action. Actual output tokens, rather than the nominal budget, determine reference cost."
+  }
+]

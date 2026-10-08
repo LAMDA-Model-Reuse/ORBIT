@@ -119,6 +119,48 @@ class MethodRegressionTest(unittest.TestCase):
         self.assertEqual(resolved.strong_model_idx, 1)
         self.assertEqual(resolved.weak_model_idx, 2)
 
+    def test_pair_configuration_equal_means_choose_distinct_deterministic_models(self):
+        performance = np.asarray([[0.0, 1.0, 0.5], [1.0, 0.0, 0.5]], dtype=np.float32)
+        for _ in range(2):
+            resolved = _resolve_pair_config(PairConfig(tie_policy="drop", eps=1e-8), performance)
+            self.assertEqual((resolved.strong_model_idx, resolved.weak_model_idx), (0, 1))
+            self.assertEqual(resolved.tie_policy, "drop")
+            self.assertEqual(resolved.eps, 1e-8)
+            labels, keep = _build_pairwise_pref(performance, resolved)
+            np.testing.assert_array_equal(keep, [0, 1])
+            np.testing.assert_array_equal(labels, [0.0, 1.0])
+        for config, expected in (
+            (PairConfig(strong_model_idx=2), (2, 0)),
+            (PairConfig(weak_model_idx=0), (1, 0)),
+        ):
+            with self.subTest(config=config):
+                resolved = _resolve_pair_config(config, performance)
+                self.assertEqual((resolved.strong_model_idx, resolved.weak_model_idx), expected)
+
+    def test_pair_configuration_infers_other_endpoint_without_replacing_explicit_one(self):
+        performance = np.asarray([[0.1, 0.8, 0.5], [0.1, 0.8, 0.5]], dtype=np.float32)
+        for config, expected in (
+            (PairConfig(strong_model_idx=0), (0, 2)),
+            (PairConfig(weak_model_idx=1), (2, 1)),
+            (PairConfig(strong_model_idx=2, weak_model_idx=1), (2, 1)),
+        ):
+            with self.subTest(config=config):
+                resolved = _resolve_pair_config(config, performance)
+                self.assertEqual((resolved.strong_model_idx, resolved.weak_model_idx), expected)
+
+    def test_pair_configuration_invalid_explicit_indices_or_single_model_fail(self):
+        performance = np.ones((3, 2), dtype=np.float32)
+        for config in (PairConfig(0, 0), PairConfig(strong_model_idx=-1), PairConfig(weak_model_idx=2)):
+            with self.subTest(config=config), self.assertRaises(ValueError):
+                _resolve_pair_config(config, performance)
+        for labels in (np.ones((3, 1)), np.empty((0, 2)), np.ones(3)):
+            with self.subTest(shape=labels.shape), self.assertRaisesRegex(ValueError, "at least two models"):
+                _resolve_pair_config(PairConfig(), labels)
+
+    def test_pair_configuration_non_tied_automatic_extremes_are_unchanged(self):
+        resolved = _resolve_pair_config(PairConfig(), np.asarray([[0.2, 0.8, 0.1], [0.3, 0.7, 0.0]]))
+        self.assertEqual((resolved.strong_model_idx, resolved.weak_model_idx), (1, 2))
+
     def test_unavailable_cuda_device_has_safe_fallback(self):
         resolved = BaseRouter._resolve_device("cuda:99")
         if torch.cuda.is_available():

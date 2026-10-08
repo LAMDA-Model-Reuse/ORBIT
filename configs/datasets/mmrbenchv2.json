@@ -1,0 +1,138 @@
+{
+  "revision": "f20dfda87ba94823db297225270b603a58534dfa",
+  "source": "https://huggingface.co/datasets/gh0stHunter/MMR-Bench-V2/blob/f20dfda87ba94823db297225270b603a58534dfa/configs/models.yaml",
+  "models": {
+    "claude-opus-4-7": {
+      "family": "Claude"
+    },
+    "GeminiFlash2-5": {
+      "family": "Gemini"
+    },
+    "GeminiPro2-5": {
+      "family": "Gemini"
+    },
+    "Gemma3-4B": {
+      "family": "Gemma"
+    },
+    "Gemma4-12B-it": {
+      "family": "Gemma"
+    },
+    "GLM-4.1V-9B-Thinking": {
+      "family": "GLM"
+    },
+    "gpt-5-2025-08-07": {
+      "family": "GPT"
+    },
+    "gpt-5.5-0424-global": {
+      "family": "GPT"
+    },
+    "InternVL3-14B-Instruct": {
+      "family": "InternVL3"
+    },
+    "InternVL3-2B-Instruct": {
+      "family": "InternVL3"
+    },
+    "InternVL3-78B": {
+      "family": "InternVL3"
+    },
+    "InternVL3-8B-Instruct": {
+      "family": "InternVL3"
+    },
+    "InternVL3_5-14B-Instruct": {
+      "family": "InternVL3.5"
+    },
+    "InternVL3_5-2B-Instruct": {
+      "family": "InternVL3.5"
+    },
+    "InternVL3_5-30B-A3B": {
+      "family": "InternVL3.5"
+    },
+    "InternVL3_5-4B-Instruct": {
+      "family": "InternVL3.5"
+    },
+    "InternVL3_5-8B-Instruct": {
+      "family": "InternVL3.5"
+    },
+    "InternVL3_5-GPT-OSS-20B-A4B-Preview": {
+      "family": "InternVL3.5"
+    },
+    "Keye-VL-2.0-30B-A3B": {
+      "family": "Keye"
+    },
+    "MiMo-VL-7B-RL": {
+      "family": "Other"
+    },
+    "MiniCPM-V-4.6": {
+      "family": "MiniCPM"
+    },
+    "Ovis2-16B": {
+      "family": "Ovis2"
+    },
+    "Ovis2-1B": {
+      "family": "Ovis2"
+    },
+    "Ovis2-2B": {
+      "family": "Ovis2"
+    },
+    "Ovis2-34B": {
+      "family": "Ovis2"
+    },
+    "Ovis2-4B": {
+      "family": "Ovis2"
+    },
+    "Ovis2-8B": {
+      "family": "Ovis2"
+    },
+    "Ovis2.5-2B": {
+      "family": "Ovis2.5"
+    },
+    "Ovis2.5-9B": {
+      "family": "Ovis2.5"
+    },
+    "Ovis2.6-30B-A3B": {
+      "family": "Ovis2.6"
+    },
+    "Qwen2.5-VL-32B-Instruct": {
+      "family": "Qwen2.5-VL"
+    },
+    "Qwen2.5-VL-3B-Instruct": {
+      "family": "Qwen2.5-VL"
+    },
+    "Qwen2.5-VL-72B-Instruct": {
+      "family": "Qwen2.5-VL"
+    },
+    "Qwen2.5-VL-7B-Instruct": {
+      "family": "Qwen2.5-VL"
+    },
+    "Qwen3-VL-2B-Instruct": {
+      "family": "Qwen3-VL"
+    },
+    "Qwen3-VL-30B-A3B-Instruct": {
+      "family": "Qwen3-VL"
+    },
+    "Qwen3-VL-32B-Instruct": {
+      "family": "Qwen3-VL"
+    },
+    "Qwen3-VL-4B-Instruct": {
+      "family": "Qwen3-VL"
+    },
+    "Qwen3-VL-8B-Instruct": {
+      "family": "Qwen3-VL"
+    },
+    "Qwen3.5-27B": {
+      "family": "Other"
+    },
+    "Qwen3.5-9B": {
+      "family": "Other"
+    },
+    "Qwen3.6-27B": {
+      "family": "Other"
+    },
+    "Qwen3.6-35B-A3B": {
+      "family": "Other"
+    },
+    "qwen3.8-max-preview": {
+      "family": "Other"
+    }
+  }
+}

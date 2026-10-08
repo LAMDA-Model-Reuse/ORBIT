@@ -14,6 +14,9 @@ from datasets import load_dataset
 import pickle
 import requests
 from huggingface_hub import hf_hub_download, snapshot_download
+from utils.benchmark_adapters import (
+    MMRBenchV2Adapter, R2BenchAdapter, XRouteBenchAdapter,
+)
 
 
 def _safe_archive_target(target_dir: str, member_name: str) -> Path:
@@ -1103,7 +1106,6 @@ class RouterEvalLoader(BaseDatasetLoader):
         return None  
 
 
-# Registry to allow users to add new dataset loaders
 class LLMRouterBenchLoader(BaseDatasetLoader):
     """Load the Performance-Cost subset of LLMRouterBench into ORBIT format."""
 
@@ -1550,6 +1552,18 @@ class LLMRouterBenchLoader(BaseDatasetLoader):
         return list(self.model_list), dataframe
 
 
+class XRouteBenchLoader(XRouteBenchAdapter, BaseDatasetLoader):
+    """Frozen xRouteBench outcomes adapted to the existing loader contract."""
+
+
+class MMRBenchV2Loader(MMRBenchV2Adapter, BaseDatasetLoader):
+    """Versioned multimodal release; the legacy MMRBench loader is unchanged."""
+
+
+class R2BenchLoader(R2BenchAdapter, BaseDatasetLoader):
+    """Treat each released (model, nominal budget) as a routing candidate."""
+
+
 # Registry to allow users to add new dataset loaders
 _LOADER_REGISTRY: Dict[str, Type[BaseDatasetLoader]] = {
     RouterbenchLoader.name: RouterbenchLoader,
@@ -1557,6 +1571,9 @@ _LOADER_REGISTRY: Dict[str, Type[BaseDatasetLoader]] = {
     MMRBenchLoader.name: MMRBenchLoader,
     RouterEvalLoader.name: RouterEvalLoader,  
     LLMRouterBenchLoader.name: LLMRouterBenchLoader,
+    XRouteBenchLoader.name: XRouteBenchLoader,
+    MMRBenchV2Loader.name: MMRBenchV2Loader,
+    R2BenchLoader.name: R2BenchLoader,
 }
 
 
