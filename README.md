@@ -2,6 +2,12 @@
   <img src="./resources/logo.jpg" width="600px" alt="ORBIT logo">
 </p>
 
+# ORBIT: A Unified Toolbox for LLM Routing
+
+<p align="center">
+  <a href="https://doi.org/10.1007/s11704-026-61310-5">Paper · Frontiers of Computer Science (2026)</a>
+</p>
+
 <p align="center">
   <a href="#introduction">Introduction</a> ·
   <a href="#orbit-and-routejudge">RouteJudge</a> ·
@@ -14,12 +20,15 @@
   <a href="#citing-orbit-and-routejudge">Citation</a> ·
   <a href="#contact">Contact</a>
 </p>
+
 ## Introduction
 
-**ORBIT (Optimal Routing and Budgeted Inference Toolbox)** is a modular, extensible toolbox for **LLM routing**. It studies how to select the most suitable model from a heterogeneous model pool **for each query**, under practical deployment constraints such as **cost, latency, and throughput**.
+**ORBIT: A Unified Toolbox for LLM Routing** is a modular, extensible open-source toolbox for **large language model (LLM) routing**, also known as **model routing**. It studies how to select the most suitable model from a heterogeneous model pool **for each query**, under practical deployment constraints such as **cost, latency, and throughput**.
+
+ORBIT unifies LLM router development, cost-aware inference, text-only and multimodal routing benchmarks, and reproducible performance-cost evaluation. The repository name and URL remain **ORBIT** to preserve existing paper and project links.
 
 <p align="center">
-  <img src="./resources/orbit.jpg" width="600px" alt="ORBIT overview">
+  <img src="./resources/orbit.jpg" width="600px" alt="ORBIT unified LLM routing and evaluation workflow">
 </p>
 
 LLM routing methods are rapidly emerging, but existing implementations are often fragmented: they use different benchmark splits, cost assumptions, evaluation scripts, and router interfaces. This makes fair comparison and reproducibility difficult.
@@ -261,6 +270,17 @@ If you are unsure how to adapt your method to the ORBIT interface, please open a
 ## Contribution Guidelines
 
 We welcome pull requests that improve ORBIT's method coverage, benchmark support, documentation, and evaluation utilities.
+
+### Project naming
+
+Use **ORBIT: A Unified Toolbox for LLM Routing** on first mention in future papers,
+project introductions, and documentation for related open-source routing methods;
+use **ORBIT** thereafter. Link to the canonical repository,
+[LAMDA-Model-Reuse/ORBIT](https://github.com/LAMDA-Model-Reuse/ORBIT), without renaming it.
+When citing the published FCS paper, retain its original bibliographic title,
+**ORBIT: An Optimal Routing and Budgeted Inference Toolbox**, and DOI as listed below.
+
+### Pull request checklist
 
 Before submitting a PR, please try to include:
 
