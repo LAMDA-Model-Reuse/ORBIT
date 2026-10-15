@@ -1,0 +1,32 @@
+{
+  "_comment": "Prepared upstream Steps 1 and 2; see docs/vl_routerbench.md. No pickle/matrix loading.",
+  "modality": "text+image",
+  "voting": "weighted",
+  "seed": 42,
+  "description_path": "./configs/description/vlrouterbench.json",
+  "device": "auto",
+  "dataset": {
+    "name": "VLRouterBench",
+    "dataset_dir": "./data/vl_routerbench",
+    "revision": "6e44fbf50e170f8e72734b49f63f2b52a8866377",
+    "cost_scaling": "train-max",
+    "local_files_only": true,
+    "missing_policy": "error",
+    "text_overlap_policy": "error",
+    "estimated_output_policy": "allow",
+    "include_responses": false,
+    "multi_image": "contact-sheet",
+    "image_cell_size": 512,
+    "split": {
+      "mode": "official"
+    }
+  },
+  "embeddings": {
+    "text_model": "ViT-B/16",
+    "image_model": "ViT-B/16",
+    "batch_size": 128,
+    "normalize": true,
+    "training": false,
+    "out_dim": 1024
+  }
+}

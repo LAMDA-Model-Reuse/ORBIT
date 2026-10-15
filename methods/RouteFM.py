@@ -21,17 +21,22 @@ class RouteFMRouter(BaseRouter):
     def __init__(self, args):
         route_config = dict(args.get("routefm", {}))
         encoder = str(route_config.get("encoder", "bge")).lower()
-        if encoder != "bge":
-            raise ValueError(
-                "ORBIT's built-in RouteFM adapter currently supports the official "
-                "BGE text checkpoint. The Qwen checkpoint requires joint Qwen3-VL "
-                "embeddings from a compatible service."
-            )
+        if encoder not in {"bge", "qwen"}:
+            raise ValueError("RouteFM encoder must be bge or qwen.")
         # The released BGE checkpoint is text-only.  In a multimodal benchmark,
         # this is an explicit text-only evaluation rather than concatenating an
         # incompatible image representation.
         args = dict(args)
-        args["modality"] = "text"
+        if encoder == "bge":
+            args["modality"] = "text"
+        else:
+            embeddings = dict(args.get("embeddings", {}))
+            if embeddings.get("joint_model") != "Qwen/Qwen3-VL-Embedding-8B":
+                raise ValueError("RouteFM-Qwen requires the Qwen3-VL-Embedding-8B joint encoder.")
+            if embeddings.get("out_dim") != 4096 or embeddings.get("training", False):
+                raise ValueError("RouteFM-Qwen requires frozen 4096-D embeddings without projection.")
+            embeddings["normalize"] = True
+            args["embeddings"] = embeddings
         super().__init__(args)
         self.route_config = route_config
         self.encoder = encoder

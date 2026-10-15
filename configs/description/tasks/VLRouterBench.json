@@ -1,0 +1,16 @@
+{
+  "MMMU_DEV_VAL": "Multimodal multi-task understanding (dev + validation)",
+  "MathVista_MINI": "Math visual reasoning and understanding (MINI version)",
+  "MathVision_MINI": "Math visual reasoning (MINI version)",
+  "MathVerse_MINI": "Math reasoning (MINI version)",
+  "MMBench_DEV_EN_V11": "Multimodal benchmark (dev set, English V11)",
+  "RealWorldQA": "Real-world question answering",
+  "MMStar": "MMStar multimodal evaluation",
+  "HallusionBench": "Hallucination detection benchmark",
+  "TextVQA_VAL": "TextVQA (validation set)",
+  "ChartQA_TEST": "Chart question answering (test set)",
+  "DocVQA_VAL": "Document question answering (validation set)",
+  "InfoVQA_VAL": "InfoVQA (validation set)",
+  "AI2D_TEST": "AI2D diagram understanding (test set)",
+  "OCRBench": "OCR capability benchmark"
+}

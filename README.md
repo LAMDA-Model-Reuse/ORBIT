@@ -67,6 +67,7 @@ Useful links:
 
 ## What's New
 
+- **2026-10**: Added **VL-RouterBench** support for vision-language model routing through the existing ORBIT pipeline. The adapter preserves named outcomes and prepared splits, resolves TSV image assets, and records estimated-token reference costs. See [preparation and protocol](docs/vl_routerbench.md).
 - **2026-10**: Added adapters for **xRouteBench**, **MMR-Bench V2**, and **R2-Bench**, allowing existing routers to evaluate newer released outcomes through the same ORBIT pipeline. R2's model-budget pairs are ordinary routing candidates; release-specific cost and input limitations are documented in [the adapter guide](docs/new_benchmarks.md).
 - **2026-10**: Added **RouteFM**, the frozen in-context foundation router that transfers to new candidate pools through behavioral context, and **SAVERouter**, which adaptively acquires fixed-K sparse feedback and accounts for supervision expenditure. [[RouteFM Paper]](https://arxiv.org/abs/2609.37362) [[RouteFM Code]](https://github.com/LAMDA-Model-Reuse/RouteFM) [[SAVERouter Paper]](https://arxiv.org/abs/2609.37402) [[SAVERouter Code]](https://github.com/LAMDA-Model-Reuse/SaveRouter)
 - **2026-08**: ORBIT has been accepted by the *Frontiers of Computer Science* (FCS) special column **[Code & Data](https://journal.hep.com.cn/fcs/EN/subject/showCollection.do?subjectId=1710741206314)**. [[Paper]](https://doi.org/10.1007/s11704-026-61310-5)
@@ -105,10 +106,10 @@ ORBIT reproduces **30 representative LLM routing methods** across training-free,
 - **TRouter**: Learns task-aware query and model representations for performance-cost routing. [[Paper]](https://arxiv.org/abs/2604.09377)
 - **UniRoute**: Represents model capabilities through cluster-level prediction errors and learns a query-to-cluster router. [[Paper]](https://openreview.net/forum?id=ka82fvJ5f1)
 - **InferenceDynamics**: Builds parameter-free model indexes from ranked capability and knowledge profiles for structured model-query matching. [[Paper]](https://arxiv.org/abs/2505.16303)
-- **ProfileRouter**: Implements RouteProfile's training-free Emb-GNN profile construction and cosine-similarity SimRouter using public model descriptions, family metadata, and optional reported benchmark scores. [[Paper]](https://arxiv.org/abs/2605.00180)
+- **ProfileRouter**: Implements RouteProfile's training-free Emb-GNN profile construction and cosine-similarity SimRouter using public metadata. Also supports an explicitly labeled CLIP-aligned multimodal extension. [[Paper]](https://arxiv.org/abs/2605.00180) [[Multimodal adapter]](docs/multimodal_adapters.md)
 - **CarrotRouter**: Uses CARROT's KNN plug-in estimators for query-level performance and cost, then applies its original cost-aware rate-optimal scalarization. [[Paper]](https://arxiv.org/abs/2502.03261)
 - **EARAMRouter**: Trains independent provider-side success predictors and allocates queries through EA-RAM's largest-positive-surplus reverse auction with runner-up externality payments. [[Paper]](https://arxiv.org/abs/2608.12719)
-- **RouteFM**: Uses the official frozen foundation router and anonymous per-candidate behavioral context to predict target-query quality and relative cost without target-domain parameter updates. ORBIT defaults to the released BGE text checkpoint. [[Paper]](https://arxiv.org/abs/2609.37362) [[Code]](https://github.com/LAMDA-Model-Reuse/RouteFM)
+- **RouteFM**: Uses the official frozen foundation router and anonymous per-candidate behavioral context to predict target-query quality and relative cost without target-domain parameter updates. Defaults to BGE text routing; Qwen multimodal routing uses joint Qwen3-VL-Embedding-8B features. [[Paper]](https://arxiv.org/abs/2609.37362) [[Code]](https://github.com/LAMDA-Model-Reuse/RouteFM) [[Configuration]](docs/multimodal_adapters.md)
 - **SAVERouter**: Adaptively reveals exactly K model outcomes per training query, then combines hierarchical group-model shrinkage with query-level residual refinement and native sparse cost estimates. [[Paper]](https://arxiv.org/abs/2609.37402) [[Code]](https://github.com/LAMDA-Model-Reuse/SaveRouter)
 
 ---
@@ -196,6 +197,7 @@ python main.py --dataset Routerbench --method SaveRouter
 python main.py --dataset XRouteBench --method knn
 python main.py --dataset MMRBenchV2 --method GraphRouter
 python main.py --dataset R2Bench --method CarrotRouter
+python main.py --dataset VLRouterBench --method GraphRouter
 ```
 
 Dataset and method names are matched case-insensitively. Device selection defaults to
@@ -223,6 +225,11 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 | **xRouteBench** | Text / text-view | 18 | Official train/test outcomes with recorded token usage and frozen pricing. |
 | **MMR-Bench V2** | Multimodal | 44 | Versioned 18-task release; common successful support and output-only reference costs. |
 | **R2-Bench** | Text | 157 actions | 10 physical models with released nominal output-budget settings. |
+| **VL-RouterBench** | Multimodal | 17 | 14-task upstream exports; train/dev/test IDs and explicit estimated-token reference costs. |
+
+> VL-RouterBench requires one-time preparation of its raw archive with upstream
+> Steps 1 and 2. ORBIT reads named JSONL/Parquet/CSV exports, not positional or
+> pickle matrices. See [data preparation, image handling and evaluation limitations](docs/vl_routerbench.md).
 
 > Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT deterministically sorts the common models from Group A's six files and aligns performance and cost columns to that canonical order. The bundled metadata currently contains 239 model descriptions; description-based routers validate coverage by model name and report any missing entries instead of silently misaligning them.
 

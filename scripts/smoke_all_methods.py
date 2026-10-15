@@ -34,13 +34,14 @@ sys.path.insert(0, str(ROOT / "tests"))
 from smoke_new_benchmarks import _stream_r2_prefix  # registers smoke-hash
 from main import load_config
 from train import ROUTER_REGISTRY, create_router
-from utils.embedding import IMAGE_EMBEDDERS
+from utils.embedding import IMAGE_EMBEDDERS, TEXT_EMBEDDERS
 from test_new_benchmarks import (
     _args, _write_sources, _x_sources, _m_sources, _r_sources,
     X_MODELS, M_MODELS, R_MODELS,
 )
+from test_vl_routerbench import VL_MODELS, vl_args, write_vl_fixture
 
-TEXT_ONLY = {"ModelSAT", "RouteLLM_BERT", "RouteFM", "ProfileRouter", "CarrotRouter", "EARAMRouter"}
+TEXT_ONLY = {"ModelSAT", "RouteLLM_BERT"}
 PAIR_METHODS = {"HybridLLM", "RouteLLM_SWRanking", "RouteLLM_MF", "RouteLLM_BERT"}
 DIRECT_METHODS = {"RMClassification", "RMSoftmax", "RMInterval"}
 
@@ -56,6 +57,25 @@ def _image_embedder(args):
             rows.append(row / max(np.linalg.norm(row), 1e-12))
         return torch.from_numpy(np.stack(rows))
     return embed, 8
+
+
+@TEXT_EMBEDDERS.register("smoke-aligned")
+def _aligned_text(args):
+    return TEXT_EMBEDDERS.create("smoke-hash", args)
+
+
+@IMAGE_EMBEDDERS.register("smoke-aligned")
+def _aligned_image(args):
+    # Shape/flow surrogate only: not a pretrained aligned semantic space.
+    return _image_embedder(args)
+
+
+def _joint_surrogate(self, inputs):
+    text, _ = TEXT_EMBEDDERS.create("smoke-hash", {})
+    image, _ = _image_embedder({})
+    values = torch.cat((text([item.get("text", "") for item in inputs]),
+                        image([item["image"] for item in inputs])), dim=1)
+    return values.repeat(1, 256).numpy()
 
 
 def _tiny_transformers(directory):
@@ -79,11 +99,11 @@ def _tiny_transformers(directory):
                                max_position_embeddings=512)).save_pretrained(directory / "qwen")
 
 
-def _tiny_routefm(path):
+def _tiny_routefm(path, encoder="bge"):
     """Real official architecture, random tiny weights: portable offline CI."""
     from dataclasses import asdict
     from routefm.models import RouteFM, RouteFMConfig
-    config = RouteFMConfig(query_dim=8, hidden_dim=8, projection_dim=8,
+    config = RouteFMConfig(query_dim=4096 if encoder == "qwen" else 8, hidden_dim=8, projection_dim=8,
                            ffn_dim=16, heads=2, profile_layers=1, readout_layers=1,
                            pool_layers=1, capability_tokens=2, quality_bins=5,
                            observation_features=2, observation_schema="score_cost",
@@ -92,17 +112,19 @@ def _tiny_routefm(path):
     torch.manual_seed(42)
     model = RouteFM(config).eval()
     path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"format": "routefm_unified_scratch", "encoder": "bge",
+    torch.save({"format": "routefm_unified_scratch", "encoder": encoder,
                 "model_config": asdict(config), "model": model.state_dict()}, path)
 
 
-def _prepare(directory, real):
+def _prepare(directory, real, vl_source=None, benchmarks=None):
     configs = {}
     for name, source, options in (
         ("XRouteBench", _x_sources(), {"models": X_MODELS}),
         ("MMRBenchV2", _m_sources(), {"models": M_MODELS, "benchmarks": ["BLINK"]}),
         ("R2Bench", _r_sources(), {"models": R_MODELS, "budgets": [10, 100]}),
     ):
+        if benchmarks is not None and name not in benchmarks:
+            continue
         data_root = directory / "data" / name
         if real:
             args = load_config(name, "knn", device="cpu")
@@ -124,6 +146,20 @@ def _prepare(directory, real):
         # EA-RAM's optional evaluator requires genuine released response fields.
         args["dataset"]["include_responses"] = True
         configs[name] = args
+    if (benchmarks is None or "VLRouterBench" in benchmarks) and (not real or vl_source is not None):
+        data_root = directory / "data" / "VLRouterBench"
+        if real:
+            args = load_config("VLRouterBench", "knn", device="cpu")
+            args["description_path"] = str(ROOT / args["description_path"])
+            args["dataset"].update(dataset_dir=str(data_root), source_dir=str(vl_source),
+                                  max_samples=32, models=VL_MODELS, benchmarks=["RealWorldQA"])
+        else:
+            write_vl_fixture(data_root)
+            args = vl_args(data_root)
+        # Keep upstream assignments but explicitly exclude indistinguishable
+        # text-only inputs that cross them; no test outcomes guide this filter.
+        args["dataset"]["text_overlap_policy"] = "drop-query"
+        configs["VLRouterBench"] = args
     return configs
 
 
@@ -186,12 +222,16 @@ def _run(base, method, directory, checkpoints, routefm_checkpoint, multimodal, p
     if method == "ModelSAT":
         args["model"] = dict(args["model"], base_model=str(checkpoints / "qwen"), lora_r=2, lora_alpha=4)
         args["training"].update(batch_size=4, accumulation_steps=1, max_length=64)
+    if method == "ProfileRouter" and multimodal:
+        args["profile"]["multimodal_embeddings"] = dict(
+            args["embeddings"], text_model="smoke-aligned", image_model="smoke-aligned", out_dim=8)
     if method == "RouteFM":
         if not routefm_checkpoint:
             raise ValueError("RouteFM needs --routefm-checkpoint; it is not silently skipped.")
-        args["routefm"] = dict(args["routefm"], checkpoint=str(routefm_checkpoint))
+        encoder = "qwen" if multimodal else "bge"
+        args["routefm"] = dict(args["routefm"], checkpoint=str(routefm_checkpoint), encoder=encoder)
         from routefm.predict import load_router
-        dimension = int(load_router(routefm_checkpoint, "cpu", "bge").config.query_dim)
+        dimension = int(load_router(routefm_checkpoint, "cpu", encoder).config.query_dim)
         # Repeat the input-only hash features to the checkpoint's real dimension.
         from utils.embedding import TEXT_EMBEDDERS
         key = f"smoke-routefm-{dimension}"
@@ -204,6 +244,9 @@ def _run(base, method, directory, checkpoints, routefm_checkpoint, multimodal, p
                     return values.repeat(1, (dimension + 7) // 8)[:, :dimension]
                 return widened, dimension
         args["embeddings"].update(text_model=key, out_dim=dimension)
+        if multimodal:
+            args["embeddings"] = {"joint_model": "Qwen/Qwen3-VL-Embedding-8B", "out_dim": 4096,
+                                  "normalize": True, "training": False, "batch_size": 16}
 
     name = args["dataset"]["name"]
     log_path = directory / "logs" / f"{name}-{method}-{'multimodal' if multimodal else 'text'}.log"
@@ -212,12 +255,18 @@ def _run(base, method, directory, checkpoints, routefm_checkpoint, multimodal, p
     logging.getLogger().addHandler(handler)
     started = time.monotonic()
     substitutions = ["input-only hash embeddings", "one epoch"]
+    if method == "ProfileRouter" and multimodal:
+        substitutions.append("aligned-fusion shape/flow surrogate; not pretrained CLIP embeddings")
     if pair is not None and method.startswith("RouteLLM_"):
         substitutions.append(f"explicit candidate pair strong={pair[0]}, weak={pair[1]}")
     try:
         with ExitStack() as stack:
             progress = stack.enter_context((log_path.with_suffix(".progress.log")).open("w", encoding="utf-8"))
             stack.enter_context(redirect_stderr(progress))
+            if method == "RouteFM" and multimodal:
+                stack.enter_context(patch("utils.qwen_vl_embedding.QwenVLEmbedder.__init__", return_value=None))
+                stack.enter_context(patch("utils.qwen_vl_embedding.QwenVLEmbedder._encode_batch", _joint_surrogate))
+                substitutions.append("4096-D input-only joint surrogate; not real Qwen3-VL embeddings")
             if method == "NIRT":
                 annotation = stack.enter_context(patch.object(importlib.import_module("methods.NIRT"), "get_LLM_response", return_value="Reasoning, Understanding"))
                 substitutions.append("offline auxiliary-LLM annotation boundary")
@@ -287,8 +336,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--real-data", action="store_true", help="Opt into bounded public source reads; default is offline fixtures.")
     parser.add_argument("--methods", nargs="+", choices=sorted(ROUTER_REGISTRY), default=sorted(ROUTER_REGISTRY))
-    parser.add_argument("--benchmarks", nargs="+", choices=["XRouteBench", "MMRBenchV2", "R2Bench"], default=["XRouteBench", "MMRBenchV2", "R2Bench"])
-    parser.add_argument("--multimodal", action="store_true", help="MMR fixture images with compatible methods only, no raw-media downloads.")
+    parser.add_argument("--benchmarks", nargs="+", choices=["XRouteBench", "MMRBenchV2", "R2Bench", "VLRouterBench"], default=["XRouteBench", "MMRBenchV2", "R2Bench", "VLRouterBench"])
+    parser.add_argument("--vl-source", type=Path, help="Existing upstream VL-RouterBench Steps 1/2 exports for --real-data.")
+    parser.add_argument("--multimodal", action="store_true", help="MMR/VL images with compatible methods; RouteFM uses Qwen weights and a joint encoder surrogate.")
     parser.add_argument("--routefm-checkpoint", type=Path)
     parser.add_argument("--tiny-routefm", action="store_true", help="Generate an untrained tiny official-architecture checkpoint for offline CI, not released-weight validation.")
     parser.add_argument("--pair-models", type=int, nargs=2, metavar=("STRONG", "WEAK"), help="Optional explicit RouteLLM candidate indices; recorded in the report.")
@@ -297,8 +347,11 @@ def main():
     directory = cli.report_dir.resolve()
     if directory.exists() and any(directory.iterdir()):
         parser.error("--report-dir must be new or empty; existing reports are never overwritten.")
-    if cli.multimodal and (cli.real_data or cli.benchmarks != ["MMRBenchV2"] or set(cli.methods) & TEXT_ONLY):
-        parser.error("--multimodal requires offline MMRBenchV2 only and methods outside TEXT_ONLY.")
+    if cli.real_data and "VLRouterBench" in cli.benchmarks and cli.vl_source is None:
+        parser.error("Real VLRouterBench smoke requires --vl-source pointing to prepared upstream exports.")
+    if cli.multimodal and (not set(cli.benchmarks) <= {"MMRBenchV2", "VLRouterBench"}
+                           or (cli.real_data and "MMRBenchV2" in cli.benchmarks) or set(cli.methods) & TEXT_ONLY):
+        parser.error("--multimodal supports MMRBenchV2 fixtures or VLRouterBench and methods outside TEXT_ONLY.")
     directory.mkdir(parents=True, exist_ok=True)
     checkpoint = cli.routefm_checkpoint.resolve() if cli.routefm_checkpoint else None
     if cli.tiny_routefm and checkpoint is not None:
@@ -307,13 +360,14 @@ def main():
     torch.set_num_interop_threads(1)
     logging.getLogger().setLevel(logging.INFO)
     os.chdir(ROOT)
-    configurations = _prepare(directory, cli.real_data)
+    configurations = _prepare(directory, cli.real_data, cli.vl_source.resolve() if cli.vl_source else None,
+                              benchmarks=cli.benchmarks)
     transformer_dir = directory / "tiny_checkpoints"
     if {"ModelSAT", "RouteLLM_BERT"} & set(cli.methods):
         _tiny_transformers(transformer_dir)
     if cli.tiny_routefm:
         checkpoint = transformer_dir / "tiny_routefm.pt"
-        _tiny_routefm(checkpoint)
+        _tiny_routefm(checkpoint, "qwen" if cli.multimodal else "bge")
     results = []
     os.chdir(directory)
     for name in cli.benchmarks:
