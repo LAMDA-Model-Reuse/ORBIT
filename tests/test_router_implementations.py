@@ -164,11 +164,13 @@ class MethodRegressionTest(unittest.TestCase):
         self.assertEqual((resolved.strong_model_idx, resolved.weak_model_idx), (1, 2))
 
     def test_unavailable_cuda_device_has_safe_fallback(self):
-        resolved = BaseRouter._resolve_device("cuda:99")
-        if torch.cuda.is_available():
-            self.assertEqual(resolved, torch.device("cuda:0"))
-        else:
-            self.assertEqual(resolved, torch.device("cpu"))
+        # An invalid visible index falls back to CPU, even on a GPU host.
+        # Mock availability so the test does not depend on the runner's GPUs.
+        for available in (False, True):
+            with self.subTest(available=available), patch(
+                "torch.cuda.is_available", return_value=available
+            ), patch("torch.cuda.device_count", return_value=1):
+                self.assertEqual(BaseRouter._resolve_device("cuda:99"), torch.device("cpu"))
 
     def test_native_cost_predictions_are_clipped_per_model(self):
         router = _ConcreteBase.__new__(_ConcreteBase)

@@ -38,6 +38,8 @@ class AllMethodsMatrixTest(unittest.TestCase):
                 _tiny_transformers(checkpoints)
                 routefm = checkpoints / "tiny_routefm.pt"
                 _tiny_routefm(routefm)
+                routefm_qwen = checkpoints / "tiny_routefm_qwen.pt"
+                _tiny_routefm(routefm_qwen, "qwen")
                 os.chdir(directory)
                 for name, base in configs.items():
                     for method in sorted(ROUTER_REGISTRY):
@@ -46,10 +48,12 @@ class AllMethodsMatrixTest(unittest.TestCase):
                             # no manually chosen endpoints conceal regressions.
                             result = _run(base, method, directory, checkpoints, routefm, False)
                             self.assertEqual(result["status"], "PASS")
-                for method in sorted(set(ROUTER_REGISTRY) - TEXT_ONLY):
-                    with self.subTest(benchmark="MMRBenchV2", method=method, modality="text+image"):
-                        result = _run(configs["MMRBenchV2"], method, directory, checkpoints, routefm, True)
-                        self.assertEqual(result["status"], "PASS")
+                for benchmark in ("MMRBenchV2", "VLRouterBench"):
+                    for method in sorted(set(ROUTER_REGISTRY) - TEXT_ONLY):
+                        with self.subTest(benchmark=benchmark, method=method, modality="text+image"):
+                            result = _run(configs[benchmark], method, directory, checkpoints,
+                                          routefm_qwen if method == "RouteFM" else routefm, True)
+                            self.assertEqual(result["status"], "PASS")
         finally:
             os.chdir(previous_directory)
             logger.setLevel(previous_level)

@@ -1,0 +1,121 @@
+[
+  {
+    "id": 0,
+    "model_name": "GPT4o",
+    "family": "GPT",
+    "description": "GPT-4o OpenAI flagship multimodal model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 1,
+    "model_name": "GeminiFlash2-5",
+    "family": "Gemini",
+    "description": "Gemini Flash 2.5 Google efficient multimodal model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 2,
+    "model_name": "Gemma3-27B",
+    "family": "Gemma",
+    "description": "Gemma3-27B vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 3,
+    "model_name": "InternVL2_5-78B",
+    "family": "InternVL",
+    "description": "InternVL2.5-78B multimodal model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 4,
+    "model_name": "Janus-Pro-1B",
+    "family": "Janus",
+    "description": "Janus-Pro-1B lightweight vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 5,
+    "model_name": "Janus-Pro-7B",
+    "family": "Janus",
+    "description": "Janus-Pro-7B vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 6,
+    "model_name": "Kimi-VL-A3B-Thinking-2506",
+    "family": "Kimi",
+    "description": "Kimi-VL-A3B-Thinking-2506 thinking-oriented vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 7,
+    "model_name": "MiMo-VL-7B-RL",
+    "family": "MiMo",
+    "description": "MiMo-VL-7B-RL vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 8,
+    "model_name": "Phi-3.5-Vision",
+    "family": "Phi",
+    "description": "Phi-3.5-Vision multimodal model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 9,
+    "model_name": "Pixtral-12B",
+    "family": "Pixtral",
+    "description": "Pixtral-12B vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 10,
+    "model_name": "Qianfan-VL-8B",
+    "family": "Qianfan",
+    "description": "Qianfan-VL-8B vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 11,
+    "model_name": "Qwen2.5-VL-32B-Instruct",
+    "family": "Qwen",
+    "description": "Qwen2.5-VL-32B-Instruct vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 12,
+    "model_name": "Qwen2.5-VL-72B-Instruct",
+    "family": "Qwen",
+    "description": "Qwen2.5-VL-72B-Instruct vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 13,
+    "model_name": "SmolVLM2",
+    "family": "SmolVLM",
+    "description": "SmolVLM2 lightweight vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 14,
+    "model_name": "deepseek_vl2",
+    "family": "DeepSeek",
+    "description": "DeepSeek-VL2 vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 15,
+    "model_name": "deepseek_vl2_tiny",
+    "family": "DeepSeek",
+    "description": "DeepSeek-VL2-Tiny lightweight vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  },
+  {
+    "id": 16,
+    "model_name": "llava_next_vicuna_7b",
+    "family": "LLaVA",
+    "description": "LLaVA-Next-Vicuna-7B vision-language model. A released VL-RouterBench vision-language candidate; this historical identifier is not assumed to be a current API endpoint.",
+    "source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/models.yaml"
+  }
+]

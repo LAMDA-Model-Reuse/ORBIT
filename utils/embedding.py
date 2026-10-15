@@ -47,6 +47,7 @@ class EmbedderRegistry:
 
 TEXT_EMBEDDERS = EmbedderRegistry("text-embedders")
 IMAGE_EMBEDDERS = EmbedderRegistry("image-embedders")
+JOINT_EMBEDDERS = EmbedderRegistry("joint-embedders")
 
 
 # =========================
@@ -65,6 +66,9 @@ class Embedder:
         "training": bool
         "out_dim": int or None
         optional common:
+        "joint_model": optional joint encoder (mutually exclusive with text/image_model)
+        "fusion": "concat" (default) or "aligned_mean" for matched frozen encoders
+        "text_weight": text weight for aligned_mean, strictly between zero and one
         "device": str (e.g., "cuda:0")
         "use_fp16": bool
         "text_model_dir": str
@@ -78,6 +82,22 @@ class Embedder:
         self.normalize = bool(em.get("normalize", False))
         self.training = bool(em.get("training", False))
         self.out_dim = em.get("out_dim", None)
+        self.fusion = em.get("fusion", "concat")
+        self.text_weight = float(em.get("text_weight", 0.5))
+        if self.fusion not in {"concat", "aligned_mean"}:
+            raise ValueError("embeddings.fusion must be concat or aligned_mean.")
+        if not np.isfinite(self.text_weight) or not 0 < self.text_weight < 1:
+            raise ValueError("embeddings.text_weight must lie strictly between 0 and 1.")
+        if self.fusion == "aligned_mean" and self.training:
+            raise ValueError("aligned_mean requires frozen, aligned encoders, not random projections.")
+        self.joint_embedder = None
+        self.joint_dim = None
+        if em.get("joint_model"):
+            if em.get("text_model") or em.get("image_model") or self.training:
+                raise ValueError("A joint encoder cannot be combined with separate encoders/projections.")
+            self.joint_embedder, self.joint_dim = JOINT_EMBEDDERS.create(em["joint_model"], args)
+            if self.out_dim is not None and self.out_dim != self.joint_dim:
+                raise ValueError("Joint encoder dimension must equal embeddings.out_dim.")
 
         self.text_embedder: Optional[EmbedFn] = None
         self.image_embedder: Optional[EmbedFn] = None
@@ -89,6 +109,10 @@ class Embedder:
 
         if em.get("image_model"):
             self.image_embedder, self.image_dim = CreateImageEmbedder(em["image_model"], args)
+        if self.fusion == "aligned_mean" and (
+            self.text_dim is None or self.text_dim != self.image_dim
+        ):
+            raise ValueError("aligned_mean requires matched text/image encoders of equal dimension.")
 
         self.text_proj: Optional[nn.Parameter] = None
         self.image_proj: Optional[nn.Parameter] = None
@@ -173,6 +197,30 @@ class Embedder:
 
     def run_embed(self, texts=None, images=None) -> torch.Tensor:
         batch_size = int(self.args["embeddings"].get("batch_size", 256))
+        if batch_size < 1:
+            raise ValueError("Embedding batch_size must be positive.")
+        if self.joint_embedder is not None:
+            texts = [texts] if isinstance(texts, str) else (list(texts) if texts is not None else None)
+            images = list(images) if images is not None else None
+            total = len(texts) if texts is not None else (len(images) if images is not None else 0)
+            if texts is not None and images is not None and len(texts) != len(images):
+                raise ValueError("text and image batch sizes must match.")
+            if not total:
+                raise ValueError("Joint embedding requires nonempty inputs.")
+            batches = []
+            for offset in range(0, total, batch_size):
+                end = min(offset + batch_size, total)
+                values = torch.as_tensor(self.joint_embedder(
+                    texts=texts[offset:end] if texts is not None else None,
+                    images=images[offset:end] if images is not None else None,
+                ), dtype=torch.float32)
+                if values.shape != (end - offset, self.joint_dim) or not torch.isfinite(values).all():
+                    raise ValueError("Joint encoder returned invalid shape/non-finite vectors.")
+                norms = torch.linalg.vector_norm(values, dim=1, keepdim=True)
+                if not torch.isfinite(norms).all() or (norms <= 1e-12).any():
+                    raise ValueError("Joint encoder returned an invalid/zero vector norm.")
+                batches.append(values / norms if self.normalize else values)
+            return torch.cat(batches, dim=0)
         parts: List[torch.Tensor] = []
         N: Optional[int] = None
 
@@ -224,7 +272,19 @@ class Embedder:
         if len(parts) == 0:
             raise ValueError("no inputs provided to run_embed")
 
-        combined = torch.cat(parts, dim=1)
+        if self.fusion == "aligned_mean":
+            # Both encoders must belong to the same pretrained aligned space.
+            norms = [part.norm(dim=1, keepdim=True) for part in parts]
+            if any(not torch.isfinite(part).all() or not torch.isfinite(norm).all()
+                   or (norm <= 1e-12).any() for part, norm in zip(parts, norms)):
+                raise ValueError("Aligned encoders must return finite nonzero vectors for each modality.")
+            parts = [part / norm for part, norm in zip(parts, norms)]
+            combined = (self.text_weight * parts[0] + (1 - self.text_weight) * parts[1]
+                        if len(parts) == 2 else parts[0])
+            if not torch.isfinite(combined).all() or (combined.norm(dim=1) <= 1e-12).any():
+                raise ValueError("Aligned fusion produced invalid/zero vectors.")
+        else:
+            combined = torch.cat(parts, dim=1)
 
         if self.normalize:
             norm = torch.linalg.norm(combined, dim=1, keepdim=True).clamp_min(1e-12)
@@ -575,6 +635,12 @@ def CreateCLIP_ViT_B_16_image(model_name: str = "ViT-B/16", device: str = "cuda:
 # =========================
 # Registration (model name -> builder)
 # =========================
+
+@JOINT_EMBEDDERS.register("Qwen/Qwen3-VL-Embedding-8B")
+def _build_qwen3_vl(args: Dict[str, Any]):
+    from utils.qwen_vl_embedding import QwenVLEmbedder
+    return QwenVLEmbedder(args["embeddings"]), 4096
+
 
 @TEXT_EMBEDDERS.register("Qwen3-Embedding-8B")
 def _build_qwen3_8b(args: Dict[str, Any]):

@@ -3,6 +3,7 @@
 # are intentionally excluded.
 torch-geometric>=2.6,<2.8
 transformers>=4.45,<4.58
+sentence-transformers>=5.4,<6
 datasets>=2.20,<4.5
 huggingface-hub>=0.24,<0.36
 git+https://github.com/openai/CLIP.git

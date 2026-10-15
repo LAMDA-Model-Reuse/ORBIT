@@ -1,0 +1,23 @@
+{
+  "modality": "text+image",
+  "embeddings": {
+    "text_model": null,
+    "image_model": null,
+    "joint_model": "Qwen/Qwen3-VL-Embedding-8B",
+    "out_dim": 4096,
+    "normalize": true,
+    "training": false,
+    "batch_size": 2,
+    "qwen": {
+      "backend": "local",
+      "model_dir": "./Qwen3-VL-Embedding-8B"
+    }
+  },
+  "routefm": {
+    "encoder": "qwen",
+    "checkpoint": null,
+    "cache_dir": null,
+    "context_size": 8,
+    "target_batch_size": 128
+  }
+}

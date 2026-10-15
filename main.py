@@ -51,6 +51,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, required=True, help="Benchmark dataset name (case-insensitive).")
     parser.add_argument("--method", type=str, required=True, help="Router method config name (case-insensitive, without .json).")
+    parser.add_argument("--config", type=Path, help="Optional top-level JSON overrides (e.g. configs/examples/routefm_qwen.json).")
     parser.add_argument(
         "--device",
         type=str,
@@ -60,6 +61,10 @@ def main() -> None:
     args_cli = parser.parse_args()
 
     config = load_config(args_cli.dataset, args_cli.method, device=args_cli.device)
+    if args_cli.config is not None:
+        config = merge_dict_shallow(config, load_json(args_cli.config))
+    if args_cli.device is not None:
+        config["device"] = args_cli.device
     train(config)
 
 

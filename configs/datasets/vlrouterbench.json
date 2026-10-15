@@ -1,0 +1,92 @@
+{
+  "hf_id": "KinghtH/VL-RouterBench",
+  "revision": "6e44fbf50e170f8e72734b49f63f2b52a8866377",
+  "upstream_revision": "f5a41ce83d6efe67489b35bb7a07ae72976a9aba",
+  "pricing_source": "https://github.com/K1nght/VL-RouterBench/blob/f5a41ce83d6efe67489b35bb7a07ae72976a9aba/config/pricing.yaml",
+  "models": {
+    "GPT4o": {
+      "input_price_per_1m": 2.5,
+      "output_price_per_1m": 10
+    },
+    "GeminiFlash2-5": {
+      "input_price_per_1m": 0.3,
+      "output_price_per_1m": 2.4
+    },
+    "Gemma3-27B": {
+      "input_price_per_1m": 0.35,
+      "output_price_per_1m": 0.5
+    },
+    "InternVL2_5-78B": {
+      "input_price_per_1m": 1,
+      "output_price_per_1m": 1.5
+    },
+    "Janus-Pro-1B": {
+      "input_price_per_1m": 0.05,
+      "output_price_per_1m": 0.05
+    },
+    "Janus-Pro-7B": {
+      "input_price_per_1m": 0.18,
+      "output_price_per_1m": 0.25
+    },
+    "Kimi-VL-A3B-Thinking-2506": {
+      "input_price_per_1m": 0.2,
+      "output_price_per_1m": 0.25
+    },
+    "MiMo-VL-7B-RL": {
+      "input_price_per_1m": 0.2,
+      "output_price_per_1m": 0.3
+    },
+    "Phi-3.5-Vision": {
+      "input_price_per_1m": 0.1,
+      "output_price_per_1m": 0.1
+    },
+    "Pixtral-12B": {
+      "input_price_per_1m": 0.25,
+      "output_price_per_1m": 0.35
+    },
+    "Qianfan-VL-8B": {
+      "input_price_per_1m": 0.18,
+      "output_price_per_1m": 0.25
+    },
+    "Qwen2.5-VL-32B-Instruct": {
+      "input_price_per_1m": 0.4,
+      "output_price_per_1m": 0.6
+    },
+    "Qwen2.5-VL-72B-Instruct": {
+      "input_price_per_1m": 0.8,
+      "output_price_per_1m": 1.2
+    },
+    "SmolVLM2": {
+      "input_price_per_1m": 0.06,
+      "output_price_per_1m": 0.06
+    },
+    "deepseek_vl2": {
+      "input_price_per_1m": 0.35,
+      "output_price_per_1m": 0.5
+    },
+    "deepseek_vl2_tiny": {
+      "input_price_per_1m": 0.05,
+      "output_price_per_1m": 0.05
+    },
+    "llava_next_vicuna_7b": {
+      "input_price_per_1m": 0.2,
+      "output_price_per_1m": 0.2
+    }
+  },
+  "benchmarks": {
+    "MMMU_DEV_VAL": "vqa_mc",
+    "MathVista_MINI": "math",
+    "MathVision_MINI": "math",
+    "MathVerse_MINI": "math",
+    "MMBench_DEV_EN_V11": "vqa_mc",
+    "RealWorldQA": "vqa_oe",
+    "MMStar": "vqa_mc",
+    "HallusionBench": "vqa_mc",
+    "TextVQA_VAL": "vqa_oe",
+    "ChartQA_TEST": "ocr_qa",
+    "DocVQA_VAL": "ocr_qa",
+    "InfoVQA_VAL": "ocr_qa",
+    "AI2D_TEST": "vqa_mc",
+    "OCRBench": "ocr_qa"
+  }
+}

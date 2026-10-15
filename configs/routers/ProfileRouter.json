@@ -3,7 +3,14 @@
   "modality": "text",
   "profile": {
     "aggregation_hops": 4,
-    "normalization": "sym"
+    "normalization": "sym",
+    "multimodal_embeddings": {
+      "text_model": "ViT-B/16",
+      "image_model": "ViT-B/16",
+      "out_dim": 512,
+      "batch_size": 8,
+      "text_weight": 0.5
+    }
   },
   "embeddings": {
     "text_model": "allenai/longformer-base-4096",

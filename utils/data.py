@@ -17,6 +17,7 @@ from huggingface_hub import hf_hub_download, snapshot_download
 from utils.benchmark_adapters import (
     MMRBenchV2Adapter, R2BenchAdapter, XRouteBenchAdapter,
 )
+from utils.vl_routerbench import VLRouterBenchAdapter
 
 
 def _safe_archive_target(target_dir: str, member_name: str) -> Path:
@@ -1564,6 +1565,10 @@ class R2BenchLoader(R2BenchAdapter, BaseDatasetLoader):
     """Treat each released (model, nominal budget) as a routing candidate."""
 
 
+class VLRouterBenchLoader(VLRouterBenchAdapter, BaseDatasetLoader):
+    """Vision-language outcomes exported by the official VL-RouterBench pipeline."""
+
+
 # Registry to allow users to add new dataset loaders
 _LOADER_REGISTRY: Dict[str, Type[BaseDatasetLoader]] = {
     RouterbenchLoader.name: RouterbenchLoader,
@@ -1574,6 +1579,7 @@ _LOADER_REGISTRY: Dict[str, Type[BaseDatasetLoader]] = {
     XRouteBenchLoader.name: XRouteBenchLoader,
     MMRBenchV2Loader.name: MMRBenchV2Loader,
     R2BenchLoader.name: R2BenchLoader,
+    VLRouterBenchLoader.name: VLRouterBenchLoader,
 }
 
 

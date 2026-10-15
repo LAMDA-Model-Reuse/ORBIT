@@ -1,5 +1,9 @@
 # New benchmark adapters
 
+For **VL-RouterBench**, including its required one-time raw archive preparation,
+see the [dedicated adapter guide](vl_routerbench.md). The three adapters below
+retain their existing download and evaluation protocols.
+
 All three adapters are registered `BaseDatasetLoader` subclasses. They return
 the existing `(train_df, test_df, model_list)` tuple with `prompt`, `eval_name`,
 `model_i_performance` and `model_i_cost` columns. No router, embedding interface,
@@ -238,8 +242,8 @@ and not an exhaustive run of all methods on all full datasets.
 ### All-method runtime validation
 
 `tests/test_all_methods_smoke.py` adds a CPU-only matrix covering every registered
-method on all three source-schema fixtures, plus all 24 compatible multimodal
-methods on MMR image fixtures. It calls real training, prediction, allocation,
+method on all four source-schema fixtures (including VL-RouterBench), plus all 24
+compatible multimodal methods on MMR and VL-RouterBench image fixtures. It calls real training, prediction, allocation,
 nAUC, Peak Score and JSON output code; none of these are mocked. CI discovers this test
 through the existing unittest entry point.
 
@@ -253,6 +257,7 @@ python scripts/smoke_all_methods.py --tiny-routefm \
 
 # Bounded real benchmark records and an existing released local RouteFM weight.
 python scripts/smoke_all_methods.py --real-data \
+  --benchmarks XRouteBench MMRBenchV2 R2Bench \
   --routefm-checkpoint /path/to/routefm_bge.pt \
   --report-dir /tmp/orbit-all-methods-real
 ```

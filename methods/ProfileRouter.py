@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+from copy import deepcopy
 
 import numpy as np
 import torch
@@ -30,6 +31,17 @@ class ProfileRouter(BaseRouter):
     """Embedding-GNN RouteProfile combined with the paper's SimRouter."""
 
     def __init__(self, args):
+        args = deepcopy(args)
+        if "image" in args["modality"].split("+"):
+            # Explicit multimodal extension, not the paper's Longformer path.
+            multimodal = dict(args.get("profile", {}).get("multimodal_embeddings", {}))
+            args["embeddings"] = {
+                "text_model": "ViT-B/16", "image_model": "ViT-B/16",
+                "out_dim": 512, "batch_size": 8,
+                **multimodal, "fusion": "aligned_mean", "training": False, "normalize": True,
+            }
+            if args["embeddings"]["text_model"] != args["embeddings"]["image_model"]:
+                raise ValueError("ProfileRouter requires a matched aligned text/image encoder pair.")
         super().__init__(args)
         profile_cfg = dict(args.get("profile", {}))
         self.aggregation_hops = int(profile_cfg.get("aggregation_hops", 4))
@@ -256,6 +268,8 @@ class ProfileRouter(BaseRouter):
         if self.model_profiles is None:
             raise RuntimeError("ProfileRouter must be trained before prediction.")
         query_features = _as_numpy(test_embedding)
+        if query_features.ndim != 2 or query_features.shape[1] != self.model_profiles.shape[1]:
+            raise ValueError("ProfileRouter query/profile dimensions differ; use aligned multimodal fusion.")
         query_norms = np.linalg.norm(query_features, axis=1, keepdims=True)
         normalized_queries = query_features / np.maximum(query_norms, 1e-12)
         similarities = normalized_queries @ self.model_profiles.T
