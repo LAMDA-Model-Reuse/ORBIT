@@ -1,0 +1,12 @@
+{
+  "dataset": {
+    "name": "MMRBench",
+    "dataset_dir": "./data/mmrbench",
+    "candidate_policy": "complete-models",
+    "protocol": "joint-grouped",
+    "split": {
+      "mode": "in-domain",
+      "ratios": {"train": 0.2, "test": 0.8}
+    }
+  }
+}
