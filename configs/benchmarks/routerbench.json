@@ -8,6 +8,7 @@
    "dataset": {
     "name": "Routerbench",
     "dataset_dir": "./data/routerbench",
+    "protocol": "grouped-clean",
     "split": {
       "mode": "in-domain",
       "ratios": {

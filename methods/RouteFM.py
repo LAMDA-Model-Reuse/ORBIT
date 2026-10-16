@@ -14,8 +14,9 @@ class RouteFMRouter(BaseRouter):
     """Build a RouteFM episode from ORBIT's training split and run it frozen.
 
     Candidate identities are deliberately absent from the model input.  Each
-    candidate is represented only by sampled training-query embeddings and its
-    observed quality/cost, matching RouteFM's public custom-data contract.
+    candidate is represented by the complete, aligned training-query context
+    and its observed quality/cost. Fixed-size context is an explicit ablation,
+    never the default for full-training-set benchmark evaluation.
     """
 
     def __init__(self, args):
@@ -40,10 +41,11 @@ class RouteFMRouter(BaseRouter):
         super().__init__(args)
         self.route_config = route_config
         self.encoder = encoder
-        self.context_size = int(route_config.get("context_size", 8))
+        requested_context = route_config.get("context_size", "all")
+        self.context_size = None if requested_context in (None, "all") else int(requested_context)
         self.target_batch_size = int(route_config.get("target_batch_size", 128))
-        if self.context_size < 1 or self.target_batch_size < 1:
-            raise ValueError("RouteFM context_size and target_batch_size must be positive.")
+        if (self.context_size is not None and self.context_size < 1) or self.target_batch_size < 1:
+            raise ValueError("RouteFM context_size must be 'all' or positive; target_batch_size must be positive.")
 
     def _load_official_router(self):
         try:
@@ -66,29 +68,25 @@ class RouteFMRouter(BaseRouter):
     def _build_context(self, embeddings, performance, costs):
         n_queries, dimension = embeddings.shape
         n_models = performance.shape[1]
-        width = min(self.context_size, n_queries)
-        context_query = np.zeros((n_models, width, dimension), dtype=np.float32)
-        context_score = np.zeros((n_models, width), dtype=np.float32)
-        context_cost = np.zeros((n_models, width), dtype=np.float32)
-        context_mask = np.zeros((n_models, width), dtype=bool)
-        rng = np.random.default_rng(self.seed)
-
-        for model_index in range(n_models):
-            valid = np.flatnonzero(
-                np.isfinite(performance[:, model_index])
-                & np.isfinite(costs[:, model_index])
-                & (costs[:, model_index] >= 0)
-            )
-            if valid.size == 0:
-                raise ValueError(
-                    f"RouteFM candidate {model_index} has no finite context observation."
-                )
-            count = min(width, valid.size)
-            chosen = rng.choice(valid, size=count, replace=False)
-            context_query[model_index, :count] = embeddings[chosen]
-            context_score[model_index, :count] = performance[chosen, model_index]
-            context_cost[model_index, :count] = costs[chosen, model_index]
-            context_mask[model_index, :count] = True
+        if n_queries < 1 or n_models < 1:
+            raise ValueError("RouteFM requires nonempty training context and candidates.")
+        width = n_queries if self.context_size is None else min(self.context_size, n_queries)
+        # One shared row index: candidate outcomes remain query-aligned. The
+        # full-context path preserves every training row in its original order.
+        chosen = np.arange(n_queries)
+        if width < n_queries:
+            chosen = np.sort(np.random.default_rng(self.seed).choice(n_queries, width, replace=False))
+        self.context_row_indices = chosen
+        context_score = np.asarray(performance[chosen].T, dtype=np.float32)
+        context_cost = np.asarray(costs[chosen].T, dtype=np.float32)
+        context_mask = np.isfinite(context_score) & np.isfinite(context_cost) & (context_cost >= 0)
+        if not context_mask.any(axis=1).all():
+            missing = np.flatnonzero(~context_mask.any(axis=1)).tolist()
+            raise ValueError(f"RouteFM candidates {missing} have no finite context observation.")
+        context_query = np.broadcast_to(embeddings[chosen][None], (n_models, width, dimension)).copy()
+        context_query[~context_mask] = 0.0
+        context_score = np.where(context_mask, context_score, 0.0)
+        context_cost = np.where(context_mask, context_cost, 0.0)
 
         valid_scores = context_score[context_mask]
         if np.any((valid_scores < 0) | (valid_scores > 1)):
@@ -121,10 +119,11 @@ class RouteFMRouter(BaseRouter):
                 f"but ORBIT produced {embeddings.shape[1]} dimensions."
             )
         logging.info(
-            "[RouteFM] Loaded frozen %s checkpoint with %d candidates and K=%d context slots.",
+            "[RouteFM] Loaded frozen %s checkpoint with %d candidates and K=%d aligned context slots (%s).",
             self.encoder,
             len(self.model_list),
             self.context_query.shape[1],
+            "entire training split" if self.context_size is None else "explicit fixed-K ablation",
         )
 
     @torch.inference_mode()

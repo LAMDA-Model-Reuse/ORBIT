@@ -270,6 +270,57 @@ class PaperAdapterSmokeTest(unittest.TestCase):
         self.assertTrue(np.isfinite(cost).all())
         self.assertTrue((cost >= 0).all())
 
+    def test_routefm_default_context_uses_every_training_row_aligned(self):
+        args = self._args("RouteFM")
+        args["routefm"] = {"encoder": "bge"}
+        dataset_patch, embedder_patch = self._patches()
+        with dataset_patch, embedder_patch:
+            router = RouteFMRouter(args)
+            self.assertIsNone(router.context_size)
+            embedding, quality, cost = router._prepare_training_data()
+            context, features, mask = router._build_context(embedding, quality, cost)
+        np.testing.assert_array_equal(router.context_row_indices, np.arange(len(self.train_df)))
+        self.assertEqual(context.shape, (3, len(self.train_df), 4))
+        for model in range(3):
+            np.testing.assert_array_equal(context[model], embedding)
+            np.testing.assert_array_equal(features[model, :, 0], quality[:, model])
+        self.assertTrue(mask.all())
+        # Held-out inputs are not among the source rows used above.
+        self.assertTrue(set(self.train_df.prompt).isdisjoint(self.test_df.prompt))
+
+    def test_routefm_fixed_k_is_query_aligned_and_deterministic(self):
+        router = RouteFMRouter.__new__(RouteFMRouter)
+        router.context_size, router.seed = 3, 42
+        embeddings = np.arange(40, dtype=np.float32).reshape(10, 4)
+        quality = np.arange(30, dtype=np.float32).reshape(10, 3) / 30
+        cost = np.ones((10, 3), dtype=np.float32)
+        first, features, mask = router._build_context(embeddings, quality, cost)
+        indices = router.context_row_indices.copy()
+        second, _, _ = router._build_context(embeddings, quality, cost)
+        np.testing.assert_array_equal(first, second)
+        for model in range(3):
+            np.testing.assert_array_equal(first[model], embeddings[indices])
+            np.testing.assert_array_equal(features[model, :, 0], quality[indices, model])
+        self.assertTrue(mask.all())
+
+    def test_routefm_full_context_masks_missing_cells_without_dropping_rows(self):
+        router = RouteFMRouter.__new__(RouteFMRouter)
+        router.context_size, router.seed = None, 42
+        embeddings = np.ones((4, 2), dtype=np.float32)
+        quality = np.array([[1, np.nan], [0, 1], [1, 0], [0, 1]], dtype=np.float32)
+        cost = np.ones((4, 2), dtype=np.float32)
+        cost[2, 0] = -1
+        context, features, mask = router._build_context(embeddings, quality, cost)
+        self.assertEqual(mask.shape, (2, 4))
+        self.assertFalse(mask[1, 0])
+        self.assertFalse(mask[0, 2])
+        self.assertTrue(np.isfinite(features).all())
+        self.assertTrue((context[~mask] == 0).all())
+        self.assertEqual(mask.sum(), 6)
+        quality[:, 0] = np.nan
+        with self.assertRaisesRegex(ValueError, "no finite context"):
+            router._build_context(embeddings, quality, cost)
+
     def test_saverouter_sparse_supervision_adapter_smoke(self):
         args = self._args("SaveRouter")
         args["saverouter"] = {

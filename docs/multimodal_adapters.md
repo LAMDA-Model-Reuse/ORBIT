@@ -15,6 +15,13 @@ python main.py --dataset VLRouterBench --method RouteFM \
   --config configs/examples/routefm_qwen.json --device cuda:0
 ```
 
+Both encoder variants default to `routefm.context_size="all"`: the full
+training split is the query-aligned observed Context for every candidate, and
+the test split is Target only. Integer sizes are explicit fixed-K ablations,
+with one shared training-row sample across candidates. Test-query batching
+does not reduce the training Context. No per-task oracle or test labels are
+used to select Context.
+
 `--config` applies **top-level replacements** after benchmark/router defaults;
 it does not recursively merge nested objects. `--device` takes final precedence.
 Prepare the benchmark's upstream exports as described in

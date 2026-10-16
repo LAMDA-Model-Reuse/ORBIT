@@ -210,6 +210,48 @@ class RouterbenchLoader(BaseDatasetLoader):
     hf_id = "withmartian/routerbench"
     default_target_path = "./data/routerbench"
 
+    def _protocol(self) -> str:
+        protocol = self.args.get("dataset", {}).get("protocol", "grouped-clean")
+        if protocol not in {"grouped-clean", "legacy"}:
+            raise ValueError("Routerbench dataset.protocol must be 'grouped-clean' or 'legacy'.")
+        return protocol
+
+    @staticmethod
+    def _input_groups(frame: pd.DataFrame) -> pd.Series:
+        # Normalization is only a grouping key. Original encoder input stays intact.
+        if "prompt" not in frame or frame["prompt"].isna().any():
+            raise ValueError("Routerbench grouped input handling requires non-missing prompts.")
+        groups = frame["prompt"].astype(str).str.replace(r"\s+", " ", regex=True).str.strip()
+        if (groups == "").any():
+            raise ValueError("Routerbench grouped input handling requires nonempty prompts.")
+        return groups
+
+    def split_in(self, dataset: Any) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        protocol = self._protocol()
+        if protocol == "legacy":
+            logging.warning("[Routerbench] Using legacy row-random split; duplicate inputs may cross train/test.")
+            return super().split_in(dataset)
+        from sklearn.model_selection import GroupShuffleSplit
+
+        frame = dataset.copy() if isinstance(dataset, pd.DataFrame) else pd.DataFrame(dataset)
+        groups = self._input_groups(frame)
+        splitter = GroupShuffleSplit(
+            n_splits=1,
+            train_size=self.args["dataset"]["split"]["ratios"]["train"],
+            random_state=self.args["seed"],
+        )
+        train_ids, test_ids = next(splitter.split(frame, groups=groups))
+        train = frame.iloc[train_ids].reset_index(drop=True)
+        test = frame.iloc[test_ids].reset_index(drop=True)
+        shared = set(self._input_groups(train)) & set(self._input_groups(test))
+        if shared:
+            raise RuntimeError("Routerbench grouped-clean split leaked normalized input groups.")
+        logging.info(
+            "[Routerbench] protocol=grouped-clean seed=%s train=%d test=%d cross_split_input_groups=%d",
+            self.args["seed"], len(train), len(test), len(shared),
+        )
+        return train, test
+
     def download(self) -> str:
         """Download routerbench_raw.pkl via snapshot_download and return its local path."""
         from huggingface_hub import snapshot_download
@@ -306,6 +348,25 @@ class RouterbenchLoader(BaseDatasetLoader):
             selected_cols.append(response_col)
 
         df = df[selected_cols].copy()
+
+        # A query ID must identify one actual input across candidates. Never
+        # silently bind outcomes from different prompts via groupby.first().
+        protocol = self._protocol()
+        if not prompt_col:
+            raise ValueError("Routerbench requires a prompt column to validate query identity.")
+        prompt_counts = df.groupby(sample_id_col)[prompt_col].nunique(dropna=False)
+        conflicting_ids = prompt_counts[prompt_counts > 1].index.tolist()
+        self.input_conflict_sample_ids = [str(value) for value in conflicting_ids]
+        if conflicting_ids:
+            logging.warning(
+                "[Routerbench] protocol=%s: %s %d query IDs with conflicting candidate inputs: %s",
+                protocol, "excluding" if protocol == "grouped-clean" else "legacy merge retains",
+                len(conflicting_ids), self.input_conflict_sample_ids,
+            )
+            if protocol == "grouped-clean":
+                df = df[~df[sample_id_col].isin(conflicting_ids)].copy()
+        if protocol == "grouped-clean":
+            self._input_groups(df.rename(columns={prompt_col: "prompt"}))
 
         perf_table = df.pivot_table(index=sample_id_col, columns=model_name_col, values=performance_col, aggfunc="first")
         cost_table = df.pivot_table(index=sample_id_col, columns=model_name_col, values=cost_col, aggfunc="first")
