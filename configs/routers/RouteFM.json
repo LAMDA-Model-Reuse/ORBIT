@@ -14,7 +14,7 @@
     "encoder": "bge",
     "checkpoint": null,
     "cache_dir": null,
-    "context_size": 8,
+    "context_size": "all",
     "target_batch_size": 128
   }
 }

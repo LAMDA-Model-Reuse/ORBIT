@@ -486,11 +486,14 @@ class RouteLLM_BERT(BaseRouter):
         )
 
         train_cfg = args.get("training", {})
-        self.lr: float = float(train_cfg.get("lr", 2e-5))
-        self.epochs: int = int(train_cfg.get("epochs", 2))
-        self.batch_size: int = int(train_cfg.get("batch_size", 16))
+        self.lr: float = float(train_cfg.get("lr", args.get("lr", 2e-5)))
+        self.epochs: int = int(train_cfg.get("epochs", args.get("epochs", 2)))
+        self.batch_size: int = int(train_cfg.get("batch_size", args.get("batch_size", 16)))
         self.weight_decay: float = float(train_cfg.get("weight_decay", 0.01))
         self.max_length: int = int(args.get("max_length", 256))
+        self.prediction_batch_size = int(args.get("prediction_batch_size", self.batch_size))
+        if self.prediction_batch_size < 1:
+            raise ValueError("RouteLLM_BERT prediction_batch_size must be positive.")
 
         # Lazy import so that environments without transformers fail loudly only when used.
         try:
@@ -577,18 +580,20 @@ class RouteLLM_BERT(BaseRouter):
         if not isinstance(test_texts, (list, tuple)) or (len(test_texts) > 0 and not isinstance(test_texts[0], str)):
             raise ValueError("RouteLLM_BERT.predict expects List[str] test texts.")
 
-        enc = self.tokenizer(
-            list(test_texts),
-            padding=True,
-            truncation=True,
-            max_length=self.max_length,
-            return_tensors="pt",
-        ).to(self.device)
-
-        out = self.encoder(**enc)
-        cls = out.last_hidden_state[:, 0, :]
-        logits = self.classifier(cls).squeeze(1)
-        p_strong = torch.sigmoid(logits).detach().cpu().numpy().astype(np.float32)
+        probabilities = []
+        for start in range(0, len(test_texts), self.prediction_batch_size):
+            enc = self.tokenizer(
+                list(test_texts[start:start + self.prediction_batch_size]),
+                padding=True,
+                truncation=True,
+                max_length=self.max_length,
+                return_tensors="pt",
+            ).to(self.device)
+            out = self.encoder(**enc)
+            cls = out.last_hidden_state[:, 0, :]
+            logits = self.classifier(cls).squeeze(1)
+            probabilities.append(torch.sigmoid(logits).detach().cpu().numpy().astype(np.float32))
+        p_strong = np.concatenate(probabilities) if probabilities else np.empty(0, dtype=np.float32)
 
         B = len(test_texts)
         K = len(self.model_list)

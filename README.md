@@ -209,6 +209,19 @@ downloaded and checksum-verified by the official package, or can be supplied thr
 `routefm.checkpoint` in `configs/routers/RouteFM.json`. SAVERouter uses the paper's per-benchmark
 profiles and acquires only the configured fixed-K feedback before fitting.
 
+Routerbench now explicitly defaults to the **grouped-clean** data protocol:
+conflicting-input query IDs are excluded with an audit log, and in-domain
+train/test splits keep whitespace-normalized query groups disjoint. Original
+prompts, candidate order, scores and monetary costs are preserved. This changes
+the old data protocol; select `dataset.protocol="legacy"` to reproduce it.
+See [Routerbench protocol and compatibility](docs/routerbench_protocol.md).
+
+RouteFM uses the **entire training split as aligned Context** by default
+(`routefm.context_size="all"`), then predicts only on the held-out test split.
+An integer `context_size` explicitly requests a fixed-K ablation, using the
+same sampled query rows for every candidate. `target_batch_size` only batches
+test queries; it never truncates Context or supplies held-out outcomes.
+
 ---
 
 ## Benchmark Suite
