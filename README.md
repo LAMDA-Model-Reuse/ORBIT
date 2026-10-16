@@ -232,7 +232,7 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 | ------------------ | ---------- | ------: | ------------------------------------------------------------ |
 | **RouterBench**    | Text       |      11 | Small text-only pool for controlled budgeted routing evaluation. |
 | **RouterEval**     | Text       | Dynamic | Large text-only pool determined by the common models in the downloaded release. |
-| **MMR-Bench**      | Multimodal |      10 | Multimodal routing with visual inputs.                       |
+| **MMR-Bench**      | Multimodal | 9 complete | V1 default keeps complete candidates; explicit coverage and split protocols. |
 | **MixInstruct**    | Text       |      12 | Text-only instruction-style queries across mixed sources.    |
 | **LLMRouterBench** | Text       |      12 | Performance-cost routing over ten tasks with per-query model costs. |
 | **xRouteBench** | Text / text-view | 18 | Official train/test outcomes with recorded token usage and frozen pricing. |
@@ -243,6 +243,13 @@ ORBIT includes a compact benchmark suite spanning text-only and multimodal routi
 > VL-RouterBench requires one-time preparation of its raw archive with upstream
 > Steps 1 and 2. ORBIT reads named JSONL/Parquet/CSV exports, not positional or
 > pickle matrices. See [data preparation, image handling and evaluation limitations](docs/vl_routerbench.md).
+
+MMR-Bench V1 parses mixed boolean/numeric labels, retains original monetary
+costs, and explicitly selects fully observed candidates without imputing missing
+cells or dropping queries. The default in-domain split remains `legacy`;
+`configs/examples/mmrbench_joint_grouped.json` opts into joint image/text
+grouping for a shared leakage-resistant split. See [coverage, response-field
+compatibility and protocol limitations](docs/mmrbench_protocol.md).
 
 > Note: RouterEval provides 12 dataset files with nested model pools. To ensure a consistent evaluation protocol, ORBIT deterministically sorts the common models from Group A's six files and aligns performance and cost columns to that canonical order. The bundled metadata currently contains 239 model descriptions; description-based routers validate coverage by model name and report any missing entries instead of silently misaligning them.
 

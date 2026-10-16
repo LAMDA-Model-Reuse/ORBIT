@@ -556,6 +556,86 @@ class MMRBenchLoader(BaseDatasetLoader):
     hf_id = "gh0stHunter/MMR-Bench"
     default_target_path = "./data/MMRBench"
 
+    @staticmethod
+    def _quality_values(values: pd.Series, model: str) -> np.ndarray:
+        """Parse released bool/string/numeric labels without filling missing cells."""
+        normalized = values.astype("string").str.strip().str.lower().replace({"true": "1", "false": "0"})
+        try:
+            parsed = pd.to_numeric(normalized, errors="raise").to_numpy(dtype=np.float64, na_value=np.nan)
+        except (ValueError, TypeError) as exc:
+            raise ValueError(f"MMRBench {model}: invalid correctness labels") from exc
+        if np.isinf(parsed).any() or ((parsed < 0) | (parsed > 1)).any():
+            raise ValueError(f"MMRBench {model}: correctness labels must be in [0, 1]")
+        return parsed
+
+    def _image_location(self, sample_id: str) -> tuple[str, str]:
+        task, separator, identifier = str(sample_id).rpartition("_")
+        if (not separator or not task or not identifier or task in {".", ".."} or identifier in {".", ".."}
+                or any(c in str(sample_id) for c in ("/", "\\"))):
+            raise ValueError(f"MMRBench invalid dataset_idx: {sample_id!r}")
+        task = "SEEDBenchv2Plus" if task == "SEEDBench2_Plus" else task
+        roots = (Path(self.target_path), Path(self.target_path) / "images")
+        candidates = [root / task / f"{identifier}{ext}" for root in roots for ext in (".jpg", ".jpeg", ".png")]
+        paths = list(dict.fromkeys(path.resolve() for path in candidates if path.is_file()))
+        if not paths:
+            raise FileNotFoundError(f"MMRBench image missing for {sample_id!r}; searched {candidates}")
+        if len(paths) != 1:
+            raise ValueError(f"MMRBench ambiguous image files for {sample_id!r}: {paths}")
+        return task, paths[0].resolve().as_posix()
+
+    @staticmethod
+    def _joint_input_groups(frame: pd.DataFrame) -> np.ndarray:
+        """Connected components of identical decoded RGB images OR query text."""
+        import hashlib
+        from PIL import Image
+
+        if frame["prompt"].isna().any():
+            raise ValueError("MMRBench joint grouping requires non-missing query text")
+        texts = frame["prompt"].astype(str).map(lambda text: " ".join(text.split()))
+        if (texts == "").any():
+            raise ValueError("MMRBench joint grouping requires nonempty query text")
+        image_keys, cache = [], {}
+        for image_path in frame["image_path"]:
+            path = str(Path(image_path).resolve())
+            if path not in cache:
+                with Image.open(path) as image:
+                    rgb = image.convert("RGB")
+                    cache[path] = hashlib.sha256(str(rgb.size).encode() + rgb.tobytes()).hexdigest()
+            image_keys.append(cache[path])
+        parents = list(range(len(frame)))
+        def find(index):
+            while parents[index] != index:
+                parents[index] = parents[parents[index]]
+                index = parents[index]
+            return index
+        for keys in (image_keys, texts):
+            first = {}
+            for index, key in enumerate(keys):
+                if key in first:
+                    a, b = find(index), find(first[key])
+                    parents[max(a, b)] = min(a, b)
+                else:
+                    first[key] = index
+        return np.asarray([find(index) for index in range(len(frame))])
+
+    def split_in(self, dataset: Any) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        protocol = self.args.get("dataset", {}).get("protocol", "legacy")
+        if protocol == "legacy":
+            logging.warning("[MMRBench] protocol=legacy: row-random splitting does not isolate repeated image/text inputs")
+            return super().split_in(dataset)
+        if protocol != "joint-grouped":
+            raise ValueError("MMRBench dataset.protocol must be 'legacy' or 'joint-grouped'")
+        from sklearn.model_selection import GroupShuffleSplit
+
+        frame = dataset.copy() if isinstance(dataset, pd.DataFrame) else pd.DataFrame(dataset)
+        groups = self._joint_input_groups(frame)
+        splitter = GroupShuffleSplit(n_splits=1, train_size=self.args["dataset"]["split"]["ratios"]["train"],
+                                     random_state=self.args["seed"])
+        train_ids, test_ids = next(splitter.split(frame, groups=groups))
+        logging.info("[MMRBench] protocol=joint-grouped seed=%s groups=%d train=%d test=%d; not per-task stratified",
+                     self.args["seed"], len(np.unique(groups)), len(train_ids), len(test_ids))
+        return frame.iloc[train_ids].reset_index(drop=True), frame.iloc[test_ids].reset_index(drop=True)
+
     def download(self) -> str:
         """
         Download `images.tar.gz` and `MMR-Bench.csv` to `self.target_path`,
@@ -630,59 +710,52 @@ class MMRBenchLoader(BaseDatasetLoader):
             9: "GeminiFlash2-5"
         }
 
-        model_list = [model_dict[i] for i in range(len(model_dict))]
-        logging.info(f"[utils.data.py] Model List: {model_list}")
-
-        data_dir = self.target_path
-
-        csv_files = os.path.join(data_dir, "MMR-Bench.csv")
-        
-        df = pd.read_csv(csv_files)
-
-        def get_image_path(dataset_idx):
-            match = re.search(r'^(.*)_([^_]+)$', dataset_idx)
-            subdir = match.group(1)
-            qid = match.group(2)
-            if subdir == "SEEDBench2_Plus":
-                subdir = "SEEDBenchv2Plus"
-            
-            for ext in ['.jpg', '.jpeg', '.png']:
-                img_path = f"{subdir}/{qid}{ext}"
-                full_path = f"{data_dir}/{img_path}"
-                if os.path.exists(full_path):
-                    return subdir, full_path.replace('\\', '/')  
-
-        eval_name, image_path = zip(*df['dataset_idx'].apply(get_image_path))
-        df['image_path'] = image_path
-        df['eval_name'] = eval_name
-
-        logging.info(f"[utils.data.py] Combined DataFrame shape: {df.shape}")
-
-        new_columns = ['sample_id', 'prompt', 'answer', 'eval_name', 'image_path']
-        for model_id,model_name in model_dict.items():
-            new_columns.append(f'model_{model_id}_performance')
-            new_columns.append(f'model_{model_id}_cost')
-            new_columns.append(f'model_{model_id}_prediction')
-
-        new_df = pd.DataFrame(columns=new_columns)
-        column_mapping = {
-            'sample_id': 'dataset_idx',
-            'prompt': 'question',
-            'answer': 'answer',
-            'eval_name': 'eval_name',
-            'image_path': 'image_path'
-        }
-        for new_col, old_col in column_mapping.items():
-            new_df[new_col] = df[old_col]
-        for model_id, model_name in model_dict.items():
-            perf_col = f'{model_name}_correct'
-            cost_col = f'{model_name}_cost'
-            pred_col = f'{model_name}_prediction'
-            new_df[f'model_{model_id}_performance'] = df[perf_col]
-            new_df[f'model_{model_id}_cost'] = df[cost_col]
-            new_df[f'model_{model_id}_prediction'] = df[pred_col]
-        logging.info(f"[utils.data.py] Final DataFrame shape: {new_df.shape}")
-        return model_list, new_df
+        candidates = list(model_dict.values())
+        policy = self.args.get("dataset", {}).get("candidate_policy", "error")
+        if policy not in {"error", "complete-models"}:
+            raise ValueError("MMRBench dataset.candidate_policy must be 'error' or 'complete-models'")
+        df = pd.read_csv(Path(self.target_path) / "MMR-Bench.csv")
+        required = {"dataset_idx", "question", "answer"}
+        required.update(f"{model}_{suffix}" for model in candidates for suffix in ("correct", "cost", "prediction"))
+        missing = required - set(df.columns)
+        if missing:
+            raise ValueError(f"MMRBench missing source columns: {sorted(missing)}")
+        if df.empty or df.dataset_idx.isna().any() or df.dataset_idx.duplicated().any():
+            raise ValueError("MMRBench requires nonempty data with unique non-missing query IDs")
+        quality, costs, self.model_coverage = {}, {}, {}
+        for model in candidates:
+            quality[model] = self._quality_values(df[f"{model}_correct"], model)
+            try:
+                costs[model] = pd.to_numeric(df[f"{model}_cost"], errors="raise").to_numpy(dtype=np.float64, na_value=np.nan)
+            except (ValueError, TypeError) as exc:
+                raise ValueError(f"MMRBench {model}: invalid monetary costs") from exc
+            if np.isinf(costs[model]).any() or (costs[model] < 0).any():
+                raise ValueError(f"MMRBench {model}: costs must be finite and nonnegative when present")
+            self.model_coverage[model] = int((np.isfinite(quality[model]) & np.isfinite(costs[model])).sum())
+        self.excluded_models = [model for model in candidates if self.model_coverage[model] != len(df)]
+        if self.excluded_models and policy == "error":
+            counts = {model: self.model_coverage[model] for model in self.excluded_models}
+            raise ValueError(f"MMRBench incomplete candidate observations (of {len(df)}): {counts}; "
+                             "select candidate_policy='complete-models' explicitly to retain complete candidates without dropping queries")
+        if self.excluded_models:
+            logging.warning("[MMRBench] candidate_policy=complete-models excludes incomplete candidates %s; "
+                            "coverage=%s of %d; no queries dropped or missing cells imputed",
+                            self.excluded_models, {m: self.model_coverage[m] for m in self.excluded_models}, len(df))
+        model_list = [model for model in candidates if model not in self.excluded_models]
+        if len(model_list) < 2:
+            raise ValueError("MMRBench requires at least two complete candidate models")
+        locations = [self._image_location(value) for value in df.dataset_idx]
+        result = pd.DataFrame({"sample_id": df.dataset_idx, "prompt": df.question, "answer": df.answer,
+                               "eval_name": [item[0] for item in locations], "image_path": [item[1] for item in locations]})
+        for index, model in enumerate(model_list):
+            result[f"model_{index}_performance"] = quality[model]
+            result[f"model_{index}_cost"] = costs[model]
+            # Keep the historical field and expose the BaseRouter/EA-RAM
+            # response contract as an identical alias, never a fabricated answer.
+            result[f"model_{index}_prediction"] = df[f"{model}_prediction"]
+            result[f"model_{index}_response"] = df[f"{model}_prediction"]
+        logging.info("[MMRBench] candidate_policy=%s models=%s rows=%d", policy, model_list, len(result))
+        return model_list, result
 
     def split_out(self, dataset: Any) -> Any:
         ds = dataset

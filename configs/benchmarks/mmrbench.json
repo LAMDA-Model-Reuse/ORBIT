@@ -8,6 +8,8 @@
    "dataset": {
     "name": "MMRBench",
     "dataset_dir": "./data/mmrbench",
+    "candidate_policy": "complete-models",
+    "protocol": "legacy",
     "split": {
       "mode": "in-domain",
       "ratios": {
