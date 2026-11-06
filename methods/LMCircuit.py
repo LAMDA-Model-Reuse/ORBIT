@@ -412,13 +412,11 @@ class LMCircuitRouter(BaseRouter):
     def __init__(self, args):
         super().__init__(args)
         self.cfg = dict(args.get("lmcircuit", {}))
-        # ORBIT's generic registry smoke uses a few synthetic/new benchmarks
-        # without recorded responses. Keep those response-free fixtures on the
-        # ordinary score/cost contract; any frame carrying recorded responses
-        # still exercises the circuit even when its benchmark name is synthetic.
-        has_responses = any(re.fullmatch(r"model_\d+_response", str(column))
-                            for column in self.train_df.columns)
-        self._compatibility_fallback = self.args["dataset"]["name"] not in self.supported_benchmarks and not has_responses
+        # The circuit's response-aware evaluation is defined for its five
+        # native benchmark families.  Other benchmark fixtures may expose
+        # response-shaped columns for generic router smoke tests, but they
+        # still use ORBIT's standard score/cost contract and Pareto JSON.
+        self._compatibility_fallback = self.args["dataset"]["name"] not in self.supported_benchmarks
         self.groups = {}
         self._response_embedder = None
         self.prices = np.asarray(self.cfg.get("lambdas", [0.0] + np.geomspace(1e-8, 100, 201).tolist() + [float("inf")]), dtype=float)
