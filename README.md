@@ -290,6 +290,75 @@ ORBIT is designed for community extension. You can add new benchmarks, embedding
 4. Add a JSON config under `configs/routers/` for method hyperparameters.
 5. Run offline evaluation and include clear reproduction instructions in your pull request.
 
+### LMCircuit: sequential classification and answer selection
+
+`methods/LMCircuit.py` contains the entire method. Classification uses a latent-type
+belief, a class head and exact finite-state DP, including a separate invalid-answer
+outcome. Non-classification uses a training-only response codebook and a quality
+head that selects an **already queried** answer; planning on these codes is an
+approximation. It does not synthesize a new answer or implement interactive agent
+control. The candidate pool is selected on training data and bounded by
+`max_states`; compatible tasks share heads by default (`separate_tasks=true` opts
+into one fit per task). Hyperparameters and explicit task/class mappings are in
+`configs/routers/LMCircuit.json`.
+
+```bash
+python main.py --dataset Mixinstruct --method LMCircuit --config local_circuit.json
+```
+
+`local_circuit.json` supplies the local dataset/encoder paths using the normal
+top-level override rules. Algorithm code has no dependency on the upstream
+`lmcircuit` package. `include_circuit_fields=true` opts into additional loader
+fields; existing methods and their caches retain their default behavior.
+
+| Benchmark | Additional input required |
+| --- | --- |
+| Routerbench | Existing responses; verified labels for configured classification tasks. Preserve multi-turn answers as a whole. |
+| Mixinstruct | Existing responses and BERTScore. Empty strings are observed failed outputs, not absent records. Costs remain the existing model-size proxy. |
+| RouterEval | `dataset.circuit_raw_dir` pointing to the official `full_data` layout. Optional `circuit_response_models` loads responses for a list of models, or a task-to-model-list mapping, while retaining the complete score/cost pool. Raw prompts and original metrics must match. |
+| MMRBench | Existing predictions, gold answers, costs and actual images. Source files must pass normal integrity checks. |
+| LLMRouterBench | Existing extracted release. A separate `llmrouterbench_circuit_v1.pkl` retains responses, predictions and available gold labels; the v3 cache is untouched. |
+
+For missing classification labels, `dataset.circuit_labels_path` accepts JSONL
+records containing `sample_id`, the exact original `prompt`, and `answer`.
+Optional `classes` metadata supports tasks with per-item choice sets; configure
+`classes="from_data"` for these tasks. Use zero-based integer labels/predictions
+only when their source option order has been verified. Missing or contradictory
+targets fail instead of being inferred from correctness scores. Duplicate option
+texts share a soft training target and either equivalent label is accepted at
+evaluation. An existing choice gold outside the configured alphabet is retained
+with zero class accuracy and omitted from class-head supervision; such cases are
+reported explicitly. Task mappings
+must be reviewed against the selected release; a binary score alone does not
+make a task a classification problem.
+
+ARC includes five-option questions. HLE uses its explicit `Answer Choices:` input
+block to identify single-choice questions; these share an A-Z head with terminal
+labels masked to the current options. Other HLE questions use answer selection.
+RouterEval TruthfulQA uses the released **MC2** score, rather than single-choice
+accuracy: its `score_vector_tasks` entry explicitly permits selecting a queried
+likelihood vector. These measurements are not generated prose. Native rewards
+such as negative BERTScore are fitted with a training-only affine scale and are
+restored to their original units for planning and evaluation.
+
+`predict(X)` provides input-only single-call reference matrices for compatibility;
+`evaluate()` overrides the one-call evaluator and replays validation-selected
+circuits. A query reveals only that model's answer. Final classification outputs
+are scored against gold; selected open answers use their released score. Costs
+sum **all** queried models in original ORBIT cost units. Final episode
+performance/cost points are passed directly to the unchanged
+`BaseRouter.cal_metrics`: nAUC uses its shared benchmark cost interval and
+minimum-cost anchor; Peak Score and the quality-neutral cost ratio use the same
+definitions as other methods. Reports additionally retain raw episode curves,
+infeasible budgets and per-query trajectories. Training-normalized costs are
+planning diagnostics only, not a separate reported nAUC. Budgets constrain
+validation mean cost, not a hard per-query or guaranteed test-time cost ceiling.
+Model-call cost excludes local encoder/planner runtime.
+`query_batch_size` and `state_batch_size` bound inference memory; batching retains
+independent beliefs and encodes only responses requested by the replayed policies.
+Set `save_trajectories=false` to retain the aggregate report without large trace
+files on full benchmark runs.
+
 If you are unsure how to adapt your method to the ORBIT interface, please open an issue or email us. We are happy to discuss integration and RouteJudge evaluation for new routing methods.
 
 ---

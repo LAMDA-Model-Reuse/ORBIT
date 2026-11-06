@@ -25,3 +25,4 @@ from methods.CarrotRouter import CarrotRouter
 from methods.EARAMRouter import EARAMRouter
 from methods.RouteFM import RouteFMRouter
 from methods.SaveRouter import SaveRouter
+from methods.LMCircuit import LMCircuitRouter
