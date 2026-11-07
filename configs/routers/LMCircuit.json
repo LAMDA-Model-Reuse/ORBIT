@@ -1,0 +1,59 @@
+{
+  "method": "LMCircuit",
+  "include_circuit_fields": true,
+  "lmcircuit": {
+    "pool_size": 4,
+    "max_states": 6561,
+    "answer_codes": 4,
+    "validation_fraction": 0.2,
+    "objective": "accuracy",
+    "score_vector_tasks": ["harness_truthfulqa*"],
+    "state_batch_size": 512,
+    "belief": {
+      "types": [1, 2, 4, 8],
+      "width": 64,
+      "hidden": 128,
+      "lr": 0.002,
+      "weight_decay": 0.0001,
+      "batch_size": 256,
+      "epochs": 300,
+      "patience": 30,
+      "response_weight": 1.0,
+      "calibration_states": 10,
+      "calibration_steps": 60
+    },
+    "tasks": {
+      "Routerbench": {
+        "*": {"mode": "selection"},
+        "mmlu-*": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "arc-challenge": {"mode": "classification", "classes": ["A", "B", "C", "D", "E"]},
+        "winogrande": {"mode": "classification", "classes": ["A", "B"]},
+        "hellaswag": {"mode": "classification", "classes": ["A", "B", "C", "D"]}
+      },
+      "Mixinstruct": {"*": {"mode": "selection"}},
+      "RouterEval": {
+        "*": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "arc*": {"mode": "classification", "classes": ["A", "B", "C", "D", "E"]},
+        "gsm8k*": {"mode": "selection"},
+        "winogrande*": {"mode": "classification", "classes": ["A", "B"]},
+        "harness_truthfulqa*": {"mode": "selection"}
+      },
+      "MMRBench": {
+        "*": {"mode": "selection"},
+        "SEEDBench*": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "MMBench*": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "MMStar": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "RealWorldQA": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "MathVision": {"mode": "choice_or_selection", "classes": ["A", "B", "C", "D", "E"]},
+        "MathVerse": {"mode": "choice_or_selection", "classes": ["A", "B", "C", "D", "E", "F"]},
+        "MathVista": {"mode": "choice_or_selection", "classes": ["A", "B", "C", "D", "E", "F", "G", "H"]}
+      },
+      "LLMRouterBench": {
+        "*": {"mode": "selection"},
+        "gpqa": {"mode": "classification", "classes": ["A", "B", "C", "D"]},
+        "mmlupro": {"mode": "classification", "classes": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]},
+        "hle": {"mode": "choice_or_selection"}
+      }
+    }
+  }
+}

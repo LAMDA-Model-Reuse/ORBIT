@@ -102,6 +102,56 @@ class BaseDatasetLoader:
         self.target_path = target_path or self.default_target_path
         self.args = args
 
+    @property
+    def circuit_fields(self) -> bool:
+        """Opt-in fields for answer-conditioned methods; ordinary loaders are unchanged."""
+        return bool(self.args.get("include_circuit_fields", False) or
+                    self.args.get("dataset", {}).get("include_circuit_fields", False))
+
+    def _attach_circuit_labels(self, frame: pd.DataFrame) -> pd.DataFrame:
+        """Join externally verified labels, never reconstructing them from model scores.
+
+        JSONL records contain sample_id, prompt and answer, optionally classes.
+        The original prompt is mandatory to catch mismatched source revisions.
+        A sidecar may cover only classification tasks of a mixed benchmark.
+        """
+        path = self.args.get("dataset", {}).get("circuit_labels_path")
+        if not self.circuit_fields or not path:
+            return frame
+        if "sample_id" not in frame:
+            raise ValueError("Circuit labels require sample_id in the benchmark.")
+        records = [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+        index = {}
+        for row in records:
+            key = str(row["sample_id"])
+            if key in index or not {"prompt", "answer"}.issubset(row):
+                raise ValueError(f"Duplicate or incomplete circuit label: {key}")
+            index[key] = row
+        unknown = set(index) - set(frame.sample_id.astype(str))
+        if unknown:
+            raise ValueError(f"Circuit labels contain unknown query IDs: {sorted(unknown)[:5]}")
+        frame = frame.copy()
+        if "answer" not in frame:
+            frame["answer"] = pd.Series([None] * len(frame), index=frame.index, dtype=object)
+        if any("classes" in record for record in records) and "classes" not in frame:
+            frame["classes"] = pd.Series([None] * len(frame), index=frame.index, dtype=object)
+        for pos, row in frame.iterrows():
+            label = index.get(str(row.sample_id))
+            if label is None:
+                continue
+            if re.sub(r"\s+", "", str(row.prompt)) != re.sub(r"\s+", "", str(label["prompt"])):
+                raise ValueError(f"Circuit label prompt mismatch: {row.sample_id}")
+            existing = frame.at[pos, "answer"]
+            if existing is not None and not (isinstance(existing, float) and np.isnan(existing)):
+                if str(existing) != str(label["answer"]):
+                    raise ValueError(f"Circuit label disagrees with released target: {row.sample_id}")
+            frame.at[pos, "answer"] = label["answer"]
+            if "classes" in label:
+                if not isinstance(label["classes"], list) or len(label["classes"]) < 2:
+                    raise ValueError(f"Invalid circuit classes for {row.sample_id}")
+                frame.at[pos, "classes"] = label["classes"]
+        return frame
+
     def download(self) -> Any:
         """Download or load dataset. Default uses Hugging Face `load_dataset`."""
         logging.info("[utils.data.py] Loading dataset %s from HF id %s", self.name, self.hf_id)
@@ -201,6 +251,7 @@ class BaseDatasetLoader:
             model_list = None
             df = processed
 
+        df = self._attach_circuit_labels(df)
         train_df, test_df = self.split(df)
         return train_df, test_df, model_list
 
@@ -434,6 +485,18 @@ class  MixinstructLoader(BaseDatasetLoader):
     name = "Mixinstruct"
     hf_id = "llm-blender/mix-instruct"
     default_target_path = "./data/mixinstruct"
+
+    def download(self):
+        files = {"train": "train_data_prepared.jsonl", "validation": "val_data_prepared.jsonl",
+                 "test": "test_data_prepared.jsonl"}
+        if self.circuit_fields and all((Path(self.target_path) / name).is_file() for name in files.values()):
+            def records(path):
+                with path.open() as handle:
+                    for line in handle:
+                        if line.strip():
+                            yield json.loads(line)
+            return {split: records(Path(self.target_path) / name) for split, name in files.items()}
+        return super().download()
 
     def process(self, dataset: Any) -> Any:
         logging.info("[utils.data.py][Mixinstruct] Starting processing...")
@@ -914,10 +977,117 @@ class RouterEvalLoader(BaseDatasetLoader):
 
         logging.info("[Routereval] Step 3: Merging and normalizing data...")
 
+        if self.circuit_fields:
+            data_df_a = self._attach_circuit_responses(data_df_a, models_a)
         data_df_a = self.normalize_cost_dataframe(data_df_a)
         # data_df_b = self.normalize_cost_dataframe(data_df_b)
         
         return models_a, data_df_a
+
+    def _attach_circuit_responses(self, frame, models):
+        """Read selected full_data model archives; never mistake scores for prose.
+
+        Supports both released formats: old harness per-option likelihoods and
+        leaderboard docs/resps. Question text and the original score must match.
+        Raw files are supplied locally (no implicit multi-hundred-GB download).
+        """
+        root = self.args["dataset"].get("circuit_raw_dir")
+        if not root:
+            raise ValueError("RouterEval circuit fields require dataset.circuit_raw_dir (official full_data).")
+        root = Path(root)
+        task_dirs = {"arc": "arc_challenge", "gsm8k": "gsm8k", "harness_truthfulqa_mc_0": "truthfulqa",
+                     "hellaswag": "hellaswag", "mmlu": "mmlu", "winogrande": "winogrande"}
+        norm = lambda value: " ".join(str(value).split())
+        frame = frame.copy()
+        requested = self.args["dataset"].get("circuit_response_models")
+        if requested is not None:
+            choices = requested.values() if isinstance(requested, dict) else [requested]
+            if any(not isinstance(names, list) or len(set(names)) != len(names) or not set(names) <= set(models) for names in choices):
+                raise ValueError("circuit_response_models must name distinct members of the original RouterEval pool.")
+        for mid, model in enumerate(models):
+            def needed(task):
+                return requested is None or model in (requested.get(task, []) if isinstance(requested, dict) else requested)
+            if not any(needed(task) for task in frame.eval_name.unique()):
+                continue
+            for suffix in ("response", "prediction", "response_kind"):
+                frame[f"model_{mid}_{suffix}"] = pd.Series([None] * len(frame), dtype=object)
+            stem = model.split("/")[-1]
+            for task, subset in frame.groupby("eval_name", sort=False):
+                if not needed(task):
+                    continue
+                source_task = task.removesuffix("_router_dataset")
+                directory = root / task_dirs.get(source_task, source_task)
+                paths = sorted(directory.glob(stem + ".zip")) + sorted(directory.glob(stem + ".pkl"))
+                if len(paths) != 1:
+                    raise FileNotFoundError(f"Expected one raw measurement for {task}/{model} in {directory}")
+                if paths[0].suffix == ".zip":
+                    with zipfile.ZipFile(paths[0]) as archive:
+                        members = [n for n in archive.namelist() if n.endswith(".pkl")]
+                        if len(members) != 1:
+                            raise ValueError(f"Ambiguous raw archive: {paths[0]}")
+                        raw = pickle.loads(archive.read(members[0]))
+                else:
+                    with paths[0].open("rb") as handle:
+                        raw = pickle.load(handle)
+                lookup = {}
+                for block in raw.values():
+                    if not isinstance(block, dict):
+                        continue
+                    prompts = block.get("full_prompt")
+                    if prompts is None and "arguments" in block:
+                        prompts = [a["gen_args_0"]["arg_0"] for a in block["arguments"]]
+                    if prompts is None:
+                        continue
+                    for i, prompt in enumerate(prompts):
+                        metrics = block["metrics"][i] if "metrics" in block else {
+                            key: block[key][i] for key in ("acc", "acc_norm", "exact_match") if key in block}
+                        if "predictions" in block:
+                            values = np.asarray(block["predictions"][i])
+                            if values.ndim != 1 or not len(values):
+                                raise ValueError(f"Unsupported predictions in {paths[0]} row {i}")
+                            if all(isinstance(v, (int, float, np.number)) for v in values):
+                                response, prediction, kind = values.tolist(), int(values.argmax()), "choice_scores"
+                            elif all(isinstance(v, str) for v in values):
+                                response, prediction, kind = values.tolist(), None, "text"
+                            else:
+                                raise ValueError(f"Unsupported prediction values in {paths[0]} row {i}")
+                        else:
+                            response = block.get("filtered_resps", block.get("resps"))[i]
+                            # LLH multiple choice records contain [score, greedy_match] per option.
+                            try:
+                                scores = np.asarray([float(v[0]) for v in response], dtype=float)
+                            except (ValueError, TypeError, IndexError):
+                                scores = None
+                            if scores is not None and len(scores) > 1:
+                                response, prediction, kind = scores.tolist(), int(scores.argmax()), "choice_scores"
+                            else:
+                                prediction, kind = None, "text"
+                        target = block.get("target", [None] * len(prompts))[i]
+                        entry = (response, prediction, kind, metrics, target)
+                        key = norm(prompt)
+                        if key in lookup and repr(lookup[key]) != repr(entry):
+                            raise ValueError(f"Duplicate raw prompt in {paths[0]}; explicit disambiguation required.")
+                        lookup[key] = entry
+                for pos, row in subset.iterrows():
+                    if norm(row.prompt) not in lookup:
+                        raise ValueError(f"No matching raw prompt for {row.sample_id}/{model}")
+                    response, prediction, kind, metrics, target = lookup[norm(row.prompt)]
+                    # ORBIT's old ARC uses acc, not length-normalized acc_norm.
+                    metric = self.args["dataset"].get("circuit_metric", {}).get(task)
+                    if metric is None:
+                        metric = next((k for k in ("acc", "acc_norm", "exact_match", "mc2", "mc1") if k in metrics), None)
+                    if metric is None or not np.isclose(float(metrics[metric]), row[f"model_{mid}_performance"]):
+                        raise ValueError(f"Raw metric mismatch for {row.sample_id}/{model}; check source revision/metric.")
+                    for suffix, value in (("response", response), ("prediction", prediction), ("response_kind", kind)):
+                        frame.at[pos, f"model_{mid}_{suffix}"] = value
+                    if target is not None:
+                        if "answer" not in frame:
+                            frame["answer"] = pd.Series([None] * len(frame), dtype=object)
+                        old = frame.at[pos, "answer"]
+                        if old is not None and not (isinstance(old, float) and np.isnan(old)) and str(old) != str(target):
+                            raise ValueError(f"Raw target mismatch for {row.sample_id}")
+                        frame.at[pos, "answer"] = target
+        return frame
 
     @staticmethod
     def _validate_model_columns(dataframe: pd.DataFrame, model_list) -> None:
@@ -1282,7 +1452,8 @@ class LLMRouterBenchLoader(BaseDatasetLoader):
 
     @property
     def cache_path(self) -> str:
-        return os.path.join(self.target_path, self.cache_name)
+        name = "llmrouterbench_circuit_v1.pkl" if self.circuit_fields else self.cache_name
+        return os.path.join(self.target_path, name)
 
     def download(self) -> str:
         os.makedirs(self.target_path, exist_ok=True)
@@ -1592,6 +1763,19 @@ class LLMRouterBenchLoader(BaseDatasetLoader):
                         row["prompt"]
                     ) != self._text_alignment_key(prompt):
                         raise ValueError(f"Prompt mismatch across models at {location}")
+
+                    if self.circuit_fields:
+                        target = record.get("ground_truth")
+                        if target is not None:
+                            if row.get("answer") is not None and row["answer"] != target:
+                                raise ValueError(f"Ground-truth mismatch across models at {location}")
+                            row["answer"] = target
+                        # Lists (e.g. tau2 messages) remain lists, not a repr string.
+                        output = record.get("raw_output")
+                        row[f"model_{model_idx}_response"] = (
+                            output if output is not None else (record.get("prediction") or "")
+                        )
+                        row[f"model_{model_idx}_prediction"] = record.get("prediction")
 
                     raw_score = record.get("score")
                     if raw_score is None:
